@@ -1,4 +1,4 @@
-Data Anonymisation for Open Science
+# Data Anonymisation for Open Science
 
 ### useR! 2024
 ### 8 – 11 JULY 2024
