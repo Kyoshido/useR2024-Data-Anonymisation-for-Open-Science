@@ -1,8 +1,8 @@
 # Data Anonymisation for Open Science
 
-### useR! 2024
-### 8 – 11 JULY 2024
-### SALZBURG, AUSTRIA
+## useR! 2024
+## 8 – 11 JULY 2024
+## SALZBURG, AUSTRIA
 
 Session format: In-Person Tutorial (3 hours) \
 Topic: Community \
