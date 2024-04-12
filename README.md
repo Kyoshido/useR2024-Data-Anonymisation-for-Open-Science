@@ -1,11 +1,11 @@
 # useR! 2024: Data Anonymisation for Open Science
 
 ## 8 – 11 JULY 2024
-## SALZBURG, AUSTRIA + VIRTUAL
+## SALZBURG, AUSTRIA
 
-Session format: In-Person Tutorial (3 hours)
-Topic: Community
-Community sub-topic: Open and reproducible science
+Session format: In-Person Tutorial (3 hours) \
+Topic: Community \
+Community sub-topic: Open and reproducible science \
 
 One of the key elements of open science is open data that are available to a wide spectrum of users. Unfortunately, many datasets cannot be publicly available mostly for privacy reasons because data protection laws fundamentally restrict personal data use.
 In this tutorial, we will go through methods of statistical disclosure control with different anonymisation approaches that can be used to protect data confidentiality. These methods either modify or synthesise data so that they can be disclosed without revealing confidential information that may be associated with specific respondents. In particular, we will discuss non-perturbation and perturbation methods and also methods for synthetic data generation.
