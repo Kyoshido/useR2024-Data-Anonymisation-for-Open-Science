@@ -174,21 +174,22 @@
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={Data Anonymization for Open Science},
-  pdfauthor={Jiří Novák; Marko Miletić},
+  pdfauthor={Jiří Novák; Marko Miletić; Oscar Thees; Alžběta Beranová},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 \title{Data Anonymization for Open Science}
 \subtitle{useR! 2024}
-\author{Jiří Novák\inst{1} \and Marko Miletić\inst{2}}
+\author{Jiří Novák\inst{1,2} \and Marko Miletić\inst{3} \and Oscar
+Thees\inst{2} \and Alžběta Beranová\inst{4}}
 \date{July 8, 2024}
-\institute{\inst{1} University of Zurich, University of Applied Sciences
-Northwestern Switzerland \and \inst{2} Bern University of Applied
-Sciences}
+\institute{\inst{1} University of Zurich \inst{2} University of Applied
+Sciences Northwestern Switzerland \and \inst{3} Bern University of
+Applied Sciences \inst{4} Czech Statistical Office}
 
 \begin{document}
 \frame{\titlepage}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, frame hidden, interior hidden, sharp corners, enhanced, breakable, boxrule=0pt]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, enhanced, boxrule=0pt, frame hidden, breakable, borderline west={3pt}{0pt}{shadecolor}, interior hidden]}{\end{tcolorbox}}\fi
 
 \begin{frame}
 \vspace{12em}
@@ -202,56 +203,90 @@ medium or format in unadapted form only, for noncommercial purposes
 only, and only so long as attribution is given to the creator.
 \end{frame}
 
-\begin{frame}{Quarto}
-\protect\hypertarget{quarto}{}
-\begin{itemize}[<+->]
-\tightlist
-\item
-  Eat spaghetti
-\item
-  Drink wine
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Slide with a pause}
-\protect\hypertarget{slide-with-a-pause}{}
-content before the pause
-
-\pause
-
-content after the pause
-\end{frame}
-
-\begin{frame}{Quarto}
-\protect\hypertarget{quarto-1}{}
-Quarto enables you to weave together content and executable code into a
-finished presentation. To learn more about Quarto presentations see
-\url{https://quarto.org/docs/presentations/}.
-\end{frame}
-
-\begin{frame}{Bullets}
-\protect\hypertarget{bullets}{}
-When you click the \textbf{Render} button a document will be generated
-that includes:
+\begin{frame}{About Speakers}
+\protect\hypertarget{about-speakers}{}
+\textbf{Jiří Novák}
 
 \begin{itemize}
 \tightlist
 \item
-  Content authored with markdown
+  Ph.D.~in Statistics with topic Simulation of Synthetic Microdata
 \item
-  Output from executable code
+  Statistical confidentiality of Czech Census 2021
+\end{itemize}
+
+\pause
+
+\textbf{Marko Miletić}
+
+\begin{itemize}
+\item
+  \color{red}{XXX}
+\item
+  \color{red}{XXX}
+\end{itemize}
+
+\pause
+
+\textbf{Oscar Thees}
+
+\begin{itemize}
+\item
+  \color{red}{XXX}
+\item
+  \color{red}{XXX}
+\end{itemize}
+
+\pause
+
+\textbf{Alžběta Beranová}
+
+\begin{itemize}
+\item
+  \color{red}{XXX}
+\item
+  \color{red}{XXX}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Code}
-\protect\hypertarget{code}{}
-When you click the \textbf{Render} button a presentation will be
-generated that includes both content and the output of embedded code.
-You can embed code like this:
+\begin{frame}{Context of Anonymization}
+\protect\hypertarget{context-of-anonymization}{}
+Statistical Disclosure Control (SDC) or Statistical Disclosure
+Limitation (SDL) seeks to protect statistical data in such a way that
+they can be released without giving away confidential information that
+can be linked to specific individuals or entities.
+\end{frame}
 
-\begin{verbatim}
-[1] 2
-\end{verbatim}
+\begin{frame}{Motivation}
+\protect\hypertarget{motivation}{}
+\begin{itemize}
+\item
+  Legal frameworks regulate what is allowed and what is not allowed with
+  regard to publication of private information.
+\item
+  Before sensitive statistical databases can be made available to
+  universities for research, confidentiality must be guaranteed.
+\item
+  Users of statistical outputs should be aware of the reasoning and
+  methodology behind statistical disclosure control.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Outputs}
+\protect\hypertarget{outputs}{}
+Different outputs require different approaches to SDC and different
+mixtures of tools.
+
+\begin{itemize}
+\item
+  Tabular data (Macrodata)
+\item
+  Microdata
+\item
+  Dynamic databases
+\item
+  Statistical analyses
+\end{itemize}
 \end{frame}
 
 
