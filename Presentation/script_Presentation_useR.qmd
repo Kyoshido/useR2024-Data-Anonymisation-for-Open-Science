@@ -1,0 +1,72 @@
+---
+title: "Data Anonymization for Open Science"
+subtitle: "useR! 2024"
+author: 
+  - Jiří Novák\inst{1}
+  - Marko Miletić\inst{2}
+date: "8.July 2024"
+date-format: long
+institute: 
+  - \inst{1} University of Zurich, University of Applied Sciences Northwestern Switzerland
+  - \inst{2} Bern University of Applied Sciences
+aspectratio: 169 # slide aspect ratio
+keep-tex: TRUE # keeping the tex file
+format: 
+    beamer:
+      colortheme: "whale"
+      font: professionalfonts
+      header-includes: |
+                   \setbeamertemplate{navigation symbols}{} 
+                   \setbeamertemplate{footline}[page number]
+                   \titlegraphic{\includegraphics[width=2cm]{style/UZH.jpg}
+                         \hspace*{2cm}~%
+                         \includegraphics[width=2cm]{style/FHNW.png}
+                         \hspace*{2cm}~%
+                         \includegraphics[width=1cm]{style/BFH.png}
+                         }
+---
+<!--
+https://quarto.org/docs/presentations/
+https://deic.uab.cat/~iblanes/beamer_gallery/
+-->
+\vspace{12em}
+Jiří Novák CC BY-NC-ND (2024) 
+
+![](style/by-nc-nd.png)
+
+This license enables reusers to copy and distribute the material in any medium or format in unadapted form only, for noncommercial purposes only, and only so long as attribution is given to the creator.
+
+
+## Quarto
+::: {.incremental}
+
+- Eat spaghetti
+- Drink wine
+
+:::
+## Slide with a pause
+
+content before the pause
+
+. . .
+
+content after the pause
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
