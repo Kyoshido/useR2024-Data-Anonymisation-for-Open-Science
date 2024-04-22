@@ -121,6 +121,21 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 - The goal is to find a balance between risk and utility.
 
 <!---------------------------------------------------------------------------->
+##  Risk-utility trade-off 
+
+![R-U confidentiality map (Duncan et al.,2001)](gallery/R-U confidentiality map.png){width=50%}
+
+<!---------------------------------------------------------------------------->
+##  k-anonymity
+
+A data set is said to satisfy k-anonymity for k > 1 if, for each combination of
+values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k records exist in the data set sharing that combination.
+
+
+
+
+
+<!---------------------------------------------------------------------------->
 ## Variables 
 
 1.	Identifiers
