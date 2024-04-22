@@ -120,8 +120,6 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 
 - The goal is to find a balance between risk and utility.
 
-
-
 <!---------------------------------------------------------------------------->
 ## Variables 
 
