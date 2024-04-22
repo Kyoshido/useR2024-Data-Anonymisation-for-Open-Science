@@ -90,7 +90,7 @@ individuals or entities.
 
 Different outputs require different approaches to SDC and different mixtures of tools.
 
-- Tabular data (Macrodata)
+- Macrodata (Tabular data)
 
 - Microdata
 
@@ -98,6 +98,37 @@ Different outputs require different approaches to SDC and different mixtures of 
 
 - Statistical analyses
 
+<!---------------------------------------------------------------------------->
+## Disclosure
+
+A disclosure occurs when a person or an organisation recognises or learns something that they did not know already about another person or organisation, via released data.
+
+Types of disclosure risk: 
+
+(1) identity disclosure and 
+(2) attribute disclosure.
+
+
+<!---------------------------------------------------------------------------->
+##  Risk and utility
+
+SDC seeks to optimise the trade-off between the disclosure risk and the utility of the protected released data.
+
+- Risk: the probability of a disclosure event occurring.
+
+- Utility: the usefulness of the data for the intended purpose.
+
+- The goal is to find a balance between risk and utility.
+
+
+
+<!---------------------------------------------------------------------------->
+## Variables 
+
+1.	Identifiers
+2.	Quasi-identifiers or key variables
+3.	Confidential outcome variables
+4.	Non-confidential outcome variables
 
 
 
