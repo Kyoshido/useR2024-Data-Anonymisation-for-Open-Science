@@ -77,6 +77,24 @@ released without giving away confidential information that can be linked to spec
 individuals or entities.
 
 <!---------------------------------------------------------------------------->
+## Why is confidentiality protection important?
+
+There are three main reasons:
+
+1. **Principle**
+It is a fundamental principle for Official Statistics that the statistical records of individual persons, businesses or events used to produce Official Statistics are strictly confidential, and are to be used only for statistical purposes.
+
+2. **Legal** Legislation  places a legal obligation to protect individual business and personal data. Legal frameworks regulate what is allowed and what is not allowed with regard to publication of private information.
+
+3. **Quality** Respondents need confidence in the preservation of the confidentiality of individual information. 
+
+4. **Ethical**: It is unethical to disclose information that can be linked to specific individuals or entities.
+
+
+
+
+
+<!---------------------------------------------------------------------------->
 ## Motivation
 
 - Legal frameworks regulate what is allowed and what is not allowed with regard to publication of private information.
@@ -108,7 +126,6 @@ Types of disclosure risk:
 (1) identity disclosure and 
 (2) attribute disclosure.
 
-
 <!---------------------------------------------------------------------------->
 ##  Risk and utility
 
@@ -120,8 +137,6 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 
 - The goal is to find a balance between risk and utility.
 
-
-
 <!---------------------------------------------------------------------------->
 ## Variables 
 
@@ -130,6 +145,25 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 3.	Confidential outcome variables
 4.	Non-confidential outcome variables
 
+<!---------------------------------------------------------------------------->
+## Disclosure control methods
+
+1. Masking original data
+   i. Non-perturbative masking.
+   i. Perturbative masking.
+
+2. Generating synthetic data 
 
 
+<!---------------------------------------------------------------------------->
+## Non-perturbation methods
 
+<!---------------------------------------------------------------------------->
+Perturbation methods
+- - \color{red}{sdcMicro}
+
+<!---------------------------------------------------------------------------->
+## Synthetic methods
+- - \color{red}{synthpop}
+- - \color{red}{simPop}
+- - \color{red}{GANs}
