@@ -182,6 +182,11 @@ Non-perturbative masking does not rely on distortion of the original data but on
 -  [https://cran.r-project.org/web/packages/sdcMicro/index.html](https://cran.r-project.org/web/packages/sdcMicro/index.html)
 -  [https://github.com/sdcTools/sdcMicro](https://github.com/sdcTools/sdcMicro)
 
+<!---------------------------------------------------------------------------->
+## sdcMicro
+
+![Elephant](gallery/sdcMicro.png)
+
 
 <!---------------------------------------------------------------------------->
 ## Perturbation methods
