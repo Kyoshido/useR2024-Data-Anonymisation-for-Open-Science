@@ -90,10 +90,6 @@ It is a fundamental principle for Official Statistics that the statistical recor
 
 4. **Ethical**: It is unethical to disclose information that can be linked to specific individuals or entities.
 
-
-
-
-
 <!---------------------------------------------------------------------------->
 ## Motivation
 
@@ -123,8 +119,9 @@ A disclosure occurs when a person or an organisation recognises or learns someth
 
 Types of disclosure risk: 
 
-(1) identity disclosure and 
-(2) attribute disclosure.
+(1) Identity disclosure and 
+(2) Attribute disclosure.
+(3) Inferential disclosure 
 
 <!---------------------------------------------------------------------------->
 ##  Risk and utility
@@ -138,17 +135,28 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 - The goal is to find a balance between risk and utility.
 
 <!---------------------------------------------------------------------------->
+##  Risk-utility trade-off 
+
+![R-U confidentiality map (Duncan et al.,2001)](gallery/R-U confidentiality map.png){width=50%}
+
+<!---------------------------------------------------------------------------->
+## Disclosure risk
+
+A unit is at risk of disclosure when it cannot be confused with several other units
+
+<!---------------------------------------------------------------------------->
+##  k-anonymity
+
+A data set is said to satisfy k-anonymity for k > 1 if, for each combination of
+values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k records exist in the data set sharing that combination.
+
+<!---------------------------------------------------------------------------->
 ## Variables 
 
 1.	Identifiers
 2.	Quasi-identifiers or key variables
 3.	Confidential outcome variables
 4.	Non-confidential outcome variables
-
-<!---------------------------------------------------------------------------->
-## Disclosure risk
-
-A unit is at risk of disclosure when it cannot be confused with several other units
 
 <!---------------------------------------------------------------------------->
 ## Disclosure control methods
@@ -185,7 +193,7 @@ Non-perturbative masking does not rely on distortion of the original data but on
 <!---------------------------------------------------------------------------->
 ## sdcMicro
 
-![Elephant](gallery/sdcMicro.png)
+![Certain procedures in package *sdcMicro* and their relationship](gallery/sdcMicro.png){width=55%}
 
 
 <!---------------------------------------------------------------------------->

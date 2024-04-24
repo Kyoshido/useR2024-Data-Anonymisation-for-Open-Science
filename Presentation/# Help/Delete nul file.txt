@@ -1,0 +1,13 @@
+If you have a file named "nul" in Windows that you want to delete, it can be a bit tricky because "NUL" is a reserved system name, used to refer to the null device (similar to /dev/null in Unix). Here are some steps on how to delete such a file:
+
+Use the Command Prompt with a UNC path reference:
+Open Command Prompt as an administrator.
+Use the following command, where C:\path\to\folder is the path to the directory containing the nul file:
+
+del \\?\C:\path\to\folder\nul
+
+This command uses a UNC path, which allows Windows to delete a file that might otherwise be interpreted as a reference to the null device.
+
+----
+
+del \\?\E:\Documents\GitHub\useR2024-Data-Anonymisation-for-Open-Science\Presentation\nul
