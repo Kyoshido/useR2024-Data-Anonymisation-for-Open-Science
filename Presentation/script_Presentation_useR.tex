@@ -189,7 +189,7 @@ Applied Sciences \inst{4} Czech Statistical Office}
 
 \begin{document}
 \frame{\titlepage}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, breakable, interior hidden, sharp corners, frame hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, enhanced, interior hidden, borderline west={3pt}{0pt}{shadecolor}, breakable, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
 
 \begin{frame}
 \vspace{12em}
@@ -361,6 +361,12 @@ utility of the protected released data.
 \end{enumerate}
 \end{frame}
 
+\begin{frame}{Disclosure risk}
+\protect\hypertarget{disclosure-risk}{}
+A unit is at risk of disclosure when it cannot be confused with several
+other units
+\end{frame}
+
 \begin{frame}{Disclosure control methods}
 \protect\hypertarget{disclosure-control-methods}{}
 \begin{enumerate}
@@ -369,7 +375,7 @@ utility of the protected released data.
   Masking original data
 
   \begin{enumerate}
-  [i)]
+  [i.]
   \tightlist
   \item
     Non-perturbative masking.
@@ -383,7 +389,46 @@ utility of the protected released data.
 
 \begin{frame}{Non-perturbation methods}
 \protect\hypertarget{non-perturbation-methods}{}
-Perturbation methods - - \color{red}{sdcMicro}
+Non-perturbative masking does not rely on distortion of the original
+data but on partial suppressions or reductions of detail.
+
+\begin{longtable}[]{@{}lcc@{}}
+\caption{Non-perturbative methods vs.~data types.}\tabularnewline
+\toprule\noalign{}
+Method & Continuous data & Categorical data \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Method & Continuous data & Categorical data \\
+\midrule\noalign{}
+\endhead
+Sampling & & X \\
+Global recoding & X & X \\
+Top and bottom coding & X & X \\
+Local suppression & & X \\
+\bottomrule\noalign{}
+\end{longtable}
+\end{frame}
+
+\begin{frame}{sdcMicro}
+\protect\hypertarget{sdcmicro}{}
+\begin{itemize}
+\item
+  sdcMicro is an R package for statistical disclosure control.
+\item
+  \url{https://cran.r-project.org/web/packages/sdcMicro/index.html}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Perturbation methods}
+\protect\hypertarget{perturbation-methods}{}
+\begin{itemize}
+\item
+  \begin{itemize}
+  \item
+    \color{red}{sdcMicro}
+  \end{itemize}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Synthetic methods}

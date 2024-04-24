@@ -146,6 +146,11 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 4.	Non-confidential outcome variables
 
 <!---------------------------------------------------------------------------->
+## Disclosure risk
+
+A unit is at risk of disclosure when it cannot be confused with several other units
+
+<!---------------------------------------------------------------------------->
 ## Disclosure control methods
 
 1. Masking original data
@@ -154,12 +159,32 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 
 2. Generating synthetic data 
 
-
 <!---------------------------------------------------------------------------->
 ## Non-perturbation methods
 
+Non-perturbative masking does not rely on distortion of the original data but on partial suppressions or reductions of detail.
+
+
+| Method | Continuous data | Categorical data| 
+|--------|:---------------:|:---------------:|
+| Sampling  | | X | 
+| Global recoding | X | X | 
+| Top and bottom coding| X | X | 
+| Local suppression | | X | 
+
+: Non-perturbative methods vs. data types.
+
 <!---------------------------------------------------------------------------->
-Perturbation methods
+## sdcMicro
+
+- sdcMicro is an R package for statistical disclosure control.
+
+-  [https://cran.r-project.org/web/packages/sdcMicro/index.html](https://cran.r-project.org/web/packages/sdcMicro/index.html)
+-  [https://github.com/sdcTools/sdcMicro](https://github.com/sdcTools/sdcMicro)
+
+
+<!---------------------------------------------------------------------------->
+## Perturbation methods
 - - \color{red}{sdcMicro}
 
 <!---------------------------------------------------------------------------->
