@@ -67,7 +67,6 @@ This license enables reusers to copy and distribute the material in any medium o
 **Alžběta Beranová**
 
 - \color{red}{XXX}
-- \color{red}{XXX}
 
 <!---------------------------------------------------------------------------->
 ## Context of Anonymization
@@ -147,6 +146,11 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 A unit is at risk of disclosure when it cannot be confused with several other units
 
 <!---------------------------------------------------------------------------->
+## Re-identification risk 
+
+- \color{red}{attacker scenarios and risk measures in more detail using examples}
+
+<!---------------------------------------------------------------------------->
 ##  k-anonymity
 
 A data set is said to satisfy k-anonymity for k > 1 if, for each combination of
@@ -204,13 +208,26 @@ Non-perturbative masking does not rely on distortion of the original data but on
 
 <!---------------------------------------------------------------------------->
 ## Synthetic methods
-- - \color{red}{synthpop}
-- - \color{red}{simPop}
-- - \color{red}{GANs}
+- \color{red}{Introduction to synthetic data}
+- \Huge \color{red}{for Jiri/Oscar}
 
+<!---------------------------------------------------------------------------->
+## Synthetic methods: synthpop
 
+- \color{red}{Generating synthetic data with synthpop}
+- \Huge \color{red}{for Jiri/Oscar}
 
+<!---------------------------------------------------------------------------->
+## Synthetic methods: simPop
 
+- \color{red}{Generating synthetic data with simPop}
+- \Huge \color{red}{for Jiri/Oscar}
+
+<!---------------------------------------------------------------------------->
+## Synthetic methods: GANS
+
+- \color{red}{Generating synthetic data with GANs}
+- \Huge \color{red}{for Marco}
 
 
 

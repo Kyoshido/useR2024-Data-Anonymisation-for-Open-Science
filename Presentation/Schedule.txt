@@ -1,0 +1,37 @@
+Opening
+- Title page
+- License
+- About Speakers
+Anonymization
+- Context of Anonymization
+- Why is confidentiality protection important?
+- Motivation
+- Outputs
+Legal framework
+- (???)
+General methodological overview
+- Disclosure
+- Risk and utility
+- Risk-utility trade-off 
+- Disclosure risk
+- Re-identification risk 
+	- attacker scenarios and risk measures in more detail using examples)
+- k-anonymity
+- Variables
+Disclosure control methods
+A) Non-perturbation methods
+- Introduction to sdcMicro
+- Sampling  
+- Global recoding 
+- Top and bottom coding
+ -Local suppression
+sdcMicro
+B) Perturbation methods
+- microaggregation
+- Applying the procedures and assessing their utility (SUDA scores, etc.)
+- Risk assessment for the data
+C) Synthetic methods
+- Generating synthetic data using synthpop
+- Generating synthetic data using simPop
+- Generating synthetic data with GANs
+
