@@ -17,19 +17,21 @@ format:
     beamer:
       colortheme: "whale"
       font: professionalfonts
-      header-includes: |
-                   \setbeamertemplate{navigation symbols}{} 
-                   \setbeamertemplate{footline}[page number]
-                   \titlegraphic{\includegraphics[width=2cm]{style/UZH.jpg}
-                         \hspace*{2cm}~%
-                         \includegraphics[width=2cm]{style/FHNW.png}
-                         \hspace*{2cm}~%
-                         \includegraphics[width=1cm]{style/BFH.png}
-                         }
+      header-includes: | 
+       \setbeamertemplate{navigation symbols}{} 
+       \setbeamertemplate{footline}[page number]
+       \titlegraphic{
+         \includegraphics[width=2cm]{style/UZH.jpg}
+         \hspace*{2cm}~%
+         \includegraphics[width=2cm]{style/FHNW.png}
+         \hspace*{2cm}~%
+         \includegraphics[width=1cm]{style/BFH.png}
+         }
 ---
 <!--
 https://quarto.org/docs/presentations/
 https://deic.uab.cat/~iblanes/beamer_gallery/
+https://latex-beamer.com/tutorials/
 -->
 \vspace{12em}
 Jiří Novák CC BY-NC-ND (2024) 
@@ -209,17 +211,26 @@ Non-perturbative masking does not rely on distortion of the original data but on
 
 
 
+
+
+
+
+
+
 <!---------------------------------------------------------------------------->
-## -
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+## 
 
-\Huge Thank you for your attention
+\centering 
 
+\Huge Thank you for your attention \
 
-
+![](gallery/SwissAnon.png){width=80%} 
 
 \large Swiss Data Anonymization Competence Center
 
-[https://swissanon.ch/](https://swissanon.ch/)
+\href{https://swissanon.ch}{\color{blue}\underline{https://swissanon.ch}}
 
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->

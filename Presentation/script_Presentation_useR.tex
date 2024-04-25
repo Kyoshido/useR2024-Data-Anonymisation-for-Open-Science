@@ -107,12 +107,13 @@
 
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[page number]
-\titlegraphic{\includegraphics[width=2cm]{style/UZH.jpg}
-      \hspace*{2cm}~%
-      \includegraphics[width=2cm]{style/FHNW.png}
-      \hspace*{2cm}~%
-      \includegraphics[width=1cm]{style/BFH.png}
-      }
+\titlegraphic{
+  \includegraphics[width=2cm]{style/UZH.jpg}
+  \hspace*{2cm}~%
+  \includegraphics[width=2cm]{style/FHNW.png}
+  \hspace*{2cm}~%
+  \includegraphics[width=1cm]{style/BFH.png}
+  }
 \makeatletter
 \makeatother
 \makeatletter
@@ -189,7 +190,7 @@ Applied Sciences \inst{4} Czech Statistical Office}
 
 \begin{document}
 \frame{\titlepage}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, sharp corners, borderline west={3pt}{0pt}{shadecolor}, interior hidden, enhanced, boxrule=0pt, frame hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, boxrule=0pt, sharp corners, borderline west={3pt}{0pt}{shadecolor}, enhanced, interior hidden, frame hidden]}{\end{tcolorbox}}\fi
 
 \begin{frame}
 \vspace{12em}
@@ -491,13 +492,17 @@ relationship}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{-}
+\begin{frame}{}
 \protect\hypertarget{section}{}
-\Huge Thank you for your attention
+\centering
+
+\Huge Thank you for your attention\\
+
+\includegraphics[width=0.8\textwidth,height=\textheight]{gallery/SwissAnon.png}
 
 \large Swiss Data Anonymization Competence Center
 
-\href{https://swissanon.ch/}{hhttps://swissanon.ch/}
+\href{https://swissanon.ch}{\color{blue}\underline{https://swissanon.ch}}
 \end{frame}
 
 
