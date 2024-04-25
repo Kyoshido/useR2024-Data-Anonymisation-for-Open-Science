@@ -205,3 +205,22 @@ Non-perturbative masking does not rely on distortion of the original data but on
 - - \color{red}{synthpop}
 - - \color{red}{simPop}
 - - \color{red}{GANs}
+
+
+
+
+<!---------------------------------------------------------------------------->
+## -
+
+\Huge Thank you for your attention
+
+
+
+
+\large Swiss Data Anonymization Competence Center
+
+[https://swissanon.ch/](https://swissanon.ch/)
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
