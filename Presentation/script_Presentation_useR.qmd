@@ -120,9 +120,21 @@ A disclosure occurs when a person or an organisation recognises or learns someth
 
 Types of disclosure risk: 
 
-(1) Identity disclosure and 
-(2) Attribute disclosure.
-(3) Inferential disclosure 
+(1) Identity disclosure
+
+| Residency	| Age | Sex  | Occupation | 
+| :-------:	| :-: | :--: | :--------: | 
+| Salzburg	| 50	| Male | Professor  | 
+            
+(2) Attribute disclosure
+
+| Group            | Males | Females | Total |
+| ---------------- | :---: | :-----: | :---: |
+| Football fans    | 22    | 0       | 22    |
+| Non Football fan | 93    | 85      | 178   |   
+| Total            | 115   | 85      | 200   |
+
+(3) Inferential disclosure
 
 <!---------------------------------------------------------------------------->
 ##  Risk and utility

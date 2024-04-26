@@ -190,7 +190,7 @@ Applied Sciences \inst{4} Czech Statistical Office}
 
 \begin{document}
 \frame{\titlepage}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, interior hidden, frame hidden, sharp corners, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, sharp corners, breakable, frame hidden, enhanced]}{\end{tcolorbox}}\fi
 
 \begin{frame}
 \vspace{12em}
@@ -318,15 +318,44 @@ A disclosure occurs when a person or an organisation recognises or
 learns something that they did not know already about another person or
 organisation, via released data.
 
-Types of disclosure risk:
-
 \begin{enumerate}
 [(1)]
 \tightlist
 \item
-  Identity disclosure and
+  Identity disclosure
+\end{enumerate}
+
+\begin{longtable}[]{@{}cccc@{}}
+\toprule\noalign{}
+Residency & Age & Sex & Occupation \\
+\midrule\noalign{}
+\endhead
+Salzburg & 50 & Male & Professor \\
+\bottomrule\noalign{}
+\end{longtable}
+
+\begin{enumerate}
+[(1)]
+\setcounter{enumi}{1}
+\tightlist
 \item
-  Attribute disclosure.
+  Attribute disclosure
+\end{enumerate}
+
+\begin{longtable}[]{@{}lccc@{}}
+\toprule\noalign{}
+Group & Males & Females & Total \\
+\midrule\noalign{}
+\endhead
+Football fans & 22 & 0 & 22 \\
+Non Football fan & 93 & 85 & 178 \\
+\bottomrule\noalign{}
+\end{longtable}
+
+\begin{enumerate}
+[(1)]
+\setcounter{enumi}{2}
+\tightlist
 \item
   Inferential disclosure
 \end{enumerate}
