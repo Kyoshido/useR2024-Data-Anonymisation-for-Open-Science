@@ -190,7 +190,7 @@ Applied Sciences \inst{4} Czech Statistical Office}
 
 \begin{document}
 \frame{\titlepage}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, sharp corners, breakable, frame hidden, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, boxrule=0pt, interior hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}, breakable, sharp corners]}{\end{tcolorbox}}\fi
 
 \begin{frame}
 \vspace{12em}
@@ -318,6 +318,8 @@ A disclosure occurs when a person or an organisation recognises or
 learns something that they did not know already about another person or
 organisation, via released data.
 
+Types of disclosure risk:
+
 \begin{enumerate}
 [(1)]
 \tightlist
@@ -349,6 +351,7 @@ Group & Males & Females & Total \\
 \endhead
 Football fans & 22 & 0 & 22 \\
 Non Football fan & 93 & 85 & 178 \\
+Total & 115 & 85 & 200 \\
 \bottomrule\noalign{}
 \end{longtable}
 
@@ -444,6 +447,54 @@ that combination.
 \item
   Generating synthetic data
 \end{enumerate}
+\end{frame}
+
+\begin{frame}{Packages for SDC - Microdata (Unit-level data)}
+\protect\hypertarget{packages-for-sdc---microdata-unit-level-data}{}
+\href{https://cran.r-project.org/web/packages/sdcMicro/index.html}{\color{blue}\underline{\textbf{sdcMicro}}}
+can be used to anonymize data, i.e.~to create anonymized files for
+public and scientific use. It implements a wide range of methods for
+anonymizing categorical and continuous (key) variables. The package also
+contains a graphical user interface, which is available by calling the
+function sdcGUI.
+
+\href{https://cran.r-project.org/web/packages/simPop/index.html}{\color{blue}\underline{\textbf{simPop}}}
+using linear and robust regression methods, random forests (and many
+more methods) to simulate synthetic data from given complex data. It is
+also suitable to produce synthetic data when the data have hierarchical
+and cluster information (such as persons in households) as well as when
+the data had been collected with a complex sampling design. It makes use
+of parallel computing internally.
+
+\href{https://cran.r-project.org/web/packages/synthpop/index.html}{\color{blue}\underline{\textbf{synthpop}}}
+using regression tree methods to simulate synthetic data from given
+data. It~is suitable to produce synthetic data when the data have no
+hierarchical and cluster information (such as households) as well as
+when the data does not collected with a~complex sampling design.
+\end{frame}
+
+\begin{frame}{Packages for SDC - Tabular data (Aggregated data)}
+\protect\hypertarget{packages-for-sdc---tabular-data-aggregated-data}{}
+\href{https://cran.r-project.org/web/packages/sdcTable/index.html}{\color{blue}\underline{\textbf{sdcTable}}}
+can be used to provide confidential (hierarchical) tabular data. It
+includes the HITAS and the HYPERCUBE technique and uses linear
+programming packages (Rglpk and lpSolveAPI) for solving (a large amount
+of) linear programs.
+
+\href{https://cran.r-project.org/web/packages/sdcSpatial/index.html}{\color{blue}\underline{\textbf{sdcSpatial}}}
+can be used to smooth or/and suppress raster cells in a map. This is
+useful when plotting raster-based counts on a map. sdcHierarchies
+provides methods to generate, modify, import and convert nested
+hierarchies that are often used when defining inputs for statistical
+disclosure control methods.
+
+\href{https://cran.r-project.org/web/packages/SmallCountRounding/index.html}{\color{blue}\underline{\textbf{SmallCountRounding}}}
+can be used to protect frequency tables by rounding necessary inner
+cells so that cross-classifications to be published are safe.
+
+\href{https://cran.r-project.org/web/packages/GaussSuppression/index.html}{\color{blue}\underline{\textbf{GaussSuppression}}}
+can be used to protect tables by suppression using the Gaussian
+elimination secondary suppression algorithm.
 \end{frame}
 
 \begin{frame}{Non-perturbation methods}

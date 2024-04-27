@@ -186,6 +186,34 @@ values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k 
 2. Generating synthetic data 
 
 <!---------------------------------------------------------------------------->
+## Packages for SDC - Microdata (Unit-level data)
+
+\href{https://cran.r-project.org/web/packages/sdcMicro/index.html}{\color{blue}\underline{\textbf{sdcMicro}}}
+can be used to anonymize data, i.e. to create anonymized files for public and scientific use. It implements a wide range of methods for anonymizing categorical and continuous (key) variables. The package also contains a graphical user interface, which is available by calling the function sdcGUI.
+
+\href{https://cran.r-project.org/web/packages/simPop/index.html}{\color{blue}\underline{\textbf{simPop}}}
+using linear and robust regression methods, random forests (and many more methods) to simulate synthetic data from given complex data. It is also suitable to produce synthetic data when the data have hierarchical and cluster information (such as persons in households) as well as when the data had been collected with a complex sampling design. It makes use of parallel computing internally.
+
+\href{https://cran.r-project.org/web/packages/synthpop/index.html}{\color{blue}\underline{\textbf{synthpop}}}
+using regression tree methods to simulate synthetic data from given data. It\ is suitable to produce synthetic data when the data have no hierarchical and cluster information (such as households) as well as when the data does not collected with a\ complex sampling design.
+
+<!---------------------------------------------------------------------------->
+## Packages for SDC - Tabular data (Aggregated data)
+
+\href{https://cran.r-project.org/web/packages/sdcTable/index.html}{\color{blue}\underline{\textbf{sdcTable}}}
+can be used to provide confidential (hierarchical) tabular data. It includes the HITAS and the HYPERCUBE technique and uses linear programming packages (Rglpk and lpSolveAPI) for solving (a large amount of) linear programs.
+
+\href{https://cran.r-project.org/web/packages/sdcSpatial/index.html}{\color{blue}\underline{\textbf{sdcSpatial}}}
+can be used to smooth or/and suppress raster cells in a map. This is useful when plotting raster-based counts on a map.
+sdcHierarchies provides methods to generate, modify, import and convert nested hierarchies that are often used when defining inputs for statistical disclosure control methods.
+
+\href{https://cran.r-project.org/web/packages/SmallCountRounding/index.html}{\color{blue}\underline{\textbf{SmallCountRounding}}}
+can be used to protect frequency tables by rounding necessary inner cells so that cross-classifications to be published are safe.
+
+\href{https://cran.r-project.org/web/packages/GaussSuppression/index.html}{\color{blue}\underline{\textbf{GaussSuppression}}}
+can be used to protect tables by suppression using the Gaussian elimination secondary suppression algorithm.
+
+<!---------------------------------------------------------------------------->
 ## Non-perturbation methods
 
 Non-perturbative masking does not rely on distortion of the original data but on partial suppressions or reductions of detail.
