@@ -105,14 +105,16 @@
 \def\fps@figure{htbp}
 \makeatother
 
-\setbeamertemplate{navigation symbols}{}
+%% Set numering of slides
+\setbeamertemplate{navigation symbols}{} 
 \setbeamertemplate{footline}[page number]
-\titlegraphic{\includegraphics[width=2cm]{style/UZH.jpg}
-      \hspace*{2cm}~%
-      \includegraphics[width=2cm]{style/FHNW.png}
-      \hspace*{2cm}~%
-      \includegraphics[width=1cm]{style/BFH.png}
-      }
+\titlegraphic{
+  \includegraphics[width=2cm]{style/UZH.jpg}
+  \hspace*{2cm}~%
+  \includegraphics[width=2cm]{style/FHNW.png}
+  \hspace*{2cm}~%
+  \includegraphics[width=1cm]{style/BFH.png}
+  }
 \makeatletter
 \makeatother
 \makeatletter
@@ -189,7 +191,7 @@ Applied Sciences \inst{4} Czech Statistical Office}
 
 \begin{document}
 \frame{\titlepage}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, breakable, sharp corners, frame hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}, interior hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, boxrule=0pt, interior hidden, breakable, sharp corners, borderline west={3pt}{0pt}{shadecolor}, frame hidden]}{\end{tcolorbox}}\fi
 
 \begin{frame}
 \vspace{12em}
@@ -244,8 +246,6 @@ only, and only so long as attribution is given to the creator.
 \begin{itemize}
 \item
   \color{red}{XXX}
-\item
-  \color{red}{XXX}
 \end{itemize}
 \end{frame}
 
@@ -255,6 +255,30 @@ Statistical Disclosure Control (SDC) or Statistical Disclosure
 Limitation (SDL) seeks to protect statistical data in such a way that
 they can be released without giving away confidential information that
 can be linked to specific individuals or entities.
+\end{frame}
+
+\begin{frame}{Why is confidentiality protection important?}
+\protect\hypertarget{why-is-confidentiality-protection-important}{}
+There are three main reasons:
+
+\begin{enumerate}
+\item
+  \textbf{Principle} It is a fundamental principle for Official
+  Statistics that the statistical records of individual persons,
+  businesses or events used to produce Official Statistics are strictly
+  confidential, and are to be used only for statistical purposes.
+\item
+  \textbf{Legal} Legislation places a legal obligation to protect
+  individual business and personal data. Legal frameworks regulate what
+  is allowed and what is not allowed with regard to publication of
+  private information.
+\item
+  \textbf{Quality} Respondents need confidence in the preservation of
+  the confidentiality of individual information.
+\item
+  \textbf{Ethical}: It is unethical to disclose information that can be
+  linked to specific individuals or entities.
+\end{enumerate}
 \end{frame}
 
 \begin{frame}{Motivation}
@@ -301,9 +325,43 @@ Types of disclosure risk:
 [(1)]
 \tightlist
 \item
-  identity disclosure and
+  Identity disclosure
+\end{enumerate}
+
+\begin{longtable}[]{@{}cccc@{}}
+\toprule\noalign{}
+Residency & Age & Sex & Occupation \\
+\midrule\noalign{}
+\endhead
+Salzburg & 50 & Male & Professor \\
+\bottomrule\noalign{}
+\end{longtable}
+
+\begin{enumerate}
+[(1)]
+\setcounter{enumi}{1}
+\tightlist
 \item
-  attribute disclosure.
+  Attribute disclosure
+\end{enumerate}
+
+\begin{longtable}[]{@{}lccc@{}}
+\toprule\noalign{}
+Group & Males & Females & Total \\
+\midrule\noalign{}
+\endhead
+Football fans & 22 & 0 & 22 \\
+Non Football fan & 93 & 85 & 178 \\
+Total & 115 & 85 & 200 \\
+\bottomrule\noalign{}
+\end{longtable}
+
+\begin{enumerate}
+[(1)]
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Inferential disclosure
 \end{enumerate}
 \end{frame}
 
@@ -324,6 +382,8 @@ utility of the protected released data.
 
 \begin{frame}{Risk-utility trade-off}
 \protect\hypertarget{risk-utility-trade-off}{}
+\textless\textless\textless\textless\textless\textless\textless{} HEAD
+
 \begin{figure}
 
 {\centering \includegraphics[width=0.5\textwidth,height=\textheight]{gallery/R-U confidentiality map.png}
@@ -337,6 +397,42 @@ utility of the protected released data.
 
 \begin{frame}{k-anonymity}
 \protect\hypertarget{k-anonymity}{}
+A data set is said to satisfy k-anonymity for k \textgreater{} 1 if, for
+each combination of values of quasi-identifiers (e.g.~name, address,
+age, gender, etc.), at least k records exist in the data set sharing
+that combination.
+
+=======
+\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{}
+1321f56f7d382453d977c89fbcf141742da57290
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\textwidth,height=\textheight]{gallery/R-U confidentiality map.png}
+
+}
+
+\caption{R-U confidentiality map (Duncan et al.,2001)}
+
+\end{figure}
+\end{frame}
+
+\begin{frame}{Disclosure risk}
+\protect\hypertarget{disclosure-risk}{}
+A unit is at risk of disclosure when it cannot be confused with several
+other units
+\end{frame}
+
+\begin{frame}{Re-identification risk}
+\protect\hypertarget{re-identification-risk}{}
+\begin{itemize}
+\item
+  \color{red}{attacker scenarios and risk measures in more detail using examples}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{k-anonymity}
+\protect\hypertarget{k-anonymity-1}{}
 A data set is said to satisfy k-anonymity for k \textgreater{} 1 if, for
 each combination of values of quasi-identifiers (e.g.~name, address,
 age, gender, etc.), at least k records exist in the data set sharing
@@ -356,6 +452,187 @@ that combination.
 \item
   Non-confidential outcome variables
 \end{enumerate}
+\end{frame}
+
+\begin{frame}{Disclosure control methods}
+\protect\hypertarget{disclosure-control-methods}{}
+\begin{enumerate}
+\tightlist
+\item
+  Masking original data
+
+  \begin{enumerate}
+  [i.]
+  \tightlist
+  \item
+    Non-perturbative masking.
+  \item
+    Perturbative masking.
+  \end{enumerate}
+\item
+  Generating synthetic data
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Packages for SDC - Microdata (Unit-level data)}
+\protect\hypertarget{packages-for-sdc---microdata-unit-level-data}{}
+\href{https://cran.r-project.org/web/packages/sdcMicro/index.html}{\color{blue}\underline{\textbf{sdcMicro}}}
+can be used to anonymize data, i.e.~to create anonymized files for
+public and scientific use. It implements a wide range of methods for
+anonymizing categorical and continuous (key) variables. The package also
+contains a graphical user interface, which is available by calling the
+function sdcGUI.
+
+\href{https://cran.r-project.org/web/packages/simPop/index.html}{\color{blue}\underline{\textbf{simPop}}}
+using linear and robust regression methods, random forests (and many
+more methods) to simulate synthetic data from given complex data. It is
+also suitable to produce synthetic data when the data have hierarchical
+and cluster information (such as persons in households) as well as when
+the data had been collected with a complex sampling design. It makes use
+of parallel computing internally.
+
+\href{https://cran.r-project.org/web/packages/synthpop/index.html}{\color{blue}\underline{\textbf{synthpop}}}
+using regression tree methods to simulate synthetic data from given
+data. It~is suitable to produce synthetic data when the data have no
+hierarchical and cluster information (such as households) as well as
+when the data does not collected with a~complex sampling design.
+\end{frame}
+
+\begin{frame}{Packages for SDC - Tabular data (Aggregated data)}
+\protect\hypertarget{packages-for-sdc---tabular-data-aggregated-data}{}
+\href{https://cran.r-project.org/web/packages/sdcTable/index.html}{\color{blue}\underline{\textbf{sdcTable}}}
+can be used to provide confidential (hierarchical) tabular data. It
+includes the HITAS and the HYPERCUBE technique and uses linear
+programming packages (Rglpk and lpSolveAPI) for solving (a large amount
+of) linear programs.
+
+\href{https://cran.r-project.org/web/packages/sdcSpatial/index.html}{\color{blue}\underline{\textbf{sdcSpatial}}}
+can be used to smooth or/and suppress raster cells in a map. This is
+useful when plotting raster-based counts on a map. sdcHierarchies
+provides methods to generate, modify, import and convert nested
+hierarchies that are often used when defining inputs for statistical
+disclosure control methods.
+
+\href{https://cran.r-project.org/web/packages/SmallCountRounding/index.html}{\color{blue}\underline{\textbf{SmallCountRounding}}}
+can be used to protect frequency tables by rounding necessary inner
+cells so that cross-classifications to be published are safe.
+
+\href{https://cran.r-project.org/web/packages/GaussSuppression/index.html}{\color{blue}\underline{\textbf{GaussSuppression}}}
+can be used to protect tables by suppression using the Gaussian
+elimination secondary suppression algorithm.
+\end{frame}
+
+\begin{frame}{Non-perturbation methods}
+\protect\hypertarget{non-perturbation-methods}{}
+Non-perturbative masking does not rely on distortion of the original
+data but on partial suppressions or reductions of detail.
+
+\begin{longtable}[]{@{}lcc@{}}
+\caption{Non-perturbative methods vs.~data types.}\tabularnewline
+\toprule\noalign{}
+Method & Continuous data & Categorical data \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Method & Continuous data & Categorical data \\
+\midrule\noalign{}
+\endhead
+Sampling & & X \\
+Global recoding & X & X \\
+Top and bottom coding & X & X \\
+Local suppression & & X \\
+\bottomrule\noalign{}
+\end{longtable}
+\end{frame}
+
+\begin{frame}{sdcMicro}
+\protect\hypertarget{sdcmicro}{}
+\begin{itemize}
+\item
+  sdcMicro is an R package for statistical disclosure control.
+\item
+  \url{https://cran.r-project.org/web/packages/sdcMicro/index.html}
+\item
+  \url{https://github.com/sdcTools/sdcMicro}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{sdcMicro}
+\protect\hypertarget{sdcmicro-1}{}
+\begin{figure}
+
+{\centering \includegraphics[width=0.55\textwidth,height=\textheight]{gallery/sdcMicro.png}
+
+}
+
+\caption{Certain procedures in package \emph{sdcMicro} and their
+relationship}
+
+\end{figure}
+\end{frame}
+
+\begin{frame}{Perturbation methods}
+\protect\hypertarget{perturbation-methods}{}
+\begin{itemize}
+\item
+  \begin{itemize}
+  \item
+    \color{red}{sdcMicro}
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Synthetic methods}
+\protect\hypertarget{synthetic-methods}{}
+\begin{itemize}
+\item
+  \color{red}{Introduction to synthetic data}
+\item
+  \Huge \color{red}{for Jiri/Oscar}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Synthetic methods: synthpop}
+\protect\hypertarget{synthetic-methods-synthpop}{}
+\begin{itemize}
+\item
+  \color{red}{Generating synthetic data with synthpop}
+\item
+  \Huge \color{red}{for Jiri/Oscar}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Synthetic methods: simPop}
+\protect\hypertarget{synthetic-methods-simpop}{}
+\begin{itemize}
+\item
+  \color{red}{Generating synthetic data with simPop}
+\item
+  \Huge \color{red}{for Jiri/Oscar}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Synthetic methods: GANS}
+\protect\hypertarget{synthetic-methods-gans}{}
+\begin{itemize}
+\item
+  \color{red}{Generating synthetic data with GANs}
+\item
+  \Huge \color{red}{for Marco}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{}
+\protect\hypertarget{section}{}
+\centering
+
+\Huge Thank you for your attention\\
+
+\includegraphics[width=0.8\textwidth,height=\textheight]{gallery/SwissAnon.png}
+
+\large Swiss Data Anonymization Competence Center
+
+\href{https://swissanon.ch}{\color{blue}\underline{https://swissanon.ch}}
 \end{frame}
 
 

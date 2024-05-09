@@ -17,19 +17,21 @@ format:
     beamer:
       colortheme: "whale"
       font: professionalfonts
-      header-includes: |
-                   \setbeamertemplate{navigation symbols}{} 
-                   \setbeamertemplate{footline}[page number]
-                   \titlegraphic{\includegraphics[width=2cm]{style/UZH.jpg}
-                         \hspace*{2cm}~%
-                         \includegraphics[width=2cm]{style/FHNW.png}
-                         \hspace*{2cm}~%
-                         \includegraphics[width=1cm]{style/BFH.png}
-                         }
+      include-in-header: 
+       - "styles.tex"
+      header-includes: | 
+       \titlegraphic{
+         \includegraphics[width=2cm]{style/UZH.jpg}
+         \hspace*{2cm}~%
+         \includegraphics[width=2cm]{style/FHNW.png}
+         \hspace*{2cm}~%
+         \includegraphics[width=1cm]{style/BFH.png}
+         }
 ---
 <!--
 https://quarto.org/docs/presentations/
 https://deic.uab.cat/~iblanes/beamer_gallery/
+https://latex-beamer.com/tutorials/
 -->
 \vspace{12em}
 Jiří Novák CC BY-NC-ND (2024) 
@@ -65,7 +67,6 @@ This license enables reusers to copy and distribute the material in any medium o
 **Alžběta Beranová**
 
 - \color{red}{XXX}
-- \color{red}{XXX}
 
 <!---------------------------------------------------------------------------->
 ## Context of Anonymization
@@ -75,6 +76,20 @@ Statistical Disclosure Control (SDC) or Statistical Disclosure
 Limitation (SDL) seeks to protect statistical data in such a way that they can be
 released without giving away confidential information that can be linked to specific
 individuals or entities.
+
+<!---------------------------------------------------------------------------->
+## Why is confidentiality protection important?
+
+There are three main reasons:
+
+1. **Principle**
+It is a fundamental principle for Official Statistics that the statistical records of individual persons, businesses or events used to produce Official Statistics are strictly confidential, and are to be used only for statistical purposes.
+
+2. **Legal** Legislation  places a legal obligation to protect individual business and personal data. Legal frameworks regulate what is allowed and what is not allowed with regard to publication of private information.
+
+3. **Quality** Respondents need confidence in the preservation of the confidentiality of individual information. 
+
+4. **Ethical**: It is unethical to disclose information that can be linked to specific individuals or entities.
 
 <!---------------------------------------------------------------------------->
 ## Motivation
@@ -105,9 +120,21 @@ A disclosure occurs when a person or an organisation recognises or learns someth
 
 Types of disclosure risk: 
 
-(1) identity disclosure and 
-(2) attribute disclosure.
+(1) Identity disclosure
 
+| Residency	| Age | Sex  | Occupation | 
+| :-------:	| :-: | :--: | :--------: | 
+| Salzburg	| 50	| Male | Professor  | 
+            
+(2) Attribute disclosure
+
+| Group            | Males | Females | Total |
+| ---------------- | :---: | :-----: | :---: |
+| Football fans    | 22    | 0       | 22    |
+| Non Football fan | 93    | 85      | 178   |   
+| Total            | 115   | 85      | 200   |
+
+(3) Inferential disclosure
 
 <!---------------------------------------------------------------------------->
 ##  Risk and utility
@@ -122,6 +149,7 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 
 <!---------------------------------------------------------------------------->
 ##  Risk-utility trade-off 
+<<<<<<< HEAD
 
 ![R-U confidentiality map (Duncan et al.,2001)](gallery/R-U confidentiality map.png){width=50%}
 
@@ -133,7 +161,26 @@ values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k 
 
 
 
+=======
+>>>>>>> 1321f56f7d382453d977c89fbcf141742da57290
 
+![R-U confidentiality map (Duncan et al.,2001)](gallery/R-U confidentiality map.png){width=50%}
+
+<!---------------------------------------------------------------------------->
+## Disclosure risk
+
+A unit is at risk of disclosure when it cannot be confused with several other units
+
+<!---------------------------------------------------------------------------->
+## Re-identification risk 
+
+- \color{red}{attacker scenarios and risk measures in more detail using examples}
+
+<!---------------------------------------------------------------------------->
+##  k-anonymity
+
+A data set is said to satisfy k-anonymity for k > 1 if, for each combination of
+values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k records exist in the data set sharing that combination.
 
 <!---------------------------------------------------------------------------->
 ## Variables 
@@ -143,6 +190,119 @@ values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k 
 3.	Confidential outcome variables
 4.	Non-confidential outcome variables
 
+<!---------------------------------------------------------------------------->
+## Disclosure control methods
+
+1. Masking original data
+   i. Non-perturbative masking.
+   i. Perturbative masking.
+
+2. Generating synthetic data 
+
+<!---------------------------------------------------------------------------->
+## Packages for SDC - Microdata (Unit-level data)
+
+\href{https://cran.r-project.org/web/packages/sdcMicro/index.html}{\color{blue}\underline{\textbf{sdcMicro}}}
+can be used to anonymize data, i.e. to create anonymized files for public and scientific use. It implements a wide range of methods for anonymizing categorical and continuous (key) variables. The package also contains a graphical user interface, which is available by calling the function sdcGUI.
+
+\href{https://cran.r-project.org/web/packages/simPop/index.html}{\color{blue}\underline{\textbf{simPop}}}
+using linear and robust regression methods, random forests (and many more methods) to simulate synthetic data from given complex data. It is also suitable to produce synthetic data when the data have hierarchical and cluster information (such as persons in households) as well as when the data had been collected with a complex sampling design. It makes use of parallel computing internally.
+
+\href{https://cran.r-project.org/web/packages/synthpop/index.html}{\color{blue}\underline{\textbf{synthpop}}}
+using regression tree methods to simulate synthetic data from given data. It\ is suitable to produce synthetic data when the data have no hierarchical and cluster information (such as households) as well as when the data does not collected with a\ complex sampling design.
+
+<!---------------------------------------------------------------------------->
+## Packages for SDC - Tabular data (Aggregated data)
+
+\href{https://cran.r-project.org/web/packages/sdcTable/index.html}{\color{blue}\underline{\textbf{sdcTable}}}
+can be used to provide confidential (hierarchical) tabular data. It includes the HITAS and the HYPERCUBE technique and uses linear programming packages (Rglpk and lpSolveAPI) for solving (a large amount of) linear programs.
+
+\href{https://cran.r-project.org/web/packages/sdcSpatial/index.html}{\color{blue}\underline{\textbf{sdcSpatial}}}
+can be used to smooth or/and suppress raster cells in a map. This is useful when plotting raster-based counts on a map.
+sdcHierarchies provides methods to generate, modify, import and convert nested hierarchies that are often used when defining inputs for statistical disclosure control methods.
+
+\href{https://cran.r-project.org/web/packages/SmallCountRounding/index.html}{\color{blue}\underline{\textbf{SmallCountRounding}}}
+can be used to protect frequency tables by rounding necessary inner cells so that cross-classifications to be published are safe.
+
+\href{https://cran.r-project.org/web/packages/GaussSuppression/index.html}{\color{blue}\underline{\textbf{GaussSuppression}}}
+can be used to protect tables by suppression using the Gaussian elimination secondary suppression algorithm.
+
+<!---------------------------------------------------------------------------->
+## Non-perturbation methods
+
+Non-perturbative masking does not rely on distortion of the original data but on partial suppressions or reductions of detail.
+
+
+| Method | Continuous data | Categorical data| 
+|--------|:---------------:|:---------------:|
+| Sampling  | | X | 
+| Global recoding | X | X | 
+| Top and bottom coding| X | X | 
+| Local suppression | | X | 
+
+: Non-perturbative methods vs. data types.
+
+<!---------------------------------------------------------------------------->
+## sdcMicro
+
+- sdcMicro is an R package for statistical disclosure control.
+
+-  [https://cran.r-project.org/web/packages/sdcMicro/index.html](https://cran.r-project.org/web/packages/sdcMicro/index.html)
+-  [https://github.com/sdcTools/sdcMicro](https://github.com/sdcTools/sdcMicro)
+
+<!---------------------------------------------------------------------------->
+## sdcMicro
+
+![Certain procedures in package *sdcMicro* and their relationship](gallery/sdcMicro.png){width=55%}
+
+
+<!---------------------------------------------------------------------------->
+## Perturbation methods
+- - \color{red}{sdcMicro}
+
+<!---------------------------------------------------------------------------->
+## Synthetic methods
+- \color{red}{Introduction to synthetic data}
+- \Huge \color{red}{for Jiri/Oscar}
+
+<!---------------------------------------------------------------------------->
+## Synthetic methods: synthpop
+
+- \color{red}{Generating synthetic data with synthpop}
+- \Huge \color{red}{for Jiri/Oscar}
+
+<!---------------------------------------------------------------------------->
+## Synthetic methods: simPop
+
+- \color{red}{Generating synthetic data with simPop}
+- \Huge \color{red}{for Jiri/Oscar}
+
+<!---------------------------------------------------------------------------->
+## Synthetic methods: GANS
+
+- \color{red}{Generating synthetic data with GANs}
+- \Huge \color{red}{for Marco}
 
 
 
+
+
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+## 
+
+\centering 
+
+\Huge Thank you for your attention \
+
+![](gallery/SwissAnon.png){width=80%} 
+
+\large Swiss Data Anonymization Competence Center
+
+\href{https://swissanon.ch}{\color{blue}\underline{https://swissanon.ch}}
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
