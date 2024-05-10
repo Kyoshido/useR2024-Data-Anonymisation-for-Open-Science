@@ -1,6 +1,6 @@
 ---
 title: "Data Anonymization for Open Science"
-subtitle: "useR! 2024 "
+subtitle: "useR! 2024"
 author: 
   - Jiří Novák\inst{1,2}
   - Marko Miletić\inst{3}
@@ -72,10 +72,7 @@ This license enables reusers to copy and distribute the material in any medium o
 ## Context of Anonymization
 
 
-Statistical Disclosure Control (SDC) or Statistical Disclosure
-Limitation (SDL) seeks to protect statistical data in such a way that they can be
-released without giving away confidential information that can be linked to specific
-individuals or entities.
+Statistical Disclosure Control (SDC) or Statistical Disclosure Limitation (SDL) seeks to protect statistical data in such a way that they can be released without giving away confidential information that can be linked to specific individuals or entities.
 
 <!---------------------------------------------------------------------------->
 ## Why is confidentiality protection important?
@@ -149,7 +146,6 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 
 <!---------------------------------------------------------------------------->
 ##  Risk-utility trade-off 
-<<<<<<< HEAD
 
 ![R-U confidentiality map (Duncan et al.,2001)](gallery/R-U confidentiality map.png){width=50%}
 
@@ -158,11 +154,6 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 
 A data set is said to satisfy k-anonymity for k > 1 if, for each combination of
 values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k records exist in the data set sharing that combination.
-
-
-
-=======
->>>>>>> 1321f56f7d382453d977c89fbcf141742da57290
 
 ![R-U confidentiality map (Duncan et al.,2001)](gallery/R-U confidentiality map.png){width=50%}
 
@@ -179,8 +170,7 @@ A unit is at risk of disclosure when it cannot be confused with several other un
 <!---------------------------------------------------------------------------->
 ##  k-anonymity
 
-A data set is said to satisfy k-anonymity for k > 1 if, for each combination of
-values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k records exist in the data set sharing that combination.
+A data set is said to satisfy k-anonymity for k > 1 if, for each combination of values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k records exist in the data set sharing that combination.
 
 <!---------------------------------------------------------------------------->
 ## Variables 
@@ -272,10 +262,23 @@ Non-perturbative masking does not rely on distortion of the original data but on
 - \Huge \color{red}{for Jiri/Oscar}
 
 <!---------------------------------------------------------------------------->
+## Synthetic methods: synthpop
+
+Nowok B, Raab GM, Dibben C (2016). synthpop: Bespoke Creation of Synthetic Data in R. Journal of Statistical Software, 74(11), 1-26. doi:10.18637/jss.v074.i11. URL \href{https://www.jstatsoft.org/article/view/v074i11}{\color{blue}\underline{\textbf{https://www.jstatsoft.org/article/view/v074i11}}}
+
+<!---------------------------------------------------------------------------->
 ## Synthetic methods: simPop
 
 - \color{red}{Generating synthetic data with simPop}
 - \Huge \color{red}{for Jiri/Oscar}
+
+<!---------------------------------------------------------------------------->
+## Synthetic methods: simPop
+
+Meindl B, Templ M, Alfons A, Kowarik A (2016). simPop: Simulation of Synthetic Popula- tions for Survey Data Considering Auxiliary Information. R package version 0.3.0, URL \href{https://CRAN.R-project.org/package=simPop}{\color{blue}\underline{\textbf{https://CRAN.R-project.org/package=simPop}}}
+
+Parametric and non-parametric methods.
+
 
 <!---------------------------------------------------------------------------->
 ## Synthetic methods: GANS
@@ -297,7 +300,7 @@ Non-perturbative masking does not rely on distortion of the original data but on
 
 \Huge Thank you for your attention \
 
-![](gallery/SwissAnon.png){width=80%} 
+![](style/SwissAnon.png){width=80%} 
 
 \large Swiss Data Anonymization Competence Center
 
