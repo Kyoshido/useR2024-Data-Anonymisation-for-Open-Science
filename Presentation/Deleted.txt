@@ -1,0 +1,10 @@
+<!---------------------------------------------------------------------------->
+## Motivation
+
+- Legal frameworks regulate what is allowed and what is not allowed with regard to publication of private information.
+
+- Before sensitive statistical databases can be made available to universities for research, confidentiality must be guaranteed.
+
+- Users of statistical outputs should be aware of the reasoning and methodology behind statistical disclosure control.
+
+

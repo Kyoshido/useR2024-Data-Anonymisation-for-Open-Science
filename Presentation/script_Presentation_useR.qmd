@@ -69,47 +69,95 @@ This license enables reusers to copy and distribute the material in any medium o
 - \color{red}{XXX}
 
 <!---------------------------------------------------------------------------->
-## Context of Anonymization
+## Data Anonymization in which context?
 
+This tutorial is about Data Anonymization in the context of the field of Statistical Disclosure Control (SDC).
 
-Statistical Disclosure Control (SDC) or Statistical Disclosure Limitation (SDL) seeks to protect statistical data in such a way that they can be released without giving away confidential information that can be linked to specific individuals or entities.
+SDC is also known as Statistical disclosure limitation or Disclosure avoidance.
+
+\vspace{1cm}
+
+**Statistical Disclosure Control** seeks to protect statistical data in such a way that they can be released without giving away confidential information that can be linked to specific individuals or entities.
 
 <!---------------------------------------------------------------------------->
-## Why is confidentiality protection important?
+## Importance of Data Anonymization
 
-There are three main reasons:
+There are several main reasons:
 
 1. **Principle**
-It is a fundamental principle for Official Statistics that the statistical records of individual persons, businesses or events used to produce Official Statistics are strictly confidential, and are to be used only for statistical purposes.
+It is a fundamental principle of Official Statistics that the statistical records of individual persons, businesses, or events used to produce Official Statistics are strictly confidential and to be used only for statistical purposes.
 
-2. **Legal** Legislation  places a legal obligation to protect individual business and personal data. Legal frameworks regulate what is allowed and what is not allowed with regard to publication of private information.
+2. **Legal** 
+Legislation imposes a legal obligation to protect individual business and personal data. Legal frameworks regulate what is allowed and what is not allowed regarding the publication of private information.
 
-3. **Quality** Respondents need confidence in the preservation of the confidentiality of individual information. 
+3. **Quality** 
+Respondents need confidence in the preservation of the confidentiality of individual information. If they do not trust the confidentiality of the data, they may not provide accurate information.
 
-4. **Ethical**: It is unethical to disclose information that can be linked to specific individuals or entities.
-
-<!---------------------------------------------------------------------------->
-## Motivation
-
-- Legal frameworks regulate what is allowed and what is not allowed with regard to publication of private information.
-
-- Before sensitive statistical databases can be made available to universities for research, confidentiality must be guaranteed.
-
-- Users of statistical outputs should be aware of the reasoning and methodology behind statistical disclosure control.
+4. **Ethical**
+Disclosing information that can be linked to specific individuals or entities is unethical. 
 
 <!---------------------------------------------------------------------------->
-## Outputs
+## Relevance to Open Science
+
+**Open Science**, **Open Access**, **Open Data** are important trends in the scientific community.
+
+Research data that results from publicly funded research should be **FAIR**: \newline
+**findable**, **accessible**, **interoperable**, **reusable** 
+
+- therefore replicable, transparent, trustworthy
+- Principle: as open as possible, as closed as necessary
+
+- Enables data sharing and collaboration
+- Facilitates reproducible research
+- Balances transparency with privacy
+
+\href{https://eur-lex.europa.eu/eli/reco/2018/790/oj}{\color{blue}\underline{Commission Recommendation (EU) 2018/790 on access to and preservation}}
+\href{https://eur-lex.europa.eu/eli/reco/2018/790/oj}{\color{blue}\underline{of scientific information}}
+
+<!---------------------------------------------------------------------------->
+## Outputs to protect
 
 Different outputs require different approaches to SDC and different mixtures of tools.
 
 - Macrodata (Tabular data)
-
 - Microdata
-
 - Dynamic databases
-
 - Statistical analyses
 
+\vspace{1cm}
+
+**Disclaimer**: Imposing a single solution for all types of data is not possible. \newline
+This tutorial will focus on Microdata and Tabular data.
+
+<!---------------------------------------------------------------------------->
+## Key Concepts
+
+Key Concepts are:
+
+* **Disclosure**
+    + A disclosure occurs when a person or an organisation recognises or learns somethingthat they did not know already about another person or organisation, via released data.
+  
+. . .    
+    
+* **Re-identification risk**
+    + Re-identification risk is the risk that an intruder can link a record in the released data to a specific individual in the population.
+
+. . .
+
+* **Data utility**
+    + Data utility is the usefulness of the data for the intended purpose.
+  
+<!---------------------------------------------------------------------------->
+## Disclosure  
+  
+A disclosure occurs when a person or an organisation recognises or learns something that they did not know already about another person or organisation, via released data.
+
+Types of disclosure risk: 
+
+(1) **Identity disclosure**
+(2) **Attribute disclosure**
+(3) **Inferential disclosure**
+  
 <!---------------------------------------------------------------------------->
 ## Disclosure
 
@@ -117,13 +165,13 @@ A disclosure occurs when a person or an organisation recognises or learns someth
 
 Types of disclosure risk: 
 
-(1) Identity disclosure
+(1) **Identity disclosure**
 
 | Residency	| Age | Sex  | Occupation | 
 | :-------:	| :-: | :--: | :--------: | 
 | Salzburg	| 50	| Male | Professor  | 
             
-(2) Attribute disclosure
+(2) **Attribute disclosure**
 
 | Group            | Males | Females | Total |
 | ---------------- | :---: | :-----: | :---: |
@@ -131,18 +179,16 @@ Types of disclosure risk:
 | Non Football fan | 93    | 85      | 178   |   
 | Total            | 115   | 85      | 200   |
 
-(3) Inferential disclosure
-
 <!---------------------------------------------------------------------------->
 ##  Risk and utility
 
 SDC seeks to optimise the trade-off between the disclosure risk and the utility of the protected released data.
 
-- Risk: the probability of a disclosure event occurring.
+- **Risk**: the probability of a disclosure event occurring.
 
-- Utility: the usefulness of the data for the intended purpose.
+- **Utility**: the usefulness of the data for the intended purpose.
 
-- The goal is to find a balance between risk and utility.
+The goal is to find a balance between risk and utility.
 
 <!---------------------------------------------------------------------------->
 ##  Risk-utility trade-off 
@@ -155,12 +201,20 @@ SDC seeks to optimise the trade-off between the disclosure risk and the utility 
 A data set is said to satisfy k-anonymity for k > 1 if, for each combination of
 values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k records exist in the data set sharing that combination.
 
-![R-U confidentiality map (Duncan et al.,2001)](gallery/R-U confidentiality map.png){width=50%}
+Ensures that each record is indistinguishable from at least k-1 other records with respect to the quasi-identifiers.
+
+More robust aproaches: 
+
+- **l-Diversity** Extends k-anonymity by ensuring that the sensitive attribute has at least l well-represented values
+
+- **t-Closeness** Ensures that the distribution of the sensitive attribute in any equivalence class is close to the distribution in the entire dataset
 
 <!---------------------------------------------------------------------------->
 ## Disclosure risk
 
 A unit is at risk of disclosure when it cannot be confused with several other units
+
+- \color{red}{XXX}
 
 <!---------------------------------------------------------------------------->
 ## Re-identification risk 
@@ -168,26 +222,27 @@ A unit is at risk of disclosure when it cannot be confused with several other un
 - \color{red}{attacker scenarios and risk measures in more detail using examples}
 
 <!---------------------------------------------------------------------------->
-##  k-anonymity
-
-A data set is said to satisfy k-anonymity for k > 1 if, for each combination of values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k records exist in the data set sharing that combination.
-
-<!---------------------------------------------------------------------------->
 ## Variables 
 
-1.	Identifiers
-2.	Quasi-identifiers or key variables
-3.	Confidential outcome variables
-4.	Non-confidential outcome variables
+1. ***Identifiers***  - variables that can directly identify an individual
+
+2.	***Quasi-identifiers*** or **key variables**   - these variables don't identify individuals on their own but can do so when combined with other quasi-identifiers
+
+3. **Confidential outcome variables** - variables that contain sensitive information that should be protected
+
+4. **Non-confidential outcome variables** - these are variables that are not sensitive and don't risk the privacy of individuals if disclosed
 
 <!---------------------------------------------------------------------------->
 ## Disclosure control methods
 
-1. Masking original data
-   i. Non-perturbative masking.
-   i. Perturbative masking.
+1. **Masking original data**
+   i. **Non-perturbative masking** - Methods that alter data to hide identities without changing its actual values
+   i. **Perturbative masking** - Methods that add noise or alter data values to prevent identification
 
-2. Generating synthetic data 
+2. **Generating synthetic data**
+   i. **Parametric methods** - Techniques that use statistical models based on the data's distribution to generate synthetic data.
+   i. **Non-parametric methods** Techniques that do not assume an underlying distribution, using methods like bootstrapping to generate synthetic data.
+   i. **Generative Adversarial Networks (GANs)** Advanced machine learning models that generate highly realistic synthetic data by training two neural networks in tandem.
 
 <!---------------------------------------------------------------------------->
 ## Packages for SDC - Microdata (Unit-level data)

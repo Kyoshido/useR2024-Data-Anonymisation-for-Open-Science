@@ -116,10 +116,6 @@
   \includegraphics[width=1cm]{style/BFH.png}
   }
 \makeatletter
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
 \ifdefined\contentsname
@@ -155,23 +151,16 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \makeatother
 \makeatletter
+\makeatother
+\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
-\makeatother
-\makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
-\makeatother
-\makeatletter
-\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
 \makeatother
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\usepackage{bookmark}
+
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
@@ -191,7 +180,6 @@ Applied Sciences \inst{4} Czech Statistical Office}
 
 \begin{document}
 \frame{\titlepage}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, frame hidden, interior hidden, sharp corners, breakable, boxrule=0pt, enhanced]}{\end{tcolorbox}}\fi
 
 \begin{frame}
 \vspace{12em}
@@ -206,7 +194,7 @@ only, and only so long as attribution is given to the creator.
 \end{frame}
 
 \begin{frame}{About Speakers}
-\protect\hypertarget{about-speakers}{}
+\phantomsection\label{about-speakers}
 \textbf{Jiří Novák}
 
 \begin{itemize}
@@ -249,59 +237,81 @@ only, and only so long as attribution is given to the creator.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Context of Anonymization}
-\protect\hypertarget{context-of-anonymization}{}
-Statistical Disclosure Control (SDC) or Statistical Disclosure
-Limitation (SDL) seeks to protect statistical data in such a way that
-they can be released without giving away confidential information that
-can be linked to specific individuals or entities.
+\begin{frame}{Data Anonymization in which context?}
+\phantomsection\label{data-anonymization-in-which-context}
+This tutorial is about Data Anonymization in the context of the field of
+Statistical Disclosure Control (SDC).
+
+SDC is also known as Statistical disclosure limitation or Disclosure
+avoidance.
+
+\vspace{1cm}
+
+\textbf{Statistical Disclosure Control} seeks to protect statistical
+data in such a way that they can be released without giving away
+confidential information that can be linked to specific individuals or
+entities.
 \end{frame}
 
-\begin{frame}{Why is confidentiality protection important?}
-\protect\hypertarget{why-is-confidentiality-protection-important}{}
-There are three main reasons:
+\begin{frame}{Importance of Data Anonymization}
+\phantomsection\label{importance-of-data-anonymization}
+There are several main reasons:
 
 \begin{enumerate}
 \item
-  \textbf{Principle} It is a fundamental principle for Official
+  \textbf{Principle} It is a fundamental principle of Official
   Statistics that the statistical records of individual persons,
-  businesses or events used to produce Official Statistics are strictly
-  confidential, and are to be used only for statistical purposes.
+  businesses, or events used to produce Official Statistics are strictly
+  confidential and to be used only for statistical purposes.
 \item
-  \textbf{Legal} Legislation places a legal obligation to protect
+  \textbf{Legal} Legislation imposes a legal obligation to protect
   individual business and personal data. Legal frameworks regulate what
-  is allowed and what is not allowed with regard to publication of
+  is allowed and what is not allowed regarding the publication of
   private information.
 \item
   \textbf{Quality} Respondents need confidence in the preservation of
-  the confidentiality of individual information.
+  the confidentiality of individual information. If they do not trust
+  the confidentiality of the data, they may not provide accurate
+  information.
 \item
-  \textbf{Ethical}: It is unethical to disclose information that can be
-  linked to specific individuals or entities.
+  \textbf{Ethical} Disclosing information that can be linked to specific
+  individuals or entities is unethical.
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Motivation}
-\protect\hypertarget{motivation}{}
+\begin{frame}{Relevance to Open Science}
+\phantomsection\label{relevance-to-open-science}
+\textbf{Open Science}, \textbf{Open Access}, \textbf{Open Data} are
+important trends in the scientific community.
+
+Research data that results from publicly funded research should be
+\textbf{FAIR}: \newline \textbf{findable}, \textbf{accessible},
+\textbf{interoperable}, \textbf{reusable}
+
 \begin{itemize}
 \item
-  Legal frameworks regulate what is allowed and what is not allowed with
-  regard to publication of private information.
+  therefore replicable, transparent, trustworthy
 \item
-  Before sensitive statistical databases can be made available to
-  universities for research, confidentiality must be guaranteed.
+  Principle: as open as possible, as closed as necessary
 \item
-  Users of statistical outputs should be aware of the reasoning and
-  methodology behind statistical disclosure control.
+  Enables data sharing and collaboration
+\item
+  Facilitates reproducible research
+\item
+  Balances transparency with privacy
 \end{itemize}
+
+\href{https://eur-lex.europa.eu/eli/reco/2018/790/oj}{\color{blue}\underline{Commission Recommendation (EU) 2018/790 on access to and preservation}}
+\href{https://eur-lex.europa.eu/eli/reco/2018/790/oj}{\color{blue}\underline{of scientific information}}
 \end{frame}
 
-\begin{frame}{Outputs}
-\protect\hypertarget{outputs}{}
+\begin{frame}{Outputs to protect}
+\phantomsection\label{outputs-to-protect}
 Different outputs require different approaches to SDC and different
 mixtures of tools.
 
 \begin{itemize}
+\tightlist
 \item
   Macrodata (Tabular data)
 \item
@@ -311,10 +321,65 @@ mixtures of tools.
 \item
   Statistical analyses
 \end{itemize}
+
+\vspace{1cm}
+
+\textbf{Disclaimer}: Imposing a single solution for all types of data is
+not possible. \newline This tutorial will focus on Microdata and Tabular
+data.
+\end{frame}
+
+\begin{frame}{Key Concepts}
+\phantomsection\label{key-concepts}
+Key Concepts are:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Disclosure}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A disclosure occurs when a person or an organisation recognises or
+    learns somethingthat they did not know already about another person
+    or organisation, via released data.
+  \end{itemize}
+\end{itemize}
+
+\pause
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Re-identification risk}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Re-identification risk is the risk that an intruder can link a
+    record in the released data to a specific individual in the
+    population.
+  \end{itemize}
+\end{itemize}
+
+\pause
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data utility}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Data utility is the usefulness of the data for the intended purpose.
+  \end{itemize}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Disclosure}
-\protect\hypertarget{disclosure}{}
+\phantomsection\label{disclosure}
 A disclosure occurs when a person or an organisation recognises or
 learns something that they did not know already about another person or
 organisation, via released data.
@@ -325,7 +390,27 @@ Types of disclosure risk:
 [(1)]
 \tightlist
 \item
-  Identity disclosure
+  \textbf{Identity disclosure}
+\item
+  \textbf{Attribute disclosure}
+\item
+  \textbf{Inferential disclosure}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Disclosure}
+\phantomsection\label{disclosure-1}
+A disclosure occurs when a person or an organisation recognises or
+learns something that they did not know already about another person or
+organisation, via released data.
+
+Types of disclosure risk:
+
+\begin{enumerate}
+[(1)]
+\tightlist
+\item
+  \textbf{Identity disclosure}
 \end{enumerate}
 
 \begin{longtable}[]{@{}cccc@{}}
@@ -342,7 +427,7 @@ Salzburg & 50 & Male & Professor \\
 \setcounter{enumi}{1}
 \tightlist
 \item
-  Attribute disclosure
+  \textbf{Attribute disclosure}
 \end{enumerate}
 
 \begin{longtable}[]{@{}lccc@{}}
@@ -355,34 +440,26 @@ Non Football fan & 93 & 85 & 178 \\
 Total & 115 & 85 & 200 \\
 \bottomrule\noalign{}
 \end{longtable}
-
-\begin{enumerate}
-[(1)]
-\setcounter{enumi}{2}
-\tightlist
-\item
-  Inferential disclosure
-\end{enumerate}
 \end{frame}
 
 \begin{frame}{Risk and utility}
-\protect\hypertarget{risk-and-utility}{}
+\phantomsection\label{risk-and-utility}
 SDC seeks to optimise the trade-off between the disclosure risk and the
 utility of the protected released data.
 
 \begin{itemize}
 \item
-  Risk: the probability of a disclosure event occurring.
+  \textbf{Risk}: the probability of a disclosure event occurring.
 \item
-  Utility: the usefulness of the data for the intended purpose.
-\item
-  The goal is to find a balance between risk and utility.
+  \textbf{Utility}: the usefulness of the data for the intended purpose.
 \end{itemize}
+
+The goal is to find a balance between risk and utility.
 \end{frame}
 
 \begin{frame}{Risk-utility trade-off}
-\protect\hypertarget{risk-utility-trade-off}{}
-\begin{figure}
+\phantomsection\label{risk-utility-trade-off}
+\begin{figure}[H]
 
 {\centering \includegraphics[width=0.5\textwidth,height=\textheight]{gallery/R-U confidentiality map.png}
 
@@ -390,86 +467,111 @@ utility of the protected released data.
 
 \caption{R-U confidentiality map (Duncan et al.,2001)}
 
-\end{figure}
+\end{figure}%
 \end{frame}
 
 \begin{frame}{k-anonymity}
-\protect\hypertarget{k-anonymity}{}
+\phantomsection\label{k-anonymity}
 A data set is said to satisfy k-anonymity for k \textgreater{} 1 if, for
 each combination of values of quasi-identifiers (e.g.~name, address,
 age, gender, etc.), at least k records exist in the data set sharing
 that combination.
 
-\begin{figure}
+Ensures that each record is indistinguishable from at least k-1 other
+records with respect to the quasi-identifiers.
 
-{\centering \includegraphics[width=0.5\textwidth,height=\textheight]{gallery/R-U confidentiality map.png}
+More robust aproaches:
 
-}
-
-\caption{R-U confidentiality map (Duncan et al.,2001)}
-
-\end{figure}
+\begin{itemize}
+\item
+  \textbf{l-Diversity} Extends k-anonymity by ensuring that the
+  sensitive attribute has at least l well-represented values
+\item
+  \textbf{t-Closeness} Ensures that the distribution of the sensitive
+  attribute in any equivalence class is close to the distribution in the
+  entire dataset
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Disclosure risk}
-\protect\hypertarget{disclosure-risk}{}
+\phantomsection\label{disclosure-risk}
 A unit is at risk of disclosure when it cannot be confused with several
 other units
+
+\begin{itemize}
+\item
+  \color{red}{XXX}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Re-identification risk}
-\protect\hypertarget{re-identification-risk}{}
+\phantomsection\label{re-identification-risk}
 \begin{itemize}
 \item
   \color{red}{attacker scenarios and risk measures in more detail using examples}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{k-anonymity}
-\protect\hypertarget{k-anonymity-1}{}
-A data set is said to satisfy k-anonymity for k \textgreater{} 1 if, for
-each combination of values of quasi-identifiers (e.g.~name, address,
-age, gender, etc.), at least k records exist in the data set sharing
-that combination.
-\end{frame}
-
 \begin{frame}{Variables}
-\protect\hypertarget{variables}{}
+\phantomsection\label{variables}
 \begin{enumerate}
-\tightlist
 \item
-  Identifiers
+  \textbf{\emph{Identifiers}} - variables that can directly identify an
+  individual
 \item
-  Quasi-identifiers or key variables
+  \textbf{\emph{Quasi-identifiers}} or \textbf{key variables} - these
+  variables don't identify individuals on their own but can do so when
+  combined with other quasi-identifiers
 \item
-  Confidential outcome variables
+  \textbf{Confidential outcome variables} - variables that contain
+  sensitive information that should be protected
 \item
-  Non-confidential outcome variables
+  \textbf{Non-confidential outcome variables} - these are variables that
+  are not sensitive and don't risk the privacy of individuals if
+  disclosed
 \end{enumerate}
 \end{frame}
 
 \begin{frame}{Disclosure control methods}
-\protect\hypertarget{disclosure-control-methods}{}
+\phantomsection\label{disclosure-control-methods}
 \begin{enumerate}
 \tightlist
 \item
-  Masking original data
+  \textbf{Masking original data}
 
   \begin{enumerate}
   [i.]
   \tightlist
   \item
-    Non-perturbative masking.
+    \textbf{Non-perturbative masking} - Methods that alter data to hide
+    identities without changing its actual values
   \item
-    Perturbative masking.
+    \textbf{Perturbative masking} - Methods that add noise or alter data
+    values to prevent identification
   \end{enumerate}
 \item
-  Generating synthetic data
+  \textbf{Generating synthetic data}
+
+  \begin{enumerate}
+  [i.]
+  \tightlist
+  \item
+    \textbf{Parametric methods} - Techniques that use statistical models
+    based on the data's distribution to generate synthetic data.
+  \item
+    \textbf{Non-parametric methods} Techniques that do not assume an
+    underlying distribution, using methods like bootstrapping to
+    generate synthetic data.
+  \item
+    \textbf{Generative Adversarial Networks (GANs)} Advanced machine
+    learning models that generate highly realistic synthetic data by
+    training two neural networks in tandem.
+  \end{enumerate}
 \end{enumerate}
 \end{frame}
 
 \begin{frame}{Packages for SDC - Microdata (Unit-level data)}
-\protect\hypertarget{packages-for-sdc---microdata-unit-level-data}{}
+\phantomsection\label{packages-for-sdc---microdata-unit-level-data}
 \href{https://cran.r-project.org/web/packages/sdcMicro/index.html}{\color{blue}\underline{\textbf{sdcMicro}}}
 can be used to anonymize data, i.e.~to create anonymized files for
 public and scientific use. It implements a wide range of methods for
@@ -493,7 +595,7 @@ when the data does not collected with a~complex sampling design.
 \end{frame}
 
 \begin{frame}{Packages for SDC - Tabular data (Aggregated data)}
-\protect\hypertarget{packages-for-sdc---tabular-data-aggregated-data}{}
+\phantomsection\label{packages-for-sdc---tabular-data-aggregated-data}
 \href{https://cran.r-project.org/web/packages/sdcTable/index.html}{\color{blue}\underline{\textbf{sdcTable}}}
 can be used to provide confidential (hierarchical) tabular data. It
 includes the HITAS and the HYPERCUBE technique and uses linear
@@ -517,7 +619,7 @@ elimination secondary suppression algorithm.
 \end{frame}
 
 \begin{frame}{Non-perturbation methods}
-\protect\hypertarget{non-perturbation-methods}{}
+\phantomsection\label{non-perturbation-methods}
 Non-perturbative masking does not rely on distortion of the original
 data but on partial suppressions or reductions of detail.
 
@@ -540,7 +642,7 @@ Local suppression & & X \\
 \end{frame}
 
 \begin{frame}{sdcMicro}
-\protect\hypertarget{sdcmicro}{}
+\phantomsection\label{sdcmicro}
 \begin{itemize}
 \item
   sdcMicro is an R package for statistical disclosure control.
@@ -552,8 +654,8 @@ Local suppression & & X \\
 \end{frame}
 
 \begin{frame}{sdcMicro}
-\protect\hypertarget{sdcmicro-1}{}
-\begin{figure}
+\phantomsection\label{sdcmicro-1}
+\begin{figure}[H]
 
 {\centering \includegraphics[width=0.55\textwidth,height=\textheight]{gallery/sdcMicro.png}
 
@@ -562,11 +664,11 @@ Local suppression & & X \\
 \caption{Certain procedures in package \emph{sdcMicro} and their
 relationship}
 
-\end{figure}
+\end{figure}%
 \end{frame}
 
 \begin{frame}{Perturbation methods}
-\protect\hypertarget{perturbation-methods}{}
+\phantomsection\label{perturbation-methods}
 \begin{itemize}
 \item
   \begin{itemize}
@@ -577,7 +679,7 @@ relationship}
 \end{frame}
 
 \begin{frame}{Synthetic methods}
-\protect\hypertarget{synthetic-methods}{}
+\phantomsection\label{synthetic-methods}
 \begin{itemize}
 \item
   \color{red}{Introduction to synthetic data}
@@ -587,7 +689,7 @@ relationship}
 \end{frame}
 
 \begin{frame}{Synthetic methods: synthpop}
-\protect\hypertarget{synthetic-methods-synthpop}{}
+\phantomsection\label{synthetic-methods-synthpop}
 \begin{itemize}
 \item
   \color{red}{Generating synthetic data with synthpop}
@@ -597,7 +699,7 @@ relationship}
 \end{frame}
 
 \begin{frame}{Synthetic methods: synthpop}
-\protect\hypertarget{synthetic-methods-synthpop-1}{}
+\phantomsection\label{synthetic-methods-synthpop-1}
 Nowok B, Raab GM, Dibben C (2016). synthpop: Bespoke Creation of
 Synthetic Data in R. Journal of Statistical Software, 74(11), 1-26.
 doi:10.18637/jss.v074.i11. URL
@@ -605,7 +707,7 @@ doi:10.18637/jss.v074.i11. URL
 \end{frame}
 
 \begin{frame}{Synthetic methods: simPop}
-\protect\hypertarget{synthetic-methods-simpop}{}
+\phantomsection\label{synthetic-methods-simpop}
 \begin{itemize}
 \item
   \color{red}{Generating synthetic data with simPop}
@@ -614,8 +716,18 @@ doi:10.18637/jss.v074.i11. URL
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Synthetic methods: simPop}
+\phantomsection\label{synthetic-methods-simpop-1}
+Meindl B, Templ M, Alfons A, Kowarik A (2016). simPop: Simulation of
+Synthetic Popula- tions for Survey Data Considering Auxiliary
+Information. R package version 0.3.0, URL
+\href{https://CRAN.R-project.org/package=simPop}{\color{blue}\underline{\textbf{https://CRAN.R-project.org/package=simPop}}}
+
+Parametric and non-parametric methods.
+\end{frame}
+
 \begin{frame}{Synthetic methods: GANS}
-\protect\hypertarget{synthetic-methods-gans}{}
+\phantomsection\label{synthetic-methods-gans}
 \begin{itemize}
 \item
   \color{red}{Generating synthetic data with GANs}
@@ -625,7 +737,7 @@ doi:10.18637/jss.v074.i11. URL
 \end{frame}
 
 \begin{frame}{}
-\protect\hypertarget{section}{}
+\phantomsection\label{section}
 \centering
 
 \Huge Thank you for your attention\\
