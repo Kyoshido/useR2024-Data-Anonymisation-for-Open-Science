@@ -108,6 +108,12 @@
 %% Set numering of slides
 \setbeamertemplate{navigation symbols}{} 
 \setbeamertemplate{footline}[page number]
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,
+            linkcolor=blue,
+            filecolor=magenta,
+            urlcolor=cyan}
 \titlegraphic{
   \includegraphics[width=2cm]{style/UZH.jpg}
   \hspace*{2cm}~%
@@ -240,7 +246,7 @@ only, and only so long as attribution is given to the creator.
 \begin{frame}{Data Anonymization in which context?}
 \phantomsection\label{data-anonymization-in-which-context}
 This tutorial is about Data Anonymization in the context of the field of
-Statistical Disclosure Control (SDC).
+\textbf{Statistical Disclosure Control} (SDC).
 
 SDC is also known as Statistical disclosure limitation or Disclosure
 avoidance.
@@ -292,7 +298,7 @@ Research data that results from publicly funded research should be
 \item
   therefore replicable, transparent, trustworthy
 \item
-  Principle: as open as possible, as closed as necessary
+  Principle: \textbf{As open as possible, as closed as necessary}
 \item
   Enables data sharing and collaboration
 \item
@@ -313,13 +319,13 @@ mixtures of tools.
 \begin{itemize}
 \tightlist
 \item
-  Macrodata (Tabular data)
+  \textbf{Macrodata} (Tabular data)
 \item
-  Microdata
+  \textbf{Microdata}
 \item
-  Dynamic databases
+  \textbf{Dynamic databases}
 \item
-  Statistical analyses
+  \textbf{Statistical analyses}
 \end{itemize}
 
 \vspace{1cm}
@@ -390,20 +396,19 @@ Types of disclosure risk:
 [(1)]
 \tightlist
 \item
-  \textbf{Identity disclosure}
+  \textbf{Identity disclosure} Revealing the identity of an individual.
+  \vspace{0.5cm}
 \item
-  \textbf{Attribute disclosure}
+  \textbf{Attribute disclosure} Revealing sensitive attributes of an
+  individual. \vspace{0.5cm}
 \item
-  \textbf{Inferential disclosure}
+  \textbf{Inferential disclosure} Making inferences about an individual
+  based on the released data.
 \end{enumerate}
 \end{frame}
 
 \begin{frame}{Disclosure}
 \phantomsection\label{disclosure-1}
-A disclosure occurs when a person or an organisation recognises or
-learns something that they did not know already about another person or
-organisation, via released data.
-
 Types of disclosure risk:
 
 \begin{enumerate}
@@ -413,14 +418,17 @@ Types of disclosure risk:
   \textbf{Identity disclosure}
 \end{enumerate}
 
-\begin{longtable}[]{@{}cccc@{}}
-\toprule\noalign{}
-Residency & Age & Sex & Occupation \\
-\midrule\noalign{}
-\endhead
-Salzburg & 50 & Male & Professor \\
-\bottomrule\noalign{}
-\end{longtable}
+\vspace{-2em}
+\begin{table}[ht] 
+\centering
+\begin{tabular}[t]{lccc}
+\toprule
+Residency&Age&Sex&Occupation\\
+\midrule
+Salzburg&50&Male&Professor\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{enumerate}
 [(1)]
@@ -430,16 +438,19 @@ Salzburg & 50 & Male & Professor \\
   \textbf{Attribute disclosure}
 \end{enumerate}
 
-\begin{longtable}[]{@{}lccc@{}}
-\toprule\noalign{}
-Group & Males & Females & Total \\
-\midrule\noalign{}
-\endhead
-Football fans & 22 & 0 & 22 \\
-Non Football fan & 93 & 85 & 178 \\
-Total & 115 & 85 & 200 \\
-\bottomrule\noalign{}
-\end{longtable}
+\vspace{-2em}
+\begin{table}[ht]
+\centering
+\begin{tabular}[t]{lccc}
+\toprule
+Group&Males&Females&Total\\
+\midrule
+Football fans&22&0&22\\
+Non Football fan&93&85&178\\
+Total&115&85&200\\
+\bottomrule
+\end{tabular}
+\end{table}
 \end{frame}
 
 \begin{frame}{Risk and utility}
@@ -470,15 +481,21 @@ The goal is to find a balance between risk and utility.
 \end{figure}%
 \end{frame}
 
-\begin{frame}{k-anonymity}
-\phantomsection\label{k-anonymity}
-A data set is said to satisfy k-anonymity for k \textgreater{} 1 if, for
-each combination of values of quasi-identifiers (e.g.~name, address,
-age, gender, etc.), at least k records exist in the data set sharing
-that combination.
+\begin{frame}{Disclosure risk}
+\phantomsection\label{disclosure-risk}
+A unit is at risk of disclosure when it cannot be confused with several
+other units in the data set.
 
-Ensures that each record is indistinguishable from at least k-1 other
-records with respect to the quasi-identifiers.
+\begin{itemize}
+\item
+  \textbf{k-anonymity} A data set is said to satisfy k-anonymity for k
+  \textgreater{} 1 if, for each combination of values of
+  quasi-identifiers (e.g.~name, address, age, gender, etc.), at least k
+  records exist in the data set sharing that combination.
+\item
+  Ensures that each record is indistinguishable from at least k-1 other
+  records with respect to the quasi-identifiers.
+\end{itemize}
 
 More robust aproaches:
 
@@ -493,35 +510,39 @@ More robust aproaches:
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Disclosure risk}
-\phantomsection\label{disclosure-risk}
-A unit is at risk of disclosure when it cannot be confused with several
-other units
+\begin{frame}{Attacker Scenarios}
+\phantomsection\label{attacker-scenarios}
+\textbf{Data Intruder}: An attacker who tries to re-identify individuals
+using the anonymized dataset and auxiliary information. For example,
+consider a dataset of anonymized medical records. An intruder might use
+publicly available information, like voter registration lists, to link
+unique combinations of quasi-identifiers (such as age, gender, and zip
+code) to re-identify individuals.
 
-\begin{itemize}
-\item
-  \color{red}{XXX}
-\end{itemize}
-\end{frame}
+\textbf{Data Linkage}: This scenario involves an attacker who combines
+multiple datasets to enhance the chances of re-identification. For
+example, if an attacker has access to an anonymized dataset from a
+hospital and another dataset from a social media platform, they might
+link these datasets through common quasi-identifiers to re-identify
+patients.
 
-\begin{frame}{Re-identification risk}
-\phantomsection\label{re-identification-risk}
-\begin{itemize}
-\item
-  \color{red}{attacker scenarios and risk measures in more detail using examples}
-\end{itemize}
+\textbf{Background Knowledge}: An attacker might use their own knowledge
+about certain individuals to identify them in a dataset. For example, if
+someone knows a particular person's age, job title, and city, they might
+find a matching record in an anonymized employment dataset, thereby
+re-identifying that individual.
 \end{frame}
 
 \begin{frame}{Variables}
 \phantomsection\label{variables}
 \begin{enumerate}
 \item
-  \textbf{\emph{Identifiers}} - variables that can directly identify an
+  \textbf{Identifiers} - variables that can directly identify an
   individual
 \item
-  \textbf{\emph{Quasi-identifiers}} or \textbf{key variables} - these
-  variables don't identify individuals on their own but can do so when
-  combined with other quasi-identifiers
+  \textbf{Quasi-identifiers} or \textbf{key variables} - these variables
+  don't identify individuals on their own but can do so when combined
+  with other quasi-identifiers
 \item
   \textbf{Confidential outcome variables} - variables that contain
   sensitive information that should be protected
@@ -623,22 +644,20 @@ elimination secondary suppression algorithm.
 Non-perturbative masking does not rely on distortion of the original
 data but on partial suppressions or reductions of detail.
 
-\begin{longtable}[]{@{}lcc@{}}
-\caption{Non-perturbative methods vs.~data types.}\tabularnewline
-\toprule\noalign{}
-Method & Continuous data & Categorical data \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-Method & Continuous data & Categorical data \\
-\midrule\noalign{}
-\endhead
-Sampling & & X \\
-Global recoding & X & X \\
-Top and bottom coding & X & X \\
-Local suppression & & X \\
-\bottomrule\noalign{}
-\end{longtable}
+\begin{table}[ht]   
+\centering  
+\begin{tabular}[t]{lccc}    
+\toprule    
+ Method & Continuous data & Categorical data&\\ 
+\midrule    
+ Sampling  & & X &\\    
+ Global recoding & X & X &\\    
+ Top and bottom coding& X & X &\\   
+ Local suppression & & X &\\    
+\bottomrule 
+\end{tabular}   
+\caption{Non-perturbative methods vs. data types}   
+\end{table}
 \end{frame}
 
 \begin{frame}{sdcMicro}
@@ -671,10 +690,7 @@ relationship}
 \phantomsection\label{perturbation-methods}
 \begin{itemize}
 \item
-  \begin{itemize}
-  \item
-    \color{red}{sdcMicro}
-  \end{itemize}
+  \color{red}{sdcMicro}
 \end{itemize}
 \end{frame}
 

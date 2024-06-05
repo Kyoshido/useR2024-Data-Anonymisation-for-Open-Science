@@ -6,7 +6,7 @@ author:
   - Marko Miletić\inst{3}
   - Oscar Thees\inst{2}
   - Alžběta Beranová\inst{4}
-date: "8.July 2024"
+date: "8 July 2024"
 date-format: long
 institute: 
   - \inst{1} University of Zurich   \inst{2} University of Applied Sciences Northwestern Switzerland
@@ -19,7 +19,13 @@ format:
       font: professionalfonts
       include-in-header: 
        - "styles.tex"
-      header-includes: | 
+      header-includes: |
+       \usepackage{booktabs}
+       \usepackage{hyperref}
+       \hypersetup{colorlinks=true, 
+                   linkcolor=blue, 
+                   filecolor=magenta, 
+                   urlcolor=cyan}
        \titlegraphic{
          \includegraphics[width=2cm]{style/UZH.jpg}
          \hspace*{2cm}~%
@@ -71,7 +77,7 @@ This license enables reusers to copy and distribute the material in any medium o
 <!---------------------------------------------------------------------------->
 ## Data Anonymization in which context?
 
-This tutorial is about Data Anonymization in the context of the field of Statistical Disclosure Control (SDC).
+This tutorial is about Data Anonymization in the context of the field of **Statistical Disclosure Control** (SDC).
 
 SDC is also known as Statistical disclosure limitation or Disclosure avoidance.
 
@@ -105,7 +111,7 @@ Research data that results from publicly funded research should be **FAIR**: \ne
 **findable**, **accessible**, **interoperable**, **reusable** 
 
 - therefore replicable, transparent, trustworthy
-- Principle: as open as possible, as closed as necessary
+- Principle: **As open as possible, as closed as necessary**
 
 - Enables data sharing and collaboration
 - Facilitates reproducible research
@@ -119,10 +125,10 @@ Research data that results from publicly funded research should be **FAIR**: \ne
 
 Different outputs require different approaches to SDC and different mixtures of tools.
 
-- Macrodata (Tabular data)
-- Microdata
-- Dynamic databases
-- Statistical analyses
+- **Macrodata** (Tabular data)
+- **Microdata**
+- **Dynamic databases**
+- **Statistical analyses**
 
 \vspace{1cm}
 
@@ -134,19 +140,19 @@ This tutorial will focus on Microdata and Tabular data.
 
 Key Concepts are:
 
-* **Disclosure**
+- **Disclosure**
     + A disclosure occurs when a person or an organisation recognises or learns somethingthat they did not know already about another person or organisation, via released data.
   
 . . .    
     
-* **Re-identification risk**
+- **Re-identification risk**
     + Re-identification risk is the risk that an intruder can link a record in the released data to a specific individual in the population.
 
 . . .
 
-* **Data utility**
+- **Data utility**
     + Data utility is the usefulness of the data for the intended purpose.
-  
+
 <!---------------------------------------------------------------------------->
 ## Disclosure  
   
@@ -154,30 +160,46 @@ A disclosure occurs when a person or an organisation recognises or learns someth
 
 Types of disclosure risk: 
 
-(1) **Identity disclosure**
-(2) **Attribute disclosure**
-(3) **Inferential disclosure**
-  
+(1) **Identity disclosure** Revealing the identity of an individual.
+\vspace{0.5cm}
+(2) **Attribute disclosure** Revealing sensitive attributes of an individual.
+\vspace{0.5cm}
+(3) **Inferential disclosure** Making inferences about an individual based on the released data.
+
 <!---------------------------------------------------------------------------->
 ## Disclosure
-
-A disclosure occurs when a person or an organisation recognises or learns something that they did not know already about another person or organisation, via released data.
-
+ 
 Types of disclosure risk: 
 
 (1) **Identity disclosure**
 
-| Residency	| Age | Sex  | Occupation | 
-| :-------:	| :-: | :--: | :--------: | 
-| Salzburg	| 50	| Male | Professor  | 
-            
+\vspace{-2em}
+\begin{table}[ht] 
+\centering
+\begin{tabular}[t]{lccc}
+\toprule
+Residency&Age&Sex&Occupation\\
+\midrule
+Salzburg&50&Male&Professor\\
+\bottomrule
+\end{tabular}
+\end{table}
+
 (2) **Attribute disclosure**
 
-| Group            | Males | Females | Total |
-| ---------------- | :---: | :-----: | :---: |
-| Football fans    | 22    | 0       | 22    |
-| Non Football fan | 93    | 85      | 178   |   
-| Total            | 115   | 85      | 200   |
+\vspace{-2em}
+\begin{table}[ht]
+\centering
+\begin{tabular}[t]{lccc}
+\toprule
+Group&Males&Females&Total\\
+\midrule
+Football fans&22&0&22\\
+Non Football fan&93&85&178\\
+Total&115&85&200\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 <!---------------------------------------------------------------------------->
 ##  Risk and utility
@@ -196,12 +218,15 @@ The goal is to find a balance between risk and utility.
 ![R-U confidentiality map (Duncan et al.,2001)](gallery/R-U confidentiality map.png){width=50%}
 
 <!---------------------------------------------------------------------------->
-##  k-anonymity
+## Disclosure risk
 
+A unit is at risk of disclosure when it cannot be confused with several other units in the data set.
+
+- **k-anonymity** 
 A data set is said to satisfy k-anonymity for k > 1 if, for each combination of
 values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k records exist in the data set sharing that combination.
 
-Ensures that each record is indistinguishable from at least k-1 other records with respect to the quasi-identifiers.
+-  Ensures that each record is indistinguishable from at least k-1 other records with respect to the quasi-identifiers.
 
 More robust aproaches: 
 
@@ -210,23 +235,20 @@ More robust aproaches:
 - **t-Closeness** Ensures that the distribution of the sensitive attribute in any equivalence class is close to the distribution in the entire dataset
 
 <!---------------------------------------------------------------------------->
-## Disclosure risk
+## Attacker Scenarios
 
-A unit is at risk of disclosure when it cannot be confused with several other units
+**Data Intruder**: An attacker who tries to re-identify individuals using the anonymized dataset and auxiliary information. For example, consider a dataset of anonymized medical records. An intruder might use publicly available information, like voter registration lists, to link unique combinations of quasi-identifiers (such as age, gender, and zip code) to re-identify individuals.
 
-- \color{red}{XXX}
+**Data Linkage**: This scenario involves an attacker who combines multiple datasets to enhance the chances of re-identification. For example, if an attacker has access to an anonymized dataset from a hospital and another dataset from a social media platform, they might link these datasets through common quasi-identifiers to re-identify patients.
 
-<!---------------------------------------------------------------------------->
-## Re-identification risk 
-
-- \color{red}{attacker scenarios and risk measures in more detail using examples}
+**Background Knowledge**: An attacker might use their own knowledge about certain individuals to identify them in a dataset. For example, if someone knows a particular person’s age, job title, and city, they might find a matching record in an anonymized employment dataset, thereby re-identifying that individual.
 
 <!---------------------------------------------------------------------------->
 ## Variables 
 
-1. ***Identifiers***  - variables that can directly identify an individual
+1. **Identifiers**  - variables that can directly identify an individual
 
-2.	***Quasi-identifiers*** or **key variables**   - these variables don't identify individuals on their own but can do so when combined with other quasi-identifiers
+2.	**Quasi-identifiers** or **key variables**   - these variables don't identify individuals on their own but can do so when combined with other quasi-identifiers
 
 3. **Confidential outcome variables** - variables that contain sensitive information that should be protected
 
@@ -277,15 +299,20 @@ can be used to protect tables by suppression using the Gaussian elimination seco
 
 Non-perturbative masking does not rely on distortion of the original data but on partial suppressions or reductions of detail.
 
-
-| Method | Continuous data | Categorical data| 
-|--------|:---------------:|:---------------:|
-| Sampling  | | X | 
-| Global recoding | X | X | 
-| Top and bottom coding| X | X | 
-| Local suppression | | X | 
-
-: Non-perturbative methods vs. data types.
+\begin{table}[ht]	
+\centering	
+\begin{tabular}[t]{lccc}	
+\toprule	
+ Method & Continuous data & Categorical data&\\	
+\midrule	
+ Sampling  & & X &\\	
+ Global recoding & X & X &\\	
+ Top and bottom coding& X & X &\\	
+ Local suppression & & X &\\	
+\bottomrule	
+\end{tabular}	
+\caption{Non-perturbative methods vs. data types}	
+\end{table}	
 
 <!---------------------------------------------------------------------------->
 ## sdcMicro
@@ -300,10 +327,9 @@ Non-perturbative masking does not rely on distortion of the original data but on
 
 ![Certain procedures in package *sdcMicro* and their relationship](gallery/sdcMicro.png){width=55%}
 
-
 <!---------------------------------------------------------------------------->
 ## Perturbation methods
-- - \color{red}{sdcMicro}
+- \color{red}{sdcMicro}
 
 <!---------------------------------------------------------------------------->
 ## Synthetic methods
@@ -341,11 +367,6 @@ Parametric and non-parametric methods.
 - \color{red}{Generating synthetic data with GANs}
 - \Huge \color{red}{for Marco}
 
-
-
-
-
-
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -364,3 +385,8 @@ Parametric and non-parametric methods.
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
+
+
+
+
+
