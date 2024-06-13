@@ -101,7 +101,9 @@ simPop <- simContinuous(
   alpha = NULL, #0.05,
   residuals = TRUE
 ) 
+```
 
+```{r continious}
 simPop <- simContinuous(
   simPop,
   method = "multinom",
