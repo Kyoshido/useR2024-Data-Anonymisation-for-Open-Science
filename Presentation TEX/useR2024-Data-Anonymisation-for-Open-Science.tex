@@ -3,10 +3,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[
-	11pt, % Set the default font size, options include: 8pt, 9pt, 10pt, 11pt, 12pt, 14pt, 17pt, 20pt
-	%t, % Uncomment to vertically align all slide content to the top of the slide, rather than the default centered
-	%aspectratio=169, % Uncomment to set the aspect ratio to a 16:9 ratio which matches the aspect ratio of 1080p and 4K screens and projectors
-]{beamer}
+	aspectratio = 169
+ ]{beamer}
+%11pt, % Set the default font size, options include: 8pt, 9pt, 10pt, 11pt, 12pt, 14pt, 17pt, 20pt
+%t, % Uncomment to vertically align all slide content to the top of the slide, rather than the default centered
 
 % Theme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usetheme{default}
@@ -27,8 +27,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Data Anonymization for Open Science}
 \subtitle{useR! 2024}
-\author{Jiří~Novák\inst{1,2} \and Marko~Miletić\inst{3} \newline
-\and Oscar~Thees\inst{2} \and Alžběta~Beranová\inst{4}}
+\author{Jiří~Novák\inst{1,2} \and Marko~Miletić\inst{3} \and Oscar~Thees\inst{2} \and Alžběta~Beranová\inst{4}}
 \date{July 8, 2024}
 \institute{\inst{1} University of Zurich \inst{2} University of Applied
 Sciences Northwestern Switzerland \and \inst{3} Bern University of
@@ -67,17 +66,19 @@ only, and only so long as attribution is given to the creator.
 
 % Table of Content %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Table of Content}
+
 \Large
 \begin{enumerate}
   \item General methodological overview
   \item Disclosure control methods
   \begin{enumerate}[A.]
-    \large
+    \Large
     \item Non-perturbation methods
     \item Perturbation methods
     \item Synthetic methods
+    
     \begin{itemize}
-    \large
+    \Large
       \item Generating synthetic data using synthpop
       \item Generating synthetic data using simPop
       \item Generating synthetic data with GANs
@@ -88,7 +89,7 @@ only, and only so long as attribution is given to the creator.
 
 % Data Anonymization in which context? %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Data Anonymization in which context?}
-\phantomsection\label{data-anonymization-in-which-context}
+
 This tutorial is about Data Anonymization in the context of the field of
 \textbf{Statistical Disclosure Control} (SDC).
 
@@ -105,7 +106,7 @@ entities.
 
 % Importance of Data Anonymization %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Importance of Data Anonymization}
-\phantomsection\label{importance-of-data-anonymization}
+
 There are several main reasons:
 
 \begin{enumerate}
@@ -132,7 +133,7 @@ There are several main reasons:
 
 % Relevance to Open Science %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Relevance to Open Science}
-\phantomsection\label{relevance-to-open-science}
+
 \textbf{Open Science}, \textbf{Open Access}, \textbf{Open Data} are
 important trends in the scientific community.
 
@@ -159,7 +160,7 @@ Research data that results from publicly funded research should be
 
 % Outputs to protect %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Outputs to protect}
-\phantomsection\label{outputs-to-protect}
+
 Different outputs require different approaches to SDC and different
 mixtures of tools.
 
@@ -184,7 +185,7 @@ data.
 
 % Key Concepts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Key Concepts}
-\phantomsection\label{key-concepts}
+
 Key Concepts are:
 
 \begin{itemize}
@@ -234,7 +235,7 @@ Key Concepts are:
 
 % Disclosure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Disclosure}
-\phantomsection\label{disclosure}
+
 A disclosure occurs when a person or an organisation recognises or
 learns something that they did not know already about another person or
 organisation, via released data.
@@ -258,7 +259,7 @@ Types of disclosure risk:
 
 % Disclosure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Disclosure}
-\phantomsection\label{disclosure-1}
+
 Types of disclosure risk:
 
 \begin{enumerate}
@@ -305,7 +306,7 @@ Total&115&85&200\\
 
 % Risk and utility %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Risk and utility}
-\phantomsection\label{risk-and-utility}
+
 SDC seeks to optimise the trade-off between the disclosure risk and the
 utility of the protected released data.
 
@@ -321,19 +322,19 @@ The goal is to find a balance between risk and utility.
 
 % Risk-utility trade-off %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Risk-utility trade-off}
-\phantomsection\label{risk-utility-trade-off}
-\begin{figure}[H]
 
-{\centering \includegraphics[width=0.5\textwidth,height=\textheight]{gallery/R-U confidentiality map.png}}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.55\linewidth
+                    ]{Presentation//gallery/R-U confidentiality map.png}
+    \caption{R-U confidentiality map (Duncan et al.,2001)}
+\end{figure}
 
-\caption{R-U confidentiality map (Duncan et al.,2001)}
-
-\end{figure}%
 \end{frame}
 
 % Disclosure risk %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Disclosure risk}
-\phantomsection\label{disclosure-risk}
+
 A unit is at risk of disclosure when it cannot be confused with several
 other units in the data set.
 
@@ -363,7 +364,7 @@ More robust approaches:
 
 % Attacker Scenarios %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Attacker Scenarios}
-\phantomsection\label{attacker-scenarios}
+
 \textbf{Data Intruder}: An attacker who tries to re-identify individuals
 using the anonymized dataset and auxiliary information. For example,
 consider a dataset of anonymized medical records. An intruder might use
@@ -387,7 +388,7 @@ re-identifying that individual.
 
 % Variables %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Variables}
-\phantomsection\label{variables}
+
 \begin{enumerate}
 \item
   \textbf{Identifiers} - variables that can directly identify an
@@ -408,7 +409,7 @@ re-identifying that individual.
 
 % Disclosure control methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Disclosure control methods}
-\phantomsection\label{disclosure-control-methods}
+
 \begin{enumerate}
 \tightlist
 \item
@@ -447,7 +448,7 @@ re-identifying that individual.
 
 % Packages for SDC - Microdata (Unit-level data) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Packages for SDC - Microdata (Unit-level data)}
-\phantomsection\label{packages-for-sdc---microdata-unit-level-data}
+
 \href{https://cran.r-project.org/web/packages/sdcMicro/index.html}{\color{blue}\underline{\textbf{sdcMicro}}}
 can be used to anonymize data, i.e.~to create anonymized files for
 public and scientific use. It implements a wide range of methods for
@@ -472,7 +473,7 @@ when the data does not collected with a~complex sampling design.
 
 % Packages for SDC - Tabular data (Aggregated data) %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Packages for SDC - Tabular data (Aggregated data)}
-\phantomsection\label{packages-for-sdc---tabular-data-aggregated-data}
+
 \href{https://cran.r-project.org/web/packages/sdcTable/index.html}{\color{blue}\underline{\textbf{sdcTable}}}
 can be used to provide confidential (hierarchical) tabular data. It
 includes the HITAS and the HYPERCUBE technique and uses linear
@@ -497,7 +498,7 @@ elimination secondary suppression algorithm.
 
 % Non-perturbation methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Non-perturbation methods}
-\phantomsection\label{non-perturbation-methods}
+
 Non-perturbative masking does not rely on distortion of the original
 data but on partial suppressions or reductions of detail.
 
@@ -519,7 +520,7 @@ data but on partial suppressions or reductions of detail.
 
 % sdcMicro %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{sdcMicro}
-\phantomsection\label{sdcmicro}
+
 \begin{itemize}
 \item
   sdcMicro is an R package for statistical disclosure control.
@@ -532,20 +533,20 @@ data but on partial suppressions or reductions of detail.
 
 % sdcMicro %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{sdcMicro}
-\phantomsection\label{sdcmicro-1}
 
-\begin{figure}[H]
-{\centering \includegraphics[width=0.55\textwidth,height=\textheight]{gallery/sdcMicro.png}
-}
-\caption{Certain procedures in package \emph{sdcMicro} and their
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth
+                    ]{Presentation//gallery/sdcMicro.png}
+    \caption{Certain procedures in package \emph{sdcMicro} and their
 relationship}
-\end{figure}%
+\end{figure}
 
 \end{frame}
 
 % Perturbation methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Perturbation methods}
-\phantomsection\label{perturbation-methods}
+
 \begin{itemize}
 \item
   \color{red}{sdcMicro}
@@ -554,7 +555,7 @@ relationship}
 
 % Synthetic methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods}
-\phantomsection\label{synthetic-methods}
+
 \begin{itemize}
 \item
   \color{red}{Introduction to synthetic data}
@@ -565,7 +566,7 @@ relationship}
 
 % Synthetic methods: synthpop %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: synthpop}
-\phantomsection\label{synthetic-methods-synthpop}
+
 \begin{itemize}
 \item
   \color{red}{Generating synthetic data with synthpop}
@@ -576,7 +577,7 @@ relationship}
 
 % Synthetic methods: synthpop %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: synthpop}
-\phantomsection\label{synthetic-methods-synthpop-1}
+
 Nowok B, Raab GM, Dibben C (2016). synthpop: Bespoke Creation of
 Synthetic Data in R. Journal of Statistical Software, 74(11), 1-26.
 doi:10.18637/jss.v074.i11. URL
@@ -585,7 +586,7 @@ doi:10.18637/jss.v074.i11. URL
 
 % Synthetic methods: simPop %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: simPop}
-\phantomsection\label{synthetic-methods-simpop}
+
 \begin{itemize}
 \item
   \color{red}{Generating synthetic data with simPop}
@@ -596,7 +597,7 @@ doi:10.18637/jss.v074.i11. URL
 
 % Synthetic methods: simPop %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: simPop}
-\phantomsection\label{synthetic-methods-simpop-1}
+
 Meindl B, Templ M, Alfons A, Kowarik A (2016). simPop: Simulation of
 Synthetic Popula- tions for Survey Data Considering Auxiliary
 Information. R package version 0.3.0, URL
@@ -607,7 +608,7 @@ Parametric and non-parametric methods.
 
 % Synthetic methods: GANS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: GANS}
-\phantomsection\label{synthetic-methods-gans}
+
 \begin{itemize}
 \item
   \color{red}{Generating synthetic data with GANs}
@@ -620,7 +621,6 @@ Parametric and non-parametric methods.
 \begin{frame}[plain]
 
 \centering
-
 \Huge Thank you for your attention\\
 
   \vspace{2em}
