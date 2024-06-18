@@ -1,192 +1,58 @@
-% Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode}{hyperref}
-\PassOptionsToPackage{hyphens}{url}
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \documentclass[
-  ignorenonframetext,
-  aspectratio=169,
+	11pt, % Set the default font size, options include: 8pt, 9pt, 10pt, 11pt, 12pt, 14pt, 17pt, 20pt
+	%t, % Uncomment to vertically align all slide content to the top of the slide, rather than the default centered
+	%aspectratio=169, % Uncomment to set the aspect ratio to a 16:9 ratio which matches the aspect ratio of 1080p and 4K screens and projectors
 ]{beamer}
-\usepackage{pgfpages}
-\setbeamertemplate{caption}[numbered]
-\setbeamertemplate{caption label separator}{: }
-\setbeamercolor{caption name}{fg=normal text.fg}
-\beamertemplatenavigationsymbolsempty
-% Prevent slide breaks in the middle of a paragraph
-\widowpenalties 1 10000
-\raggedbottom
-\setbeamertemplate{part page}{
-  \centering
-  \begin{beamercolorbox}[sep=16pt,center]{part title}
-    \usebeamerfont{part title}\insertpart\par
-  \end{beamercolorbox}
-}
-\setbeamertemplate{section page}{
-  \centering
-  \begin{beamercolorbox}[sep=12pt,center]{part title}
-    \usebeamerfont{section title}\insertsection\par
-  \end{beamercolorbox}
-}
-\setbeamertemplate{subsection page}{
-  \centering
-  \begin{beamercolorbox}[sep=8pt,center]{part title}
-    \usebeamerfont{subsection title}\insertsubsection\par
-  \end{beamercolorbox}
-}
-\AtBeginPart{
-  \frame{\partpage}
-}
-\AtBeginSection{
-  \ifbibliography
-  \else
-    \frame{\sectionpage}
-  \fi
-}
-\AtBeginSubsection{
-  \frame{\subsectionpage}
-}
 
-\usepackage{amsmath,amssymb}
-\usepackage{iftex}
-\ifPDFTeX
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provide euro and other symbols
-\else % if luatex or xetex
-  \usepackage{unicode-math}
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
-\fi
-\usepackage{lmodern}
+% Theme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usetheme{default}
+% Color theme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usecolortheme{whale}
-\ifPDFTeX\else  
-    % xetex/luatex font selection
-\fi
-% Use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\IfFileExists{microtype.sty}{% use microtype if available
-  \usepackage[]{microtype}
-  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
-\makeatletter
-\@ifundefined{KOMAClassName}{% if non-KOMA class
-  \IfFileExists{parskip.sty}{%
-    \usepackage{parskip}
-  }{% else
-    \setlength{\parindent}{0pt}
-    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
-}{% if KOMA class
-  \KOMAoptions{parskip=half}}
-\makeatother
-\usepackage{xcolor}
-\newif\ifbibliography
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Font theme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usefonttheme{default}
 
-
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
-\usepackage{calc} % for calculating minipage widths
-\usepackage{caption}
-% Make caption package work with longtable
-\makeatletter
-\def\fnum@table{\tablename~\thetable}
-\makeatother
-\usepackage{graphicx}
-\makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-% Set default figure placement to htbp
-\makeatletter
-\def\fps@figure{htbp}
-\makeatother
-
-%% Set numering of slides
-\setbeamertemplate{navigation symbols}{} 
-\setbeamertemplate{footline}[page number]
-\usepackage{booktabs}
-\usepackage{hyperref}
-\hypersetup{colorlinks=true,
-            linkcolor=blue,
-            filecolor=magenta,
-            urlcolor=cyan}
-\titlegraphic{
-  \includegraphics[width=2cm]{style/UZH.jpg}
-  \hspace*{2cm}~%
-  \includegraphics[width=2cm]{style/FHNW.png}
-  \hspace*{2cm}~%
-  \includegraphics[width=1cm]{style/BFH.png}
-  }
-\makeatletter
-\@ifpackageloaded{caption}{}{\usepackage{caption}}
-\AtBeginDocument{%
-\ifdefined\contentsname
-  \renewcommand*\contentsname{Table of contents}
-\else
-  \newcommand\contentsname{Table of contents}
-\fi
-\ifdefined\listfigurename
-  \renewcommand*\listfigurename{List of Figures}
-\else
-  \newcommand\listfigurename{List of Figures}
-\fi
-\ifdefined\listtablename
-  \renewcommand*\listtablename{List of Tables}
-\else
-  \newcommand\listtablename{List of Tables}
-\fi
-\ifdefined\figurename
-  \renewcommand*\figurename{Figure}
-\else
-  \newcommand\figurename{Figure}
-\fi
-\ifdefined\tablename
-  \renewcommand*\tablename{Table}
-\else
-  \newcommand\tablename{Table}
-\fi
-}
-\@ifpackageloaded{float}{}{\usepackage{float}}
-\floatstyle{ruled}
-\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
-\floatname{codelisting}{Listing}
-\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
-\@ifpackageloaded{caption}{}{\usepackage{caption}}
-\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
-\makeatother
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
+% Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{booktabs} 
 \usepackage{bookmark}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{xurl}
 
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
-\hypersetup{
-  pdftitle={Data Anonymization for Open Science},
-  pdfauthor={Jiří Novák; Marko Miletić; Oscar Thees; Alžběta Beranová},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-
+% Presentation metadata %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Data Anonymization for Open Science}
 \subtitle{useR! 2024}
-\author{Jiří Novák\inst{1,2} \and Marko Miletić\inst{3} \and Oscar
-Thees\inst{2} \and Alžběta Beranová\inst{4}}
+\author{Jiří~Novák\inst{1,2} \and Marko~Miletić\inst{3} \newline
+\and Oscar~Thees\inst{2} \and Alžběta~Beranová\inst{4}}
 \date{July 8, 2024}
 \institute{\inst{1} University of Zurich \inst{2} University of Applied
 Sciences Northwestern Switzerland \and \inst{3} Bern University of
 Applied Sciences \inst{4} Czech Statistical Office}
 
-\begin{document}
-\frame{\titlepage}
+\titlegraphic{
+   \includegraphics[width=2cm]{style/UZH.jpg}
+   \hspace*{2cm}~%
+   \includegraphics[width=2cm]{style/FHNW.png}
+   \hspace*{2cm}~%
+   \includegraphics[width=1cm]{style/BFH.png}
+   }
 
+% Start of the presentation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% Title %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\titlepage % Output the title slide, automatically created using the text entered in the PRESENTATION INFORMATION block above
+\end{frame}
+
+% License %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \vspace{12em}
 
@@ -199,60 +65,28 @@ medium or format in unadapted form only, for noncommercial purposes
 only, and only so long as attribution is given to the creator.
 \end{frame}
 
-\begin{frame}{About Speakers}
-\phantomsection\label{about-speakers}
-\textbf{Jiří Novák}
-
-\begin{itemize}
-\tightlist
-\item
-  Ph.D.~in Statistics with topic Simulation of Synthetic Microdata
-\item
-  Statistical confidentiality of Czech Census 2021
-\end{itemize}
-
-\pause
-
-\textbf{Marko Miletić}
-
-\begin{itemize}
-\item
-  \color{red}{XXX}
-\item
-  \color{red}{XXX}
-\end{itemize}
-
-\pause
-
-\textbf{Oscar Thees}
-
-\begin{itemize}
-\item
-  \color{red}{XXX}
-\item
-  \color{red}{XXX}
-\end{itemize}
-
-\pause
-
-\textbf{Alžběta Beranová}
-
-\begin{itemize}
-\item
-  \color{red}{XXX}
-\end{itemize}
-\end{frame}
-
+% Table of Content %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Table of Content}
-\phantomsection\label{table-of-content}
 \Large
-
-General methodological overview Disclosure control methods A.
-Non-perturbation methods B. Perturbation methods Break C. Synthetic
-methods - Generating synthetic data using synthpop - Generating
-synthetic data using simPop - Generating synthetic data with GANs
+\begin{enumerate}
+  \item General methodological overview
+  \item Disclosure control methods
+  \begin{enumerate}[A.]
+    \large
+    \item Non-perturbation methods
+    \item Perturbation methods
+    \item Synthetic methods
+    \begin{itemize}
+    \large
+      \item Generating synthetic data using synthpop
+      \item Generating synthetic data using simPop
+      \item Generating synthetic data with GANs
+    \end{itemize}
+  \end{enumerate}
+\end{enumerate}
 \end{frame}
 
+% Data Anonymization in which context? %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Data Anonymization in which context?}
 \phantomsection\label{data-anonymization-in-which-context}
 This tutorial is about Data Anonymization in the context of the field of
@@ -269,6 +103,7 @@ confidential information that can be linked to specific individuals or
 entities.
 \end{frame}
 
+% Importance of Data Anonymization %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Importance of Data Anonymization}
 \phantomsection\label{importance-of-data-anonymization}
 There are several main reasons:
@@ -295,6 +130,7 @@ There are several main reasons:
 \end{enumerate}
 \end{frame}
 
+% Relevance to Open Science %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Relevance to Open Science}
 \phantomsection\label{relevance-to-open-science}
 \textbf{Open Science}, \textbf{Open Access}, \textbf{Open Data} are
@@ -321,6 +157,7 @@ Research data that results from publicly funded research should be
 \href{https://eur-lex.europa.eu/eli/reco/2018/790/oj}{\color{blue}\underline{of scientific information}}
 \end{frame}
 
+% Outputs to protect %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Outputs to protect}
 \phantomsection\label{outputs-to-protect}
 Different outputs require different approaches to SDC and different
@@ -345,6 +182,7 @@ not possible. \newline This tutorial will focus on Microdata and Tabular
 data.
 \end{frame}
 
+% Key Concepts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Key Concepts}
 \phantomsection\label{key-concepts}
 Key Concepts are:
@@ -394,6 +232,7 @@ Key Concepts are:
 \end{itemize}
 \end{frame}
 
+% Disclosure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Disclosure}
 \phantomsection\label{disclosure}
 A disclosure occurs when a person or an organisation recognises or
@@ -417,6 +256,7 @@ Types of disclosure risk:
 \end{enumerate}
 \end{frame}
 
+% Disclosure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Disclosure}
 \phantomsection\label{disclosure-1}
 Types of disclosure risk:
@@ -463,6 +303,7 @@ Total&115&85&200\\
 \end{table}
 \end{frame}
 
+% Risk and utility %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Risk and utility}
 \phantomsection\label{risk-and-utility}
 SDC seeks to optimise the trade-off between the disclosure risk and the
@@ -478,19 +319,19 @@ utility of the protected released data.
 The goal is to find a balance between risk and utility.
 \end{frame}
 
+% Risk-utility trade-off %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Risk-utility trade-off}
 \phantomsection\label{risk-utility-trade-off}
 \begin{figure}[H]
 
-{\centering \includegraphics[width=0.5\textwidth,height=\textheight]{gallery/R-U confidentiality map.png}
-
-}
+{\centering \includegraphics[width=0.5\textwidth,height=\textheight]{gallery/R-U confidentiality map.png}}
 
 \caption{R-U confidentiality map (Duncan et al.,2001)}
 
 \end{figure}%
 \end{frame}
 
+% Disclosure risk %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Disclosure risk}
 \phantomsection\label{disclosure-risk}
 A unit is at risk of disclosure when it cannot be confused with several
@@ -507,7 +348,7 @@ other units in the data set.
   records with respect to the quasi-identifiers.
 \end{itemize}
 
-More robust aproaches:
+More robust approaches:
 
 \begin{itemize}
 \item
@@ -520,6 +361,7 @@ More robust aproaches:
 \end{itemize}
 \end{frame}
 
+% Attacker Scenarios %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Attacker Scenarios}
 \phantomsection\label{attacker-scenarios}
 \textbf{Data Intruder}: An attacker who tries to re-identify individuals
@@ -543,6 +385,7 @@ find a matching record in an anonymized employment dataset, thereby
 re-identifying that individual.
 \end{frame}
 
+% Variables %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Variables}
 \phantomsection\label{variables}
 \begin{enumerate}
@@ -563,6 +406,7 @@ re-identifying that individual.
 \end{enumerate}
 \end{frame}
 
+% Disclosure control methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Disclosure control methods}
 \phantomsection\label{disclosure-control-methods}
 \begin{enumerate}
@@ -601,6 +445,7 @@ re-identifying that individual.
 \end{enumerate}
 \end{frame}
 
+% Packages for SDC - Microdata (Unit-level data) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Packages for SDC - Microdata (Unit-level data)}
 \phantomsection\label{packages-for-sdc---microdata-unit-level-data}
 \href{https://cran.r-project.org/web/packages/sdcMicro/index.html}{\color{blue}\underline{\textbf{sdcMicro}}}
@@ -625,6 +470,7 @@ hierarchical and cluster information (such as households) as well as
 when the data does not collected with a~complex sampling design.
 \end{frame}
 
+% Packages for SDC - Tabular data (Aggregated data) %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Packages for SDC - Tabular data (Aggregated data)}
 \phantomsection\label{packages-for-sdc---tabular-data-aggregated-data}
 \href{https://cran.r-project.org/web/packages/sdcTable/index.html}{\color{blue}\underline{\textbf{sdcTable}}}
@@ -649,6 +495,7 @@ can be used to protect tables by suppression using the Gaussian
 elimination secondary suppression algorithm.
 \end{frame}
 
+% Non-perturbation methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Non-perturbation methods}
 \phantomsection\label{non-perturbation-methods}
 Non-perturbative masking does not rely on distortion of the original
@@ -670,6 +517,7 @@ data but on partial suppressions or reductions of detail.
 \end{table}
 \end{frame}
 
+% sdcMicro %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{sdcMicro}
 \phantomsection\label{sdcmicro}
 \begin{itemize}
@@ -682,20 +530,20 @@ data but on partial suppressions or reductions of detail.
 \end{itemize}
 \end{frame}
 
+% sdcMicro %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{sdcMicro}
 \phantomsection\label{sdcmicro-1}
+
 \begin{figure}[H]
-
 {\centering \includegraphics[width=0.55\textwidth,height=\textheight]{gallery/sdcMicro.png}
-
 }
-
 \caption{Certain procedures in package \emph{sdcMicro} and their
 relationship}
-
 \end{figure}%
+
 \end{frame}
 
+% Perturbation methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Perturbation methods}
 \phantomsection\label{perturbation-methods}
 \begin{itemize}
@@ -704,6 +552,7 @@ relationship}
 \end{itemize}
 \end{frame}
 
+% Synthetic methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods}
 \phantomsection\label{synthetic-methods}
 \begin{itemize}
@@ -714,6 +563,7 @@ relationship}
 \end{itemize}
 \end{frame}
 
+% Synthetic methods: synthpop %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: synthpop}
 \phantomsection\label{synthetic-methods-synthpop}
 \begin{itemize}
@@ -724,6 +574,7 @@ relationship}
 \end{itemize}
 \end{frame}
 
+% Synthetic methods: synthpop %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: synthpop}
 \phantomsection\label{synthetic-methods-synthpop-1}
 Nowok B, Raab GM, Dibben C (2016). synthpop: Bespoke Creation of
@@ -732,6 +583,7 @@ doi:10.18637/jss.v074.i11. URL
 \href{https://www.jstatsoft.org/article/view/v074i11}{\color{blue}\underline{\textbf{https://www.jstatsoft.org/article/view/v074i11}}}
 \end{frame}
 
+% Synthetic methods: simPop %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: simPop}
 \phantomsection\label{synthetic-methods-simpop}
 \begin{itemize}
@@ -742,6 +594,7 @@ doi:10.18637/jss.v074.i11. URL
 \end{itemize}
 \end{frame}
 
+% Synthetic methods: simPop %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: simPop}
 \phantomsection\label{synthetic-methods-simpop-1}
 Meindl B, Templ M, Alfons A, Kowarik A (2016). simPop: Simulation of
@@ -752,6 +605,7 @@ Information. R package version 0.3.0, URL
 Parametric and non-parametric methods.
 \end{frame}
 
+% Synthetic methods: GANS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Synthetic methods: GANS}
 \phantomsection\label{synthetic-methods-gans}
 \begin{itemize}
@@ -762,19 +616,28 @@ Parametric and non-parametric methods.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{}
-\phantomsection\label{section}
+% Last slide %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[plain]
+
 \centering
 
 \Huge Thank you for your attention\\
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{style/SwissAnon.png}
+  \vspace{2em}
+
+  \begin{figure}
+      \centering
+      \includegraphics[width=0.5\linewidth]{style/SwissAnon.png}
+  \end{figure}
 
 \large Swiss Data Anonymization Competence Center
 
 \href{https://swissanon.ch}{\color{blue}\underline{https://swissanon.ch}}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} 
 
-
-\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
