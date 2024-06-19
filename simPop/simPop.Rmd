@@ -23,13 +23,22 @@ df <- eusilc13puf[,c(1:6, 8:9,14, 16, 46)]
 df$age <- as.numeric(df$age)
 df$pid <- as.factor(df$pid)
 
+
 vars <- c("hhid", "hsize", "region", "age", "sex", "pid", "eco_stat", "citizenship", 
           "pgrossIncome","hgrossIncome","weight")
 
 colnames(df) <- vars
 
-#df <- head(df, 1000)
-# df$weight <- 1
+df$eco_stat <- as.character(df$eco_stat)
+df$eco_stat[is.na(df$eco_stat)] <- "Unknown"
+df$eco_stat <- factor(df$eco_stat)
+df$citizenship <- as.character(df$citizenship)
+df$citizenship[is.na(df$citizenship)] <- "Unknown"
+df$citizenship <- factor(df$citizenship)
+df$pgrossIncome[is.na(df$pgrossIncome)] <- 0
+
+# We are using reduced weights to obtain a reduced population by factor 100 for computation time
+df$weight <- df$weight/100
 ```
 
 # Synthesis
@@ -46,19 +55,20 @@ inp <-
     strata = "region",
     weight = "weight"
   )
-## Calibrate sample weights
-# Not going to this today
-# data("totalsRG", package = "simPop")
-# data("totalsRGtab", package = "simPop")
-# 
-# weights.df <- calibSample(inp, totalsRG)
-# weights.tab <- calibSample(inp, totalsRGtab)
-# identical(weights.df, weights.tab)
-# addWeights(inp) <- calibSample(inp, totalsRGtab)
+```
+
+```{r callibration}
+# Calibrate sample weights
+# data("totalsRG", package = "simPop") 
+# totalsRG <- totalsRG |> rename(sex = rb090, region = db040)
+# print(totalsRG)
+# totalsRG$Freq <- totalsRG$Freq / 100
+# addWeights(inp) <- calibSample(inp, totalsRG)
 ```
 
 ## Define structure 
-The household structure of the synthetic population is created by extrapolating the sample using the sample weights/calibrated weights and re-sampling (alias sampling) when method = "distribution" (if one does not wish to create a population, one should use sample weights = 1 as a variable in one's data). For this process, the household structure must contain a set of user-defined "basicHHvars." In this case, we use age, sex, and region. Other methods may be selected, such as "direct," which employs the Horvitz-Thompson estimator to estimate the population totals for each combination of stratum and household size. Alternatively, "multinom" may be utilized to estimate the conditional probabilities within the strata using a multinomial log-linear model and random draws from the resulting distribution. 
+The household structure of the synthetic population is created by extrapolating the sample using the sample weights/calibrated weights and re-sampling (alias sampling) when method = "distribution" (if one does not wish to create a population, one should use sample weights = 1 as a variable in one's data). For this process, the household structure must contain a set of user-defined "basicHHvars." In this case, we use age, sex, and region. 
+Other methods may be selected, such as "direct," which employs the Horvitz-Thompson estimator to estimate the population totals for each combination of stratum and household size. Alternatively, "multinom" may be utilized to estimate the conditional probabilities within the strata using a multinomial log-linear model and random draws from the resulting distribution. 
 
 ```{r structure, warning=FALSE}
 simPop <-
@@ -94,10 +104,10 @@ simPop <- simContinuous(
   simPop,
   method = "lm",
   additional = "pgrossIncome",
-  regModel = ~ sex + hsize + eco_stat + citizenship + age,
+  regModel = ~ sex + hsize, #+ eco_stat + citizenship + age,
   zeros = TRUE,
   log = FALSE,
-  const = 1,
+  #const = 1,
   alpha = NULL, #0.05,
   residuals = TRUE
 ) 
@@ -176,21 +186,41 @@ tab <- spTable(simPop, select = c("sex", "eco_stat"))
 spMosaic(tab, method = "color")
 ```
 
-```{r univariate mosaic,  fig.cap= Mosaic plots of sex, eco_stat}
-tab <- spTable(simPop, select = c("sex", "eco_stat"))
-spMosaic(tab, method = "color")
+```{r CDF pgrossincome,  fig.cap= CDF pgross income}
+spCdfplot(simPop, "pgrossIncome", cond = "sex", layout = c(1, 2)
+          )
 ```
 
 ```{r CDF pgrossincome,  fig.cap= CDF pgross income}
-spCdfplot(simPop, "pgrossincome", cond = "pgrossincome", layout = c(1, 2))
-```
-
-```{r CDF pgrossincome,  fig.cap= CDF pgross income}
-spBwplot(simPop, x = "pgrossincome", cond = "pgrossincome", layout = c(1, 2))
+spBwplot(simPop, x = "pgrossIncome", #cond = "pgrossIncome", layout = c(1, 2)
+         )
 ```
 ## Data utility with model fitting
 
-### PMSE
+### Propensity Score
+
+```{r}
+data_sample$group <- 0
+data_pop$group <- 1
+
+combined_data <- rbind(data_sample , data_pop |> dplyr::select(-hgrossIncomeCat))
+
+res <- glm(
+  group ~ region  + hsize + eco_stat  +  sex + citizenship + pgrossIncome + hgrossIncome ,
+  data = combined_data,
+  family = binomial()
+)
+
+combined_data$propensity_score <- predict(res, type = "response")
+
+ggplot(combined_data, aes(x = propensity_score, color = as.factor(group), fill = as.factor(group))) + 
+  geom_density(alpha = 0.5) +
+  labs(color = "Group", fill = "Group") +
+  theme_minimal()
+
+#pmse <- mean((combined_data$propensity_score - combined_data$group)^2)
+
+```
 
 
 # Confidentiality 
@@ -210,5 +240,9 @@ inf_attack_model <- lm(pgrossIncome ~ sex + hsize + eco_stat + citizenship + age
 
 ## Compare the true values to the predicted
 ```{r}
-true_pgrossincome$pgrossIncome - predict(inf_attack_model, newdata = intruder_knowledge)
+
+
+intruder_knowledge$predictions = predict(inf_attack_model, newdata = intruder_knowledge)
+compare_df<- left_join(intruder_knowledge, true_pgrossincome)
+compare_df$result <- abs(compare_df$pgrossIncome - compare_df$predictions)
 ```
