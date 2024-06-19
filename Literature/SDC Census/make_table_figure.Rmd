@@ -1,0 +1,17 @@
+---
+title: "Untitled"
+author: "Johannes Gussenbauer"
+date: "25 1 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(data.table)
+```
+
+```{r,echo=FALSE}
+dat <- fread("test_data_10k.csv.gz")
+dat[,AGE.L:=cut(AGE.H,breaks=c(0,18,64,Inf),right=TRUE,include.lowest=TRUE)]
+knitr::kable(xtabs(~NUTS1+AGE.L,data=dat),row.names = TRUE)
+```

@@ -1,0 +1,84 @@
+---
+title: "Non-perturbation methods"
+subtitle: "useR! 2024"
+author: "Jiří Novák"
+date: "8.7.2024"
+output:
+  html_notebook:
+    toc: true
+    number_sections: true
+    toc_float: true
+---
+
+# Introduction
+
+This notebook is dedicated to non-perturbation methods. We will start with the basics and then move to more advanced methods. 
+
+Non-perturbation masking are methods that alter data to hide identities without changing its actual value. It does not rely on distortion of the original data but on partial
+suppressions or reductions of detail.
+
+This includes methods such as: **Sampling**, **Global recoding**, **Top and bottom coding**, **Local suppression**.
+
+# Let's start
+
+## Main library
+
+We will use functions from the packafe *sdcMicro*
+
+```{r}
+library(sdcMicro)
+```
+
+## Data
+We will use the SILC data (Statistics on Income and Living Conditions) from Austria.
+This is a synthetic data set based on Austrian EU-SILC data from 2006.
+The data set consists of 6 000 households. 
+
+```{r}
+library(laeken)
+data(eusilc)
+```
+
+Let's have a look at the data.
+```{r}
+head(eusilc)
+```
+
+Only a few of the large number of variables in the original survey are included in this example data set. The variable names are rather cryptic codes, but these are the standardized names used by the statistical agencies. Furthermore, the variables hsize, age, eqSS and eqIncome are not included in the standardized format of EU-SILC data, but have been derived from other variables for convenience.
+
+### Variables
+We have a data frame with 14 827 observations on the following 28 variables:
+
+- **db030** integer; the household ID. 
+- **hsize** integer; the number of persons in the household. 
+- **db040** factor; the federal state in which the household is located (levels Burgenland, Carinthia, Lower Austria, Salzburg, Styria, Tyrol, Upper Austria, Vienna and Vorarlberg). 
+- **rb030** integer; the personal ID. age integer; the person’s age. 
+- **rb090** factor; the person’s gender (levels male and female). 
+- **pl030** factor; the person’s economic status (levels 1 = working full time, 2 = working part time, 3 = unemployed, 4 = pupil, student, further training or unpaid work experience or in compulsory military or community service, 5 = in retirement or early retirement or has given up business, 6 =permanently disabled or/and unfit to work or other inactive person, 7 = fulfilling domestic tasks and care responsibilities). 
+- **pb220a** factor; the person’s citizenship (levels AT, EU and Other). 
+- **py010n** numeric; employee cash or near cash income (net). 
+- **py050n** numeric; cash benefits or losses from self-employment (net). 
+- **py090n** numeric; unemployment benefits (net). 
+- **py100n** numeric; old-age benefits (net). 
+- **py110n** numeric; survivor’s benefits (net). 
+- **py120n** numeric; sickness benefits (net). 
+- **py130n** numeric; disability benefits (net). 
+- **py140n** numeric; education-related allowances (net). 
+- **hy040n** numeric; income from rental of a property or land (net). 
+- **hy050n** numeric; family/children related allowances (net). 
+- **hy070n** numeric; housing allowances (net). 
+- **hy080n** numeric; regular inter-household cash transfer received (net). 
+- **hy090n** numeric; interest, dividends, profit from capital investments in unincorporated business (net). 
+- **hy110n** numeric; income received by people aged under 16 (net). 
+- **hy130n** numeric; regular inter-household cash transfer paid (net). 
+- **hy145n** numeric; repayments/receipts for tax adjustment (net). 
+- **eqSS** numeric; the equivalized household size according to the modified OECD scale. 
+- **eqIncome** numeric; a slightly simplified version of the equivalized household income. 
+- **db090** numeric; the household sample weights. 
+- **rb050** numeric; the personal sample weights.
+
+## Create *sdcMicro* object
+objSDC <- createSdcObj(dat = subData, 
+                       keyVars = selectedKeyVars, 
+                       weightVar = selectedWeights)
+

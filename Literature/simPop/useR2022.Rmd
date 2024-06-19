@@ -1,0 +1,255 @@
+---
+title: Synthetic data with xgboost and advanced calibration
+subtitle: UseR 2022
+author:
+- Johannes Gussenbauer
+- Matthias Templ (ZHAW)
+- Siro Fritzmann (Hotelplan)
+- Alexander Kowarik
+institute: Qualitätsmanagement und Methodik (QM)
+location: Wien
+date: '`r format(Sys.Date(), "%B %Y")`'
+output: 
+  slideSTAT::slideSTAT:
+    contact:
+      number: 7327
+      address: Guglgasse 13, 1110 Wien
+      mail: Johannes.Gussenbauer@statistik.gv.at
+header-includes:
+  - \usepackage{multicol}
+bibliography: lib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,fig.width=7, fig.height=5.5, warning = FALSE)
+
+library(data.table)
+library(mountSTAT)
+library(ggplot2)
+library(simPop)
+
+path <- file.path(mountSTAT::mountMeth(),"Gussenbauer/uROS2021")
+```
+
+## Overview
+
+- Quick intro to R-package `simPop`
+
+\vspace{.5cm}
+
+
+- Improvements to modelling 
+
+\vspace{.5cm}
+
+- Improvements to calibration of synth. population
+
+## simPop
+
+- `simPop` R-Package to generate synthetic micro data ~ household data \footnote{Templ, Kowarik, and Filzmoser 2011 and Templ, Meindl, et al. 2017}
+
+
+```{r, echo=FALSE, out.height="20%",out.width="40%"}
+knitr::include_graphics(file.path(path,"house_person_V3.png"))
+```
+
+\pause
+
+\vspace{.5cm}
+
+- Why generate synthetic micro data? 
+
+    - Microdata more and more needed by scientific community / the public
+    - Often not possible to disseminate micro data (GDPR, national data protection laws)
+    - Available micro data highly censored/takes long time to get access 
+    
+## simPop
+
+- Synthetic data should \footnote{Münnich and Schürle 2003}
+
+    - not reveal sensitive information
+    - preserve correlation structure / Quasi-identical distribution 
+
+
+\vspace{1cm}
+
+- Synthetic can be used for
+
+    - Prototype development
+    - Micro-Simulation
+
+## simPop Workflow
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(path,"Generation_Process_color.jpg"))
+```
+
+
+
+## Include xgboost\footnote{Chen and Guestrin 2016} to simPop
+
+\begin{multicols}{2}
+
+  
+  \null \begin{itemize}
+  \item Gradient tree boosting
+  \vspace{5mm}    
+  \item Algorithmic enhancements
+  \begin{itemize}
+  \item Sparsity awareness
+  \item Missing data handling
+  \end{itemize}
+  \vspace{5mm}
+  \item R and Python package
+  \vspace{5mm}
+  \item \textbf{Strong out of the box method}
+  \end{itemize} \null
+
+\columnbreak
+  
+  \null \vfill
+  \includegraphics[width=.4\textwidth]{/data/home/gussen/mnt/mdrive/Gussenbauer/uROS2021/xgboost.png}
+  \vfill \null
+
+\end{multicols}
+
+
+
+## Include xgboost to simPop
+
+```{r, eval=FALSE, echo=TRUE}
+simCategorical(
+  simPopObj, method = c("xgboost"),
+  regModel = pl030 ~ age + rb090 + pb220a,
+  ...,
+  model_params = NULL
+)
+```
+
+```{r, eval=FALSE, echo=TRUE}
+simContinuous(
+  simPopObj, method = c("xgboost"),
+  regModel = income ~ age + rb090 + pb220a + pl030,
+  ...,
+  model_params = NULL
+)
+```
+
+
+## Compare xgboost with multinom
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(path,"multiMosaicPlot.png"))
+```
+
+
+## Calibrate synth. Population
+
+\pause
+
+- Calibrate synthetic population to "fit" selected distributions - how?
+
+
+```{r, echo=FALSE,out.width="80%", out.height="50%", fig.align='center'}
+knitr::include_graphics(file.path(path,c("select_pop.png")))
+``` 
+
+\pause
+
+- Apply simulated annealing to try to find a local optimum
+
+
+## Simulated annealing in `simPop`
+
+1. Multiply synthetic population
+
+\pause
+
+2. Make innitial selection of households
+
+\pause
+
+3. Compare target distribution against distrubtion of selection using an objective function 
+
+\pause
+
+4. Discard and redraw households with cerain probabilities
+
+5. Check objective function again
+
+6. Repeat 4. and 5. until distributions "differ" by $\epsilon$
+
+## Improvments to calibration
+
+- Multiple distributions allowed on household and personal level
+
+```{r, echo = TRUE, eval = FALSE}
+calibPop(
+  inp, # <- simPopObj 
+  ...
+  hhTables = NULL,
+  persTables = NULL
+)
+```
+
+- Objective / sampling probabilities / termination condition adjusted accordingly
+
+
+## Improvments to calibration
+
+- Objective, $p$ targe margins with $k_1,\ldots,k_p$ number of cells 
+
+
+$$
+\sqrt{\frac{1}{p}\sum\limits_{i=1}^p(\sum\limits_{j=1}^{k_i}|n_{i,j}-\tilde{n}_{i,j}|)^2}
+$$
+
+
+
+- Sampling prob. $p_l$ for individual $l$
+
+\footnotesize
+
+$$
+p_l = \begin{cases}
+\frac{f_l}{N_l} \quad \text{if }f_l>0\\
+\exp(-\sum\limits_{f_l\leq0}\frac{f_l}{N_l})
+\end{cases}; \quad 
+f_l = \frac{1}{p}\sum\limits_i^p|e_{i,j(i,l)}| \cdot sign(\sum\limits_i^pe_{i,j(i,l)})
+$$
+$$
+e_{i,j} = n_{i,j}-\tilde{n}_{i,j}
+$$
+
+
+## Improvments to calibration
+
+- Simulated annealing algorithm improved in terms of speed and memory
+
+```{r,fig.height=4}
+f <- file.path(path,c("simPop_Test_Calibrations_10.RData",
+                      "simPop_Test_Calibrations_25.RData",
+                      "simPop_Test_Calibrations_50.RData",
+                      "simPop_Test_Calibrations_100.RData"))
+timing <- lapply(f,function(z){
+  load(z)
+  data.table(runTime,popSize=mean(sapply(simPop_adj,function(z){sum(z$N)})))
+})
+timing <- rbindlist(timing)
+timing <- timing[,.(runTime=mean(runTime),runtime_u=max(runTime),runtime_l=min(runTime)),by=.(popSize)]
+ggplot(timing,aes(popSize,runTime))+
+  geom_line()+xlab("Population Size")+ylab("Calibration Time (seconds)")+
+  geom_ribbon(aes(popSize,runTime,ymin=runtime_l,ymax=runtime_u),alpha=0.2)
+```
+
+
+## References {.allowframebreaks}
+
+\footnotesize
+- Chen, Tianqi and Carlos Guestrin (2016). "XGBoost: A scalable treeboosting system". In:Proceedings of the 22nd acm sigkddinternational conference on knowledge discovery and data mining.ACM, pp. 785–794
+
+- Münnich, Ralf and Josef Schürle (2003). "On the the simulation of complex universes in the case of applying the German Microcensus"
+
+- Templ, Matthias, Alexander Kowarik, and Peter Filzmoser (2011). "Iterative stepwise regression imputation using standard & robustmethods". In:Computational Statistics & Data Analysis55.10. DOI:10.1016/j.csda.2011.04.012, ISSN: 0167-9473, pp. 2793–2806.issn:0167-9473.
+
+- Templ, Matthias, Bernhard Meindl, et al. (Aug. 2017). "Simulationof Synthetic Complex Data: The R Package simPop". In:Journal ofStatistical Software79.doi:10.18637/jss.v079.i10.

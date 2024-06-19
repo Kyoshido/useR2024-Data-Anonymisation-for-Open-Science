@@ -1,0 +1,309 @@
+---
+title: 'Targeted Record Swapping (TRS) workflow'
+author: "Johannes Gussenbauer"
+date: "24 1 2022"
+output:
+  powerpoint_presentation:
+    reference_doc: template.pptx
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Overview
+
+- Targeted Record Swapping (TRS) in general
+
+- Details on algorithm
+
+- Information loss and risk
+
+
+## Targeted Record Swapping
+
+- Data-swapping technique applied on micro data
+
+- TRS: Swap households across administrative/geographic regions    
+
+- Use TRS as pre-tabular method applied on micro data
+
+    - apply on micro data -> build table
+
+
+```{r, echo=FALSE,out.width="49%",out.height="5%"}
+knitr::include_graphics(c("switch1.png","Table_2.png"))
+``` 
+
+
+## Targeted Record Swapping
+
+- **Targeted** Record Swapping: **target** "high risk" households
+
+- High risk $\rightarrow$ small frequency counts of individuals on a set of key variables (usually)
+
+    - Geographic hierarchy x risk variables 
+    - k-anonymity in our algorithm
+
+- Household at high risk $\leftrightarrow$ individual at high risk
+
+
+## Swap households
+
+- Determine swap rate of $p\in[0,1]$
+
+- Iterate through geographic regions / geographic hierarchies
+
+- Sample households according to risk 
+
+    - Sample household in geographic region
+    - Sample donor household outside current geographic region
+
+- Swap geographic variables between households
+
+## Swap households - calculate risk
+
+```{r , echo=FALSE, out.width = '100%'}
+knitr::include_graphics("Swap_demo1.png")
+```
+
+## Swap households - select high risk
+
+```{r , echo=FALSE, out.width = '100%'}
+knitr::include_graphics("Swap_demo2.png")
+```
+
+## Swap households - select donor 
+
+```{r , echo=FALSE, out.width = '100%'}
+knitr::include_graphics("Swap_demo3.png")
+```
+## Swap households - make swap
+
+```{r , echo=FALSE, out.width = '100%'}
+knitr::include_graphics("Swap_demo4.png")
+```
+
+## Swap households
+
+- Advantage of swapping whole households
+
+    - Household structure preserved $\rightarrow$ no "impossible" households
+    - Preserves marginal distributions (on higher geogr. levels)
+
+
+## Details on algorithm
+
+- Before applying the algorithm define certain parameter
+
+- Geographic hierarchy (NUTS1, NUTS2, NUTS3,...)
+
+- Swap rate $p\in[0,1]$
+
+- Risk variables
+
+- Threshold for high risk households  
+
+    - currently k-anonymity rule
+    - Individual (respectively household) *at risk* if $\sim counts < k$
+
+- Optional but recommended:
+  
+    - similarity variables
+    - "carry along" variables
+
+
+## Details on algorithm
+
+1. Calculate total number of swaps given swap rate $p$%
+2. Estimate risk $r_{i,h}$ through k-anonymity rule for each individual $i$ in geographic hierarchy ($h$) using risk variables $v_1,\ldots,v_p$ with individual $i$ living in area $g_1$ and $N_{g_1}$ as the number of persons in $g_1$
+
+$$
+r_{i,h} = (\sum\limits_{j=1}^{N_{g_1}}1[v_{1(i)}=v_{1(j)} \land ... \land v_{p(i)}=v_{p(j)}])^{-1}
+$$
+
+$$
+r_{i,h} \sim \frac{1}{counts}
+$$
+
+## Details on algorithm
+
+3. Risk of household $y$, $R_{y,h}$, is then defined by the maximum of risk across all household member
+
+$$
+R_{y,h} = \max_{i\text{ in household }y}(r_{i,h})
+$$
+
+
+
+
+## Details on algorithm
+
+4. Determine "high risk" households which will definitely be swapped in each geographic hierarchy
+
+5. Iterate the geographic hierarchies (from top to bottom)
+
+    - NUTS1 $\rightarrow$ NUTS2 $\rightarrow$ NUTS3 $\rightarrow\ \ldots$ 
+
+6. In each geographic area sample households by probability (~risk) and swap them
+
+7. At lowest hierarchy distribute number of swaps left to reach swap rate $p$
+
+    - distributed proportional to cumulative risk
+    - swaprate only lower bound on number of swaps
+
+## Detials on algorithm - swaps distributed
+
+```{r , echo=FALSE, out.width = '100%'}
+knitr::include_graphics("diagram.png")
+```
+
+## Details on algorithm
+
+- Limitation:
+
+    1. Each variable in the data must be type integer (~ max 9 digits)
+    2. Same C++ code in R and Argus still slightly different results due to RNG
+    3. Risk only calculated through $\frac{1}{counts}$
+    
+
+- Package is continously developed further $\rightarrow$ might be improved in future releases
+
+## "Similarity" variables
+
+- Control swapping further with "similarity" variable
+
+- Variables on which the swapped households must agree on
+
+    - for instance: household size, tenancy, ...
+    
+- Preserves marginal distributions of some variables    
+
+## "Similarity" variables
+
+```{r , echo=FALSE, out.width = '100%'}
+knitr::include_graphics("Swap_similar.png")
+```
+
+
+## "Carry along" variables
+
+- Variables which are swaped in addition to geographic variables (NUTS1, NUTS2, ...) but do *NOT* influence swaping procedure.
+
+- Usually very detailed geographic variables like grid cells (1km, 500m, ...)
+
+    - Must be household variables
+
+- If one does not swap additional variables resulting micro data will have "strange" values
+
+## "Carry along" variables
+
+|   PID   |    NUTS1           |  NUTS2    |  NUTS3 | 
+| ------------- |:-------------:| -----:|--:| 
+| 1      | AT1      | AT13   |  AT130  |
+| 2      | AT2      |   AT21 |  AT121  |
+
+|   PID   |    NUTS1           |  NUTS2    |  NUTS3 | 
+| ------------- |:-------------:| -----:|--:| 
+| 1      | AT2      | AT21   |  AT130  |
+| 2      | AT1      |   AT13 |  AT121  |
+
+
+
+## Information loss and risk
+
+- After TRS was applied build frequency tables and calculate statistics on information loss
+
+- Information loss is derived by differences between cells of unperturbed $D_o(c)$ and perturbed data $D_p(c)$
+
+- Following metrics are recommended
+
+    - Absolute deviation $|D_o(c) - D_p(c)|$
+    - Relative absolute deviation  $\frac{|D_o(c) - D_p(c)|}{D_o(c)}$
+    - Absolute difference of square roots $|\sqrt{D_o(c)} - \sqrt{D_p(c)}|$
+
+
+## Information loss and risk
+
+- 
+- Summary statistics (per geographic region $k$ for instance)
+
+
+- $AD(k,c) = |D^k_o(c) - D^k_p(c)|$ $\rightarrow$ $\overline{AD(k)} := \frac{\sum\limits_{c\in k} AD(k,c)}{n_k}$
+- $RAD(k,c) = \frac{|D^k_o(c) - D^k_p(c)|}{D^k_o(c)}$ $\rightarrow$ $\Sigma_{RAD}(k):=\sum\limits_{c\in k} RAD(k,c)$
+- $D_R(k,c)= |\sqrt{D^k_o(c)} - \sqrt{D^k_p(c)}|$ $\rightarrow$ $HD(k):=\sqrt{\frac{1}{2}\sum\limits_{c\in k} D_R(k,c)^2}$
+
+
+## Information loss and risk
+
+|   SEX / NUTS1    | 1           | 2    | 3 |
+| ------------- |:-------------:| -----:|--:|
+| 1      | 6842      | 2962   |  5503  |
+| 2      | 6815      |   2857 |  5599  |
+ 
+ 
+|   SEX / NUTS1    | 1           | 2    | 3 |
+| ------------- |:-------------:| -----:|--:|
+| 1      | 6810      | 3011   |  5486  |
+| 2      | 6806      |   2886 |  5579  |
+ 
+
+## Information loss and risk
+
+|   SEX / NUTS1    | 1           | 2    | 3 |
+| ------------- |:-------------:| -----:|--:|
+| 1      | 32      | -49   |  17  |
+| 2      | 9      |   -29 |  20  |
+
+
+$$
+\overline{AD(1)} = \frac{|6842-6810|+|6815-6806|}{2} = \frac{|32|+|9|}{2} = 20.5
+$$
+
+$$
+\overline{AD(2)} = \frac{|-49|+|-29|}{2} = 39
+$$
+
+## Information loss and risk
+
+$$
+\overline{AD(3)} = \frac{|17|+|20|}{2} = 18.5
+$$
+
+- Aggregated value over $AD(1),AD(2),AD(3)$
+
+$$
+\frac{1}{3}\sum\limits_{k=1}^3AD(k) = 25.83
+$$
+
+
+## Information loss and risk
+
+- Can also calculate $AD$, $RAD$ and $D_R$ and analyse distribution
+
+    - 5 number summary
+    - Cumulative distribution
+    - Percentiles
+
+
+- Risk: Protection from TRS given by the uncertainty of the values of the table cells
+
+    - minimum swap determines amount of uncertainty
+    - TRS actually used to protect micro data, now applied as pre-tabular method
+
+## Overview workflow
+
+- For Census 2021 tables apply TRS once on the micro data
+
+- Use moderately low swap rate (1%-5%)
+
+- Use similarity variables to control swaps
+
+- After TRS was applied go on to:
+    
+    - Use micro data with swapped households to generate different census tables
+      
+        - Calculate statistics on information loss 
+
+    - Apply cell-key method on created tables
+

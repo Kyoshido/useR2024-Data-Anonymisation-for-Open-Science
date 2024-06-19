@@ -1,0 +1,432 @@
+---
+title: 'Demonstration TRS with R'
+author: ""
+date: "14 1 2021"
+output:
+  powerpoint_presentation:
+    reference_doc: template.pptx
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Install packages and test data
+
+- Install package if not already installed
+
+```{r,eval=FALSE}
+# install recordSwapping from github
+devtools::install_github("sdcTools/recordSwapping", build_vignettes = TRUE)
+
+# install data.table 
+# ~ generally good data wrangling package
+install.packages(data.table)
+```
+
+
+## Load packages
+
+- Do this for every new session in R ~ if you start working with R
+
+
+```{r}
+# load package
+library(data.table)
+library(recordSwapping)
+```
+
+## News, documentation and help page
+
+- Current and development versions are on
+
+    https://github.com/sdcTools/recordSwapping
+
+- Documentation inside R
+
+
+```{r,eval=FALSE}
+# more detailed explanations/documentation:
+vignette("recordSwapping") 
+
+# documentation of core function
+?recordSwap() 
+```
+
+
+## Load test data
+
+```{r}
+dat <- fread("test_data_10k.csv.gz")
+class(dat) # class data.table
+```
+
+- View data in terminal 
+
+```{r, eval=FALSE}
+print(dat) # not printed to save space on slide
+```
+
+- Use data viewer
+
+```{r, eval=FALSE}
+View(dat)
+```
+
+
+## Apply targeted record swapping
+
+1. Data preparation 
+
+2. Set parameter for swapping
+
+3. Apply record swapping
+
+4. Compare output with original data 
+
+
+## Data preparation
+
+- Data needs to contain only integer/numeric columns 
+
+    - no decimal places
+
+- Columns which are not integer
+
+```{r}
+head(dat[,.(AGE.M,L001000)],3)
+```
+
+## Data preparation (2)
+
+```{r}
+str(dat[,.(AGE.M,L001000)])
+```
+
+
+- Solve programmatically 
+
+```{r}
+colType <- sapply(dat,class)
+# filter colnames to non-integer columns
+colnames(dat)[colType!="integer"]
+```
+
+
+## Data preparation (3)
+
+- Convert these column to integer
+
+```{r}
+# extract X and Y coordinates
+dat[,Y_coord:=as.integer(substr(L001000,5,8))]
+dat[,X_coord:=as.integer(substr(L001000,10,13))]
+dat[1,.(L001000,X_coord,Y_coord)]
+```
+
+
+```{r}
+dat[,L001000:=NULL] # drop column
+```
+
+- Convert column to integer using `factor`
+
+```{r}
+dat[,AGE.M_old:=AGE.M]
+age_levels <- levels(cut(1:101,breaks=c(seq(0,100,5),Inf),include.lowest = TRUE,right=FALSE))
+dat[,AGE.M:=as.integer(factor(AGE.M,levels=age_levels))]
+dat[,.N,by=.(AGE.M_old,AGE.M)][order(AGE.M)]
+```
+
+## Data preparation (4)
+
+- Truncate household size
+
+```{r}
+dat[,Size:=pmin(5,Size)]
+dat[!duplicated(HID),.N,by=.(Size)][order(Size)]
+```
+
+
+## Set parameter
+
+- Necessary parameter (apart from data itself)
+
+```{r}
+# geographic hierarchy 
+# read from left to right
+# NUTS1 > NUTS2 > ...
+hierarchy <- c("NUTS1","NUTS2")
+
+# hid column
+hid <- "HID"
+```
+
+## Set parameter (2)
+
+- Variables for internal risk calculation
+    
+      - custom risk will be included in future releases
+
+```{r}
+# risk variables
+risk_variables <- c("COC.M","POB.M")
+k_anonymity <- 3
+```
+
+
+## Set paramter (3)
+
+- Swaprate, similarity profile and seed for RNG
+
+```{r}
+swaprate <- 0.05
+similar <- "Size"
+seed <- 202103
+```
+
+
+## Apply record swapping
+
+```{r}
+dat_swapped <- recordSwap(data = dat, hid = hid,
+                          hierarchy = hierarchy,
+                          similar = similar,
+                          risk_variables = risk_variables,
+                          k_anonymity = k_anonymity,
+                          swaprate = swaprate,
+                          return_swapped_id = TRUE,
+                          seed = seed)
+```
+
+- `return_swapped_id = TRUE` \rightarrow get household ID of swapped household
+
+
+
+## Look at output
+
+```{r, eval=FALSE}
+View(dat_swapped)
+print(dat_swapped)
+```
+
+- Number of swapped households
+
+```{r}
+dat_swapped[HID!=HID_swapped,uniqueN(HID)]
+```
+
+
+## Look at output (2)
+
+- Table by NUTS1 and COC.L
+
+```{r}
+# original data
+dat[,table(NUTS1,COC.L)]
+```
+
+```{r}
+# swapped data
+dat_swapped[,table(NUTS1,COC.L)]
+```
+
+
+## Information loss (1)
+
+- Calculate counts of table cells
+
+```{r}
+tab_vars <- c("NUTS2","SEX","AGE.M","COC.H")
+tab1 <- dat[,.(N1=.N),by=c(tab_vars)]
+tab2 <- dat_swapped[,.(N2=.N),by=c(tab_vars)]
+
+tab <- merge(tab1,tab2, all=TRUE)
+tab[is.na(N1),N1:=0]
+tab[is.na(N2),N2:=0]
+```
+
+
+
+## Information loss (2)
+
+- Estimate information loss for each NUTS2 region
+
+```{r}
+# mean absolute deviation
+ad <- tab[,mean(abs(N1-N2)),by=.(NUTS2)]
+ad
+```
+
+
+## Information loss (3)
+
+- Take average over summary statistics of each region
+
+```{r}
+ad[,mean(V1)]
+```
+
+
+- Calculate statistics on relative absolute difference (RAD)
+
+    - use subtable for NUTS2, SEX and AGE.M due to small cell count
+
+```{r}
+# aggregate NUTS2, SEX and AGE.M
+rad <- tab[,.(N1=sum(N1),N2=sum(N2)),by=.(NUTS2,SEX,AGE.M)]
+```
+
+## Information loss (4)
+
+```{r}
+# RAD by NUTS2
+rad <- rad[,sum(abs(N1-N2)/N1),by=.(NUTS2)]
+# take average
+rad[,mean(V1)]
+```
+
+
+- Apply same logic to hellingers distance
+
+```{r}
+# hellingers distance
+hd <- tab[,sqrt(1/2*sum((sqrt(N1)-sqrt(N2))^2)),
+                 by=.(NUTS2)]
+hd[,mean(V1)]
+```
+
+
+- see also R package `cellKey`, `?cellKey::ck_cnt_measures()` 
+
+
+
+
+```{r, include=FALSE}
+## ## Risk estimation
+
+## - Proportion of unperturbed cells with cell count < 3  
+
+## tab[,sum(N1<3&N2==N1)/sum(N1<3)]
+```
+
+
+## Multiple similarity variables
+
+- Supply multiple variables to similarity profile to add conditions for swapping
+
+```{r}
+similar <- c("Size","HST")
+```
+
+```{r}
+dat_swapped2 <- recordSwap(data = dat, hid = hid,
+                          hierarchy = hierarchy,
+                          similar = similar,
+                          risk_variables = risk_variables,
+                          k_anonymity = k_anonymity,
+                          swaprate = swaprate,
+                          return_swapped_id = TRUE,
+                          seed = seed)
+```
+
+## Multiple similarity variables (2)
+
+- Check Variable `HST` for swapped households
+
+```{r}
+dat_tph <- unique(dat[,.(HID_swapped=HID,HST_swapped=HST)])
+dat_swapped[dat_tph,HST_swapped:=HST_swapped,on=.(HID_swapped)]
+
+select_vars <- c("NUTS1", "NUTS2", "HID", "HID_swapped",
+                 "Size", "HST", "HST_swapped")
+
+head(dat_swapped[!duplicated(HID)][HST!=HST_swapped,..select_vars],4)
+```
+
+
+## Multiple similarity variables (2)
+
+- Supply multiple variables to similarity profile to add conditions for swapping
+
+```{r}
+similar <- c("Size","HST")
+```
+
+```{r}
+dat_swapped2 <- recordSwap(data = dat, hid = hid,
+                          hierarchy = hierarchy,
+                          similar = similar,
+                          risk_variables = risk_variables,
+                          k_anonymity = k_anonymity,
+                          swaprate = swaprate,
+                          return_swapped_id = TRUE,
+                          seed = seed)
+```
+
+
+## Multiple similarity variables (3)
+
+- Check again variable `HST` for swapped households
+
+```{r}
+dat_tph <- unique(dat[,.(HID_swapped=HID,HST_swapped=HST)])
+dat_swapped2[dat_tph,HST_swapped:=HST_swapped,on=.(HID_swapped)]
+
+select_vars <- c("NUTS1", "NUTS2", "HID", "HID_swapped",
+                 "Size", "HST", "HST_swapped")
+
+
+# HST identical for every swap
+dat_swapped2[,all(HST==HST_swapped)]
+```
+
+
+
+```{r, include=FALSE}
+similar <- c("Size")
+```
+
+## Carry along variables
+
+```{r}
+hids_swapped <- dat_swapped[HID!=HID_swapped]
+head(hids_swapped[!duplicated(HID),.(NUTS1,NUTS2,NUTS3,LAU2)],4)
+```
+
+- Geographic variables are mixed up !?
+
+## Carry along variables (2)
+
+- Use parameter `carry_along` to carry geographic variables along while swapping
+
+```{r}
+carry_along <- c("NUTS3","LAU2","X_coord","Y_coord")
+```
+
+
+```{r}
+dat_swapped3 <- recordSwap(data = dat, hid = hid,
+                          hierarchy = hierarchy,
+                          similar = similar,
+                          risk_variables = risk_variables,
+                          k_anonymity = k_anonymity,
+                          swaprate = swaprate,
+                          carry_along = carry_along,
+                          return_swapped_id = TRUE,
+                          seed = seed)
+```
+
+
+## Carry along variables (3)
+
+- Swapping procedure is identical but geographic variables are coherent now
+
+```{r}
+hids_swapped3 <- dat_swapped3[HID!=HID_swapped]
+head(hids_swapped3[!duplicated(HID),.(NUTS1,NUTS2,NUTS3,LAU2)])
+```
+
+
+
+

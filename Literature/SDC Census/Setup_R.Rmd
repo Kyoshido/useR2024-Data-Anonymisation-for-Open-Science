@@ -1,0 +1,64 @@
+---
+title: "Setup R Software for ESTP-Census Course"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Install R
+
+Install latest version of R (at least 3.6.3) under https://cran.r-project.org/. Follow the instructions depending on your Operating System (Windows, Mac, Linux).
+
+*Optionally but recommended*: If you are using Windows try to install Rtools https://cran.r-project.org/bin/windows/Rtools/history.html. For R Version 3.6.3 install Rtools35, for R Version 4.0.1 and above install Rtools40. 
+
+## Install RStudio
+
+Install RStudio under https://rstudio.com/products/rstudio/download/#download. RStudio is the most popular integrated development environment (IDE) used for R.
+
+## Open RStudio and install packages
+
+Running RStudio should open a window similar to the picture below. The area bounded by the red square shows the console where lines of code can be executed. A Cheat Sheet for RStudio can be downloaded here: https://raw.githubusercontent.com/rstudio/cheatsheets/main/rstudio-ide.pdf
+
+![](RStudio.png)
+
+
+In order to install the needed packages run the following lines of code in the console:
+
+```{r, eval=FALSE}
+# run this Code to install needed packages
+install.packages(c("data.table","devtools","R.utils","sdcTable","sdcMicro","sdcHierarchies","remotes"))
+
+# install recordSwapping
+devtools::install_github("sdcTools/recordSwapping", force=TRUE, build_vignettes = TRUE, build_opts=c("--no-resave-data", "--no-manual"))
+# install ptable
+devtools::install_github("sdcTools/ptable", dependencies=c("Depends","Imports"), force=TRUE, build_opts="--build-vignettes")
+# install cellKey
+remotes::install_github(repo = "sdcTools/cellKey", dependencies = TRUE, build_opts = "--no-resave-data", force = TRUE)
+```
+
+
+### If you cannot install Rtools and subsequently `devtools`
+
+If you cannot install `devtools` because Rtools is not available then you will not be able to install paackages from github. You can install a package directly using each of the source files
+
+- `recordSwapping_1.0.1.tar.gz`
+- `ptable_0.3.4.tar.gz`
+- `cellKey_0.19.1.tar.gz`
+
+They should have been send with this document. Run the following Code in the `Console` where `path/to/the/File/` is the path to folder where the files are saved.
+
+```{r, eval=FALSE}
+# install recordSwapping
+install.packages("path/to/the/File/recordSwapping_1.0.1.tar.gz", repos = NULL, type="source")
+
+# install ptable
+install.packages("path/to/the/File/ptable_0.3.4.tar.gz", repos = NULL, type="source")
+
+# install cellKey
+install.packages("path/to/the/File/cellKey_0.19.1.tar.gz", repos = NULL, type="source")
+```
+
