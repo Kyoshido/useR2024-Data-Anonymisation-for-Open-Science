@@ -1,0 +1,154 @@
+---
+title: 'Exercises TRS with R'
+author: "Johannes Gussenbauer"
+date: "14 1 2021"
+output:
+  powerpoint_presentation:
+    reference_doc: template.pptx
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Goal of exercises
+
+- Load necessary packages and test data
+
+
+- Transform variables to make test data  
+
+
+- Apply targeted record swapping on test data
+
+
+- Use different set of parameters and compare resulting tables
+
+
+## Exercise 1 
+
+The dataset we will be using in the exercises is `test_data_100k.csv.gz`.
+It is available for download in the "Files" tab of the "General" channel in the folder "R Testdata".
+In addition there is a meta data file "Metadata_test_data.xlsx" with variable descriptions.
+Start RStudio (or R) on your PC or Laptop and create a new .R-File:
+
+    - File -> new File -> R Script
+
+Write the code needed to solve the exercises in this file.
+Save this file in the same directory as `test_data_100k.csv.gz`
+
+    - File -> Save as -> Path to test_data_100k.csv.gz
+
+
+## Exercise 1 (2)
+
+1. Load packages and data
+
+```{r, eval = FALSE}
+# load packages
+library(data.table)
+library(recordSwapping)
+
+# set the working directory
+# setwd("path_to_test_data_100k.csv.gz")
+
+# read data
+dat <- fread("test_data_100k.csv.gz")
+```
+
+
+```{r, include=FALSE}
+# load packages
+library(data.table)
+library(recordSwapping)
+
+# read data
+dat <- fread("~/sdctestdata/data/testdata/test_data_100k.csv.gz")
+```
+
+
+## Questions on slido
+
+- While going through the exercises try to answer the questions on slido
+
+
+
+## Exercise 1 
+
+
+1.a Make yourself familiar with the data at hand
+  
+    - Print the data to the console
+    - Use `View()` for a direct look at the data
+    - Look at the meta data file "Metadata_test_data.xlsx"
+    - Count number of persons and households and number ~ nrow(data), uniqueN(data$HID)
+    - Check which columns are not of type integer
+
+\vspace{.5cm}
+
+1.b Transform each column to integer and set an upper bound of 5 for variable Size
+    
+    - The grid variable L001000 has the structure `1kmN`*Y-Coord*`E`*X-Coord*
+    
+1.c Save data using fwrite() for later use with muArgus.
+
+
+## Exercise 2
+
+2.a Use the function recordSwap() to apply TRS with the following parameter
+
+```{r}
+hierarchy <- c("NUTS1","NUTS2")
+hid <- "HID"
+risk_variables <- c("COC.M","POB.M")
+k_anonymity <- 3
+swaprate <- 0.05
+similar <- "Size"
+seed <- 202103
+```
+
+2.b Calculate how many households have been swapped
+
+## Exercise 2
+
+
+2.c Check the swapped variables `NUTS2`, `NUTS3` and `LAU2` for consistency
+
+2.d Use the parameter carry_along and repeat exercis 2.a to swap all geographic variables `NUTS3`, `LAU2`, X and Y grid coordinates. 
+
+
+
+## Exercise 3
+
+3.a Construct the table `NUTS3 x SEX x COC.L` using the original and swapped data (from 2.d) with the `data.table`-syntax, e.g `dat[,.N,by=c(...)]`
+
+3.b Calculate information loss using AD, RAD and HD
+
+    - Estimate summary statistics for each NUTS3 region
+    - Average over estimates for each NUTS3 region
+    
+
+## Exercise 3 (2)
+
+3.c Use function `infoLoss()` with `table_vars=c("NUTS3","SEX","COC.L")` and analyse the output   
+
+
+3.d Repeat the exercise and set the swaprate to 10% and 2.5%
+
+
+3.e Compare the results for the different calls for `recordSwap()`
+
+
+
+## Exercise 4
+
+4.a Apply record swapping using the parameter set from exercise 2.d and set parameter `similar` to `c("Size","HST")`. 
+
+
+4.b Set a similarity profile and reduce the swap rate to reduce the information loss further
+
+```{r}
+similar <- list(c("NUTS1","Size","HST"),c("Size","HST"),"Size")
+swaprate <- 0.01
+```
+

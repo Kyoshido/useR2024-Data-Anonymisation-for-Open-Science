@@ -1,9 +1,0 @@
-https://sdcpractice.readthedocs.io/en/latest/sdcMicro.html
-
-https://centre.humdata.org/learning-path/disclosure-risk-assessment-overview/statistical-disclosure-control-tutorial/
-
-https://www.ihsn.org/software/disclosure-control-toolbox
-
-
-
-

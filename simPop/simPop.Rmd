@@ -1,0 +1,248 @@
+---
+title: "simPop"
+output: html_document
+date: "2024-06-10"
+---
+
+```{r setup, include=FALSE}
+rm(list = ls())
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Packages
+```{r laod packages}
+library(simPop)
+```
+
+# Data
+```{r laod data}
+data(eusilc13puf, package = "simPop")
+# ??eusilc13puf
+
+df <- eusilc13puf[,c(1:6, 8:9,14, 16, 46)]
+df$age <- as.numeric(df$age)
+df$pid <- as.factor(df$pid)
+
+
+vars <- c("hhid", "hsize", "region", "age", "sex", "pid", "eco_stat", "citizenship", 
+          "pgrossIncome","hgrossIncome","weight")
+
+colnames(df) <- vars
+
+df$eco_stat <- as.character(df$eco_stat)
+df$eco_stat[is.na(df$eco_stat)] <- "Unknown"
+df$eco_stat <- factor(df$eco_stat)
+df$citizenship <- as.character(df$citizenship)
+df$citizenship[is.na(df$citizenship)] <- "Unknown"
+df$citizenship <- factor(df$citizenship)
+df$pgrossIncome[is.na(df$pgrossIncome)] <- 0
+
+# We are using reduced weights to obtain a reduced population by factor 100 for computation time
+df$weight <- df$weight/100
+```
+
+# Synthesis
+
+## Define input
+It is necessary to identify in the microdata which variables provide information on clustering, household size, subpopulations, and sampling weights. The sample weights can be calibrated by iterative proportional fitting to the population totals. 
+
+```{r input}
+inp <-
+  specifyInput(
+    data = df,
+    hhid = "hhid",
+    hhsize = "hsize",
+    strata = "region",
+    weight = "weight"
+  )
+```
+
+```{r callibration}
+# Calibrate sample weights
+# data("totalsRG", package = "simPop") 
+# totalsRG <- totalsRG |> rename(sex = rb090, region = db040)
+# print(totalsRG)
+# totalsRG$Freq <- totalsRG$Freq / 100
+# addWeights(inp) <- calibSample(inp, totalsRG)
+```
+
+## Define structure 
+The household structure of the synthetic population is created by extrapolating the sample using the sample weights/calibrated weights and re-sampling (alias sampling) when method = "distribution" (if one does not wish to create a population, one should use sample weights = 1 as a variable in one's data). For this process, the household structure must contain a set of user-defined "basicHHvars." In this case, we use age, sex, and region. 
+Other methods may be selected, such as "direct," which employs the Horvitz-Thompson estimator to estimate the population totals for each combination of stratum and household size. Alternatively, "multinom" may be utilized to estimate the conditional probabilities within the strata using a multinomial log-linear model and random draws from the resulting distribution. 
+
+```{r structure, warning=FALSE}
+simPop <-
+  simStructure(
+    data = inp,
+    method = "distribution",
+    basicHHvars = c("age", "sex", "region") 
+  )
+```
+
+## Define categorical variables
+Categorical variables are simulated using the defined household structure and the weights as an input. The package offers two methodological approaches to add/simulate the categorical variables: one is a model-based simulation, the other a synthetic reconstruction. 
+In this example, we utilize the model-based simulation. A multinomial model is fit to sample data, so that the categorical variable to be simulated is the response variable and the other defined household variables serve as predictors. Subsequently, the model employs the conditional probabilities to "predict" the manifestation of the selected variable.  In our example, we generate categorical variable economic status and citizenship.
+ 
+In addition to the "multinom" argument method, which entails the estimation of conditional probabilities using multinomial log-linear models and random draws from the resulting distributions, the following methods are also accepted: "ctree," "cforest," "xgboost," and "distribution." The latter method involves random draws from the observed conditional distributions of their multivariate realizations (synthetic reconstruction approach).
+
+```{r categorical}
+simPop <-
+  simCategorical(
+    simPop,
+    additional = c("eco_stat", "citizenship"), 
+    method = "multinom"
+  )
+```
+
+## Define continuous variables
+It is recommended that continuous variables be defined after categorical variables, as the continuous variables are added to the structure using a modeling approach. This approach allows for the simulated categorical variables to be accounted for when simulating the continuous ones. There are several approaches to simulate continuous variables in simPop. The default approach is based on the same methodology as the simulation of the categorical variables, described above. The continuous variable is categorized (using quantiles as the default) and the multinomial model is estimated. In the final step, random draws are taken from the intervals of the categories into which the predictions at the population level fall. An alternative approach is the "lm" method, which is based on a two-step regression model with random error terms. This method involves first fitting a logistic regression model and then a linear regression model. This is necessary when considering semi-continuous distributions, as otherwise only the linear regression imputation is applied. The other methods are Poisson for count variables and xgboost.
+
+In this example, we will simulate the personal gross income, a semi-continuous variable,  using the "lm" method with the two-step regression and the household income with the "multinom" method, a multinomial model.
+
+```{r continious}
+simPop <- simContinuous(
+  simPop,
+  method = "lm",
+  additional = "pgrossIncome",
+  regModel = ~ sex + hsize, #+ eco_stat + citizenship + age,
+  zeros = TRUE,
+  log = FALSE,
+  #const = 1,
+  alpha = NULL, #0.05,
+  residuals = TRUE
+) 
+```
+
+```{r continious}
+simPop <- simContinuous(
+  simPop,
+  method = "multinom",
+  additional = "hgrossIncome",
+  regModel = ~ sex + hsize + eco_stat + citizenship + pgrossIncome + I(pgrossIncome^2),
+  upper = 200000,
+  equidist = FALSE#, nr_cpus=1
+)
+```
+
+
+## Simulation of components
+
+In household surveys, information on net individual income is typically not collected, but
+derived from other variables (e.g., from information collected on income by source). A synthetically
+generated continuous variable can be broken down by its components using function
+simComponents().The simulation of components of continuous variables of population data is performed by
+resampling fractions using the survey data at hand. We do not have such component data
+in our dataset but below a code snippet of how to define the function.
+
+```{r components}
+# simPop <- simComponents(
+#   simPop,
+#   total = "pgrossIncome",
+#   components = c(
+#     "py010g", # Employee cash or near cash income 
+#     "py021g", # Company car 
+#     "py050g", # Cash benefits or losses from self-employment 
+#     "py080g", # Pension from individual private plans
+#     "py090g", # Unemployment benefits 
+#     "py100g", # Old-age benefits
+#     "py110g", # Survivor’ benefits 
+#     "py120g", # Sickness benefits
+#     "py130g", # Disability benefits 
+#     "py140g"  # Education-related allowances 
+#   ),
+#   conditional = c("economic_status","citizenship","sex"), # check what is best
+#   replaceEmpty = c("sequential", "min"),
+#   seed = 1
+# )
+```
+
+## Post-calibration of the synthetic population
+
+Although the sample used as input for the simulation of the synthetic population had been
+calibrated to known marginals, the resulting population will not exactly mathc these marginals
+due to the randomness in the data generation process. If a (quasi) perfect match to the know marginals
+is a requirement the function $caliPop()$ can be applied. 
+
+
+# Data utility
+
+## Univariate and multivariate distributions
+
+```{r univariate eco_stat}
+data_sample <- data.frame(sampleData(simPop))
+data_pop <- data.frame(popData(simPop))
+
+tableWt(data_sample$eco_stat, weights = data_sample$weight)
+table(data_pop$eco_stat)
+```
+
+```{r univariate mosaic,  fig.cap= Mosaic plots of gender, region and household size}
+tab <- spTable(simPop, select = c("sex", "region", "hsize"))
+spMosaic(tab, labeling = labeling_border(abbreviate = c(region = TRUE)))
+```
+
+```{r univariate mosaic color,  fig.cap= Mosaic plots of sex, region and household size}
+tab <- spTable(simPop, select = c("sex", "eco_stat"))
+spMosaic(tab, method = "color")
+```
+
+```{r CDF pgrossincome,  fig.cap= CDF pgross income}
+spCdfplot(simPop, "pgrossIncome", cond = "sex", layout = c(1, 2)
+          )
+```
+
+```{r CDF pgrossincome,  fig.cap= CDF pgross income}
+spBwplot(simPop, x = "pgrossIncome", #cond = "pgrossIncome", layout = c(1, 2)
+         )
+```
+## Data utility with model fitting
+
+### Propensity Score
+
+```{r}
+data_sample$group <- 0
+data_pop$group <- 1
+
+combined_data <- rbind(data_sample , data_pop |> dplyr::select(-hgrossIncomeCat))
+
+res <- glm(
+  group ~ region  + hsize + eco_stat  +  sex + citizenship + pgrossIncome + hgrossIncome ,
+  data = combined_data,
+  family = binomial()
+)
+
+combined_data$propensity_score <- predict(res, type = "response")
+
+ggplot(combined_data, aes(x = propensity_score, color = as.factor(group), fill = as.factor(group))) + 
+  geom_density(alpha = 0.5) +
+  labs(color = "Group", fill = "Group") +
+  theme_minimal()
+
+#pmse <- mean((combined_data$propensity_score - combined_data$group)^2)
+
+```
+
+
+# Confidentiality 
+Scenario: The intruder has complete information on region, household size, age, gender, economic status and citizenship
+of a person (key variables) and wants to know the personal gross income (confidential variable)
+The re-identification is thus successful if the synthetic value itself of a successfully matched unit is sufficiently close to the original value.
+
+## Predict confidential variable (personal gross income) in the synthetic data
+```{r}
+# Define intruder knowledge
+intruder_knowledge <- data_sample |> select(-hhid, -pgrossIncome, -hgrossIncome, -weight)
+# Write out the true values of income
+true_pgrossincome <- data_sample |> select(pgrossIncome, pid)
+# Fit a model on the synthetic population for the personal gross income 
+inf_attack_model <- lm(pgrossIncome ~ sex + hsize + eco_stat + citizenship + age + region, data = data_pop)
+```
+
+## Compare the true values to the predicted
+```{r}
+
+
+intruder_knowledge$predictions = predict(inf_attack_model, newdata = intruder_knowledge)
+compare_df<- left_join(intruder_knowledge, true_pgrossincome)
+compare_df$result <- abs(compare_df$pgrossIncome - compare_df$predictions)
+```
