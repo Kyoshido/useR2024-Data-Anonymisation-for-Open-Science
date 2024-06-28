@@ -83,7 +83,7 @@ SDC is also known as Statistical disclosure limitation or Disclosure avoidance.
 
 \vspace{1cm}
 
-**Statistical Disclosure Control** seeks to protect statistical data in such a way that they can be released without giving away confidential information that can be linked to specific individuals or entities.
+**Statistical Disclosure Control** seeks to protect statistical data in such a way that they can be released without giving away confidential information that could be linked to specific individuals or entities.
 
 <!---------------------------------------------------------------------------->
 ## Importance of Data Anonymization
@@ -141,12 +141,12 @@ This tutorial will focus on Microdata and Tabular data.
 Key Concepts are:
 
 - **Disclosure**
-    + A disclosure occurs when a person or an organisation recognises or learns somethingthat they did not know already about another person or organisation, via released data.
+    + A disclosure occurs when a person or an organisation recognises or learns something that they did not know already about another person or organisation, via released data.
   
 . . .    
     
 - **Re-identification risk**
-    + Re-identification risk is the risk that an intruder can link a record in the released data to a specific individual in the population.
+    + Re-identification risk means that an intruder can link a record in the released data to a specific individual in the population.
 
 . . .
 
@@ -230,9 +230,9 @@ values of quasi-identifiers (e.g. name, address, age, gender, etc.), at least k 
 
 More robust aproaches: 
 
-- **l-Diversity** Extends k-anonymity by ensuring that the sensitive attribute has at least l well-represented values
+- **l-diversity** Extends k-anonymity by ensuring that the sensitive attribute has at least l well-represented values
 
-- **t-Closeness** Ensures that the distribution of the sensitive attribute in any equivalence class is close to the distribution in the entire dataset
+- **t-closeness** Ensures that the distribution of the sensitive attribute in any equivalence class is close to the distribution in the entire dataset
 
 <!---------------------------------------------------------------------------->
 ## Attacker Scenarios
@@ -272,11 +272,11 @@ More robust aproaches:
 \href{https://cran.r-project.org/web/packages/sdcMicro/index.html}{\color{blue}\underline{\textbf{sdcMicro}}}
 can be used to anonymize data, i.e. to create anonymized files for public and scientific use. It implements a wide range of methods for anonymizing categorical and continuous (key) variables. The package also contains a graphical user interface, which is available by calling the function sdcGUI.
 
-\href{https://cran.r-project.org/web/packages/simPop/index.html}{\color{blue}\underline{\textbf{simPop}}}
-using linear and robust regression methods, random forests (and many more methods) to simulate synthetic data from given complex data. It is also suitable to produce synthetic data when the data have hierarchical and cluster information (such as persons in households) as well as when the data had been collected with a complex sampling design. It makes use of parallel computing internally.
-
 \href{https://cran.r-project.org/web/packages/synthpop/index.html}{\color{blue}\underline{\textbf{synthpop}}}
-using regression tree methods to simulate synthetic data from given data. It\ is suitable to produce synthetic data when the data have no hierarchical and cluster information (such as households) as well as when the data does not collected with a\ complex sampling design.
+using regression tree methods to simulate synthetic data from given data. It\ is suitable to produce synthetic data when the data have no hierarchical and cluster information (such as households) as well as when the data was not collected with a\ complex sampling design.
+
+\href{https://cran.r-project.org/web/packages/simPop/index.html}{\color{blue}\underline{\textbf{simPop}}}
+using linear and robust regression methods, random forests (and many more methods) to simulate synthetic data from given complex data. It is also suitable to produce synthetic data when the data have hierarchical and cluster information (such as persons in households) as well as when the data was collected with a complex sampling design. 
 
 <!---------------------------------------------------------------------------->
 ## Packages for SDC - Tabular data (Aggregated data)
