@@ -10,8 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Packages
-```{r laod packages}
+```{r laod packages, warning=FALSE}
 library(simPop)
+library(randomForest)
+library(tidyverse)
 ```
 
 # Data
@@ -53,7 +55,8 @@ inp <-
     hhid = "hhid",
     hhsize = "hsize",
     strata = "region",
-    weight = "weight"
+    weight = "weight",
+    population = FALSE
   )
 ```
 
@@ -67,7 +70,7 @@ inp <-
 ```
 
 ## Define structure 
-The household structure of the synthetic population is created by extrapolating the sample using the sample weights/calibrated weights and re-sampling (alias sampling) when method = "distribution" (if one does not wish to create a population, one should use sample weights = 1 as a variable in one's data). For this process, the household structure must contain a set of user-defined "basicHHvars." In this case, we use age, sex, and region. 
+The household structure of the synthetic population is created by extrapolating the sample using the sample weights/calibrated weights and re-sampling (alias sampling) when method = "distribution" (if one does not wish to create a population, one should use sample weights = 1 as a variable in one's data). For this process, the household structure must contain a set of user-defined "basicHHvars". In this case, we use age, sex, and region. 
 Other methods may be selected, such as "direct," which employs the Horvitz-Thompson estimator to estimate the population totals for each combination of stratum and household size. Alternatively, "multinom" may be utilized to estimate the conditional probabilities within the strata using a multinomial log-linear model and random draws from the resulting distribution. 
 
 ```{r structure, warning=FALSE}
@@ -159,7 +162,7 @@ in our dataset but below a code snippet of how to define the function.
 ## Post-calibration of the synthetic population
 
 Although the sample used as input for the simulation of the synthetic population had been
-calibrated to known marginals, the resulting population will not exactly mathc these marginals
+calibrated to known marginals, the resulting population will not exactly match these marginals
 due to the randomness in the data generation process. If a (quasi) perfect match to the know marginals
 is a requirement the function $caliPop()$ can be applied. 
 
@@ -172,8 +175,8 @@ is a requirement the function $caliPop()$ can be applied.
 data_sample <- data.frame(sampleData(simPop))
 data_pop <- data.frame(popData(simPop))
 
-tableWt(data_sample$eco_stat, weights = data_sample$weight)
-table(data_pop$eco_stat)
+tableWt(data_sample$citizenship, weights = data_sample$weight)
+table(data_pop$citizenship)
 ```
 
 ```{r univariate mosaic,  fig.cap= Mosaic plots of gender, region and household size}
@@ -205,26 +208,49 @@ data_pop$group <- 1
 
 combined_data <- rbind(data_sample , data_pop |> dplyr::select(-hgrossIncomeCat))
 
-res <- glm(
-  group ~ region  + hsize + eco_stat  +  sex + citizenship + pgrossIncome + hgrossIncome ,
+res_logreg <- glm(
+  group ~ region + hsize + eco_stat  +  sex + citizenship + pgrossIncome + hgrossIncome ,
   data = combined_data,
   family = binomial()
 )
 
-combined_data$propensity_score <- predict(res, type = "response")
+# control_params <- rpart.control(minsplit = 5, cp = 0.001, maxdepth = 30)
 
-ggplot(combined_data, aes(x = propensity_score, color = as.factor(group), fill = as.factor(group))) + 
+# res_cart <- rpart(
+#   group ~ region + hsize + eco_stat + sex + citizenship + pgrossIncome + hgrossIncome,
+#   data = combined_data,
+#   method = "class",
+#   control = control_params
+# )
+
+
+# Fit the random forest model
+# res_rf <- randomForest(
+#   group ~ region + hsize + eco_stat  +  sex + citizenship + pgrossIncome + hgrossIncome,
+#   data = combined_data,
+#   ntree = 10,
+#   importance = TRUE
+#   ) 
+
+combined_data <- combined_data |> mutate(
+  propensity_score_log_reg = predict(res_logreg, type = "response"),
+  # propensity_score_CART    = predict(res_cart, type = "prob")[,2]
+  # propensity_score_rf = predict(res_rf, type = "response")
+  )
+
+
+ggplot(combined_data, aes(x = propensity_score_log_reg, color = as.factor(group), fill = as.factor(group))) + 
   geom_density(alpha = 0.5) +
   labs(color = "Group", fill = "Group") +
   theme_minimal()
 
-#pmse <- mean((combined_data$propensity_score - combined_data$group)^2)
+pmse <- mean((combined_data$propensity_score_log_reg - combined_data$group)^2)
 
 ```
 
 
-# Confidentiality 
-Scenario: The intruder has complete information on region, household size, age, gender, economic status and citizenship
+# Confidentiality (inference attack)
+Scenario Background Knowledge: The intruder has complete information on region, household size, age, gender, economic status and citizenship
 of a person (key variables) and wants to know the personal gross income (confidential variable)
 The re-identification is thus successful if the synthetic value itself of a successfully matched unit is sufficiently close to the original value.
 
@@ -240,9 +266,8 @@ inf_attack_model <- lm(pgrossIncome ~ sex + hsize + eco_stat + citizenship + age
 
 ## Compare the true values to the predicted
 ```{r}
-
-
 intruder_knowledge$predictions = predict(inf_attack_model, newdata = intruder_knowledge)
 compare_df<- left_join(intruder_knowledge, true_pgrossincome)
 compare_df$result <- abs(compare_df$pgrossIncome - compare_df$predictions)
+mean(compare_df$result)
 ```
