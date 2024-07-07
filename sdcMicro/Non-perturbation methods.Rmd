@@ -5,16 +5,11 @@ author: "Jiří Novák"
 date: "8.7.2024"
 output:
   html_notebook:
-    code_folding: hide
+    code_folding: show
     toc: true
     number_sections: true
     toc_float: true
 ---
-```{r include=FALSE}
-library(knitr)
-knitr::opts_chunk$set(echo = FALSE)
-```
-
 # Introduction
 
 This notebook is dedicated to non-perturbation methods. We will start with the basics and then move to more advanced methods. 
@@ -63,11 +58,11 @@ We further may divide protection into **primary** and **secondary** confidential
       - Only make sense if the size of the variable is ‘identifying’! i.e., if ‘intruders’ know who the largest respondents are.
       - (n,k) dominance rule: A cell is unsafe, if the largest
 *n* contributions in that cell amount to more than *k* % of the cell total.
-      - For example, if n = 2 and k = 70, it means that the cell is defined as confidential if the two largest units contribute more than 70% to the total.
+         - For example, if n = 2 and k = 70, it means that the cell is defined as confidential if the two largest units contribute more than 70% to the total.
       - p%-rule: A cell is unsafe if some respondent to that cell can
 estimate another respondent to that cell within p % of
 its true value.
-      - For example, if p = 5, it means that the cell is defined as confidential if the value of one unit can be estimated within 5% of its true value.    
+         - For example, if p = 5, it means that the cell is defined as confidential if the value of one unit can be estimated within 5% of its true value.    
 
   
 * **Secondary confidentiality** is the protection of the table as a whole. 
@@ -82,9 +77,9 @@ its true value.
 Illustrative example table representing Dividends paid by large national company 
 
 | **Sex/Age** | **0-30** | **31-50** | **51-65** | **66-80** | **81+** | **Total** |
-|---|---|---|---|---|---|---|
-| **Males** | <span style="color:green">2</span> | <span style="color:green">170</span> | 400 | 930 | <span style="color:red">70</span> | 1572 |
-| **Females** | <span style="color:red">8</span> | <span style="color:green">350</span> | 179 | 621 | <span style="color:orange">300</span> | 1458 |
+|---|---:|---:|---:|---:|---:|---:|
+| **Males** | <span style="color:green">**2**</span> | <span style="color:green">**170**</span> | 400 | 930 | <span style="color:red">**70**</span> | 1572 |
+| **Females** | <span style="color:red">**8**</span> | <span style="color:green">**350**</span> | 179 | 621 | <span style="color:orange">**300**</span> | 1458 |
 | **Total** | 10 | 520 | 579 | 1551 | 370 | 3030 |
 
 <span style="color:red"> Red - primary protection because in the given the group suppose it has only one such recipient of dividends.</span>
@@ -101,17 +96,20 @@ Primary protection (for example suppression) is not enough, the data can be adde
 It is important to distinguish different types of variables: **direct identifiers**, **indirect identifiers** and **key variables**
 
 **Direct identifiers**
-  – such as name or unique identification number.
-  – always removed from the microdata files, as they are clearly disclosive.
+
+* such as name or unique identification number.
+* always removed from the microdata files, as they are clearly disclosive.
   
 **Indirect identifiers**
-  – such as NACE category, size class or region – which divide the total population into subpopulations; 
-  – may be disclosive in combination with other variables.
-  – The variables most likely to lead to identification are called *quasi-identifiers*.
+
+* such as NACE category, size class or region – which divide the total population into subpopulations; 
+* may be disclosive in combination with other variables.
+* The variables most likely to lead to identification are called *quasi-identifiers*.
 
 **Key variables**
-  – represent the criterion by which the confidentiality flag is set for variables. 
-  – This variables must be protected.
+
+* represent the criterion by which the confidentiality flag is set for variables. 
+* This variables must be protected.
 
 ## Important!
 **<font size="4"><span style="color:red">Confidentiality protection always precedes dissemination</span> when deciding whether to release potentially confidential information.</font>**
@@ -122,7 +120,10 @@ It is important to distinguish different types of variables: **direct identifier
 
 **Task:** Combine rows and/or columns to increase the number of units that fall into cells.
 
-```{r}
+<!-- Hidden-chunk -->
+<button id="toggle-button-1" onclick="toggleChunk1()">Show/Hide Table</button>
+<div id="hidden-chunk-1" style="display:none;">
+```{r hidden-chunk-1, echo=TRUE}
 # Data with number of products
 df_prod <- data.frame(
   row.names = c('Harps', 'Organs', 'Pianos', 'Other', 'Total'),
@@ -132,7 +133,6 @@ df_prod <- data.frame(
   D = c(89, 31, 28, 742, 890),
   Total = c(230, 250, 336, 3127, 3943)
 )
-df_prod
 
 # Data with number of companies
 df_comp <- data.frame(
@@ -143,26 +143,36 @@ df_comp <- data.frame(
   D = c(23, 8, 1, 227, 259),
   Total = c(274, 54, 25, 1178, 1531)
 )
-df_comp
 ```
+</div>
+<script>
+function toggleChunk1() {
+  var chunk = document.getElementById("hidden-chunk-1");
+  if (chunk.style.display === "none") {
+    chunk.style.display = "block";
+  } else {
+    chunk.style.display = "none";
+  }
+}
+</script>
+<!-- Hidden-chunk -->
+
 
 ![Figure: Number of products and companies in regions](gallery/table-redesign-1.png)
 
 <br>
 **Solution** 
-```{r}
-To protect the data we need to join the regions B and C into one region. And Organs and Pianos into one category.
-```
 
-<div style="text-align: right;">
-  <button id="toggleButton">Show/Hide</button>
+<!-- Hidden-chunk -->
+<div style="text-align: left;">
+  <button id="toggleButton-2">Show/Hide Solution</button>
 </div>
 <div id="imageContainer" style="display:none;">
   <img src="gallery/table-redesign-2.png" alt="Image" />
 </div>
 
 <script>
-document.getElementById("toggleButton").onclick = function() {
+document.getElementById("toggleButton-2").onclick = function() {
   var imgContainer = document.getElementById("imageContainer");
   if (imgContainer.style.display === "none") {
     imgContainer.style.display = "block";
@@ -170,8 +180,12 @@ document.getElementById("toggleButton").onclick = function() {
     imgContainer.style.display = "none";
   }};
 </script>
+<!-- Hidden-chunk -->
 
-```{r}
+<!-- Hidden-chunk -->
+<button id="toggle-button-3" onclick="toggleChunk3()">Show/Hide Code</button>
+<div id="hidden-chunk-2" style="display:none;">
+```{r hidden-chunk-2, echo=TRUE}
 df_prod$"B+C" <- df_prod$B + df_prod$C
 df_prod["Organs + Pianos",] <- df_prod["Organs",] + df_prod["Pianos",]
 df_prod <- df_prod[,c(-2,-3)]
@@ -188,31 +202,45 @@ df_comp <- df_comp[c(-2,-3),]
 df_comp <- df_comp[c(1,4,2,3),]
 df_comp
 ```
+</div>
+<script>
+function toggleChunk3() {
+  var chunk = document.getElementById("hidden-chunk-2");
+  if (chunk.style.display === "none") {
+    chunk.style.display = "block";
+  } else {
+    chunk.style.display = "none";
+  }
+}
+</script>
+<!-- Hidden-chunk -->
 
+## Sampling
 
+This approach is based on the idea that the risk of disclosure is reduced by releasing only a subset of the data. Example can be seen for example in the [UK Census data](https://www.ons.gov.uk/census/aboutcensus/censusproducts/microdatasamples), where the data is released in the form of a sample.
 
+* *Microdata samples range in size from 10% to 1% of households or individuals.*
 
+## Example
 
-## Main library
+We will use functions from the package *sdcMicro*
 
-We will use functions from the packafe *sdcMicro*
-
-```{r}
+```{r echo=TRUE}
 library(sdcMicro)
 ```
 
-## Data
-We will use the SILC data (Statistics on Income and Living Conditions) from Austria.
-This is a synthetic data set based on Austrian EU-SILC data from 2006.
+### Data
+We will use the SILC data (Statistics on Income and Living Conditions) from Austria. This is a synthetic data set based on Austrian EU-SILC data from 2006.
 The data set consists of 6 000 households. 
 
-```{r}
+```{r echo=TRUE}
 library(laeken)
 data(eusilc)
+data <- eusilc
 ```
 
 Let's have a look at the data.
-```{r}
+```{r echo=TRUE}
 head(eusilc)
 ```
 
@@ -249,8 +277,145 @@ We have a data frame with 14 827 observations on the following 28 variables:
 - **db090** numeric; the household sample weights. 
 - **rb050** numeric; the personal sample weights.
 
-## Create *sdcMicro* object
-objSDC <- createSdcObj(dat = subData, 
-                       keyVars = selectedKeyVars, 
-                       weightVar = selectedWeights)
+### Selecting key variables
+
+The sdcMicro package is built around objects of class sdcMicroObj. Now we need to select our key variables and sample weights. After exploring the data and developing disclosure risk scenarios, we identified the following key variables: 
+
+```{r}
+# categorical key variables
+KeyVars <- c('age', 
+             'rb090', 
+             'db040', 
+             'hsize',
+             'pb220a' 
+)
+# sample weights
+Weights <- c('rb050') 
+```
+
+### Create subset of the data file
+
+Now that we know the keys variables that we want to focus on we are going to create a subset of the data file that contains only these variables and our sample weights.
+
+```{r}
+## Create Subset of Data File
+subVars <- c(KeyVars, 
+             Weights)
+subData <- data[,subVars]
+```
+
+### Create sdcmicro object
+
+Finally, you are ready to create the sdcMicro object. Use the arguments of the function createSdcObj() to specify the data file (subData), the sample weights (Weights) and the key variables (KeyVars, NumVars).
+
+```{r}
+## Create sdcMicro object
+objSDC <- createSdcObj(dat = subData,
+                       keyVars = KeyVars,
+                       weightVar = Weights)
+```
+
+### Calculate individual risk, sample and population frequency
+
+With key variables selected and sdcMicro object created, we are ready to run the assessment. First, we are going to create a new data frame that will combine the sample frequency (fk), population frequency (Fk) and individual risk measures to the subset of the data file that we created.
+
+```{r}
+individual_risk <- objSDC@risk$individual
+indRisk_table <- cbind(subData,individual_risk)
+indRisk_table
+```
+
+**Individual Risk**: The calculated individual risk values indicate how likely it is that a particular individual's data could be identified. Lower values mean lower risk of identification.
+
+**Sample Frequency (fk)**: This value shows how many records in the sample have the same combination of key variables. Higher fk values generally imply lower individual risk.
+
+**Population Frequency (Fk):** This value estimates how many records in the population have the same combination of key variables. It helps to understand the rarity of a combination in the broader population.
+
+### k-anonymity
+
+Next step is to review k-anonymity. Here, we will simply print 2-. 3-, and 5- anonymity.
+
+```{r}
+## print K-anonymity
+print(objSDC, type="kAnon")
+```
+As you can see, we have 2042 records that violate 2-anonymity. It is recommend that no record violates 3-anonymity. From here, it’s clear that we will need to apply statistical disclosure control before sharing this data publicly but before we do, we should review the global disclosure risk.
+
+### Calculate global risk
+
+```{r}
+## Print global risk
+print(objSDC, "risk")
+```
+Global risk measures the overall risk of disclosure for the entire dataset. 
+
+### Global recoding
+
+Technique that involves reducing the number of values a given variable can take. It is an effective method for reducing the detail in the data while maintaining some of its analytical power.
+
+```{r}
+## Recode Age Variable
+table(objSDC@manipKeyVars$age)
+objSDC <- globalRecode(objSDC, 
+                       column = c('age'), 
+                       breaks = 10 * c(0:10))
+table(objSDC@manipKeyVars$age)
+```
+```{r}
+# print K-anonymity
+print(objSDC, type="kAnon")
+```
+
+### Top and bottom coding
+
+All values above or below a specified value are set to that value, or to a code indicating the class.
+
+```{r}
+## Top and Bottom Coding
+table(objSDC@manipKeyVars$hsize)
+objSDC <- topBotCoding(objSDC, 
+                       column = c('hsize'), 
+                       value = 6, 
+                       replacement = 6, 
+                       kind = "top")
+table(objSDC@manipKeyVars$hsize)
+```
+```{r}
+# print K-anonymity
+print(objSDC, type="kAnon")
+```
+Let's assess risk after applying sdc methods.
+```{r}
+print (objSDC,"risk")
+```
+### Local suppression
+
+Suppressing individual cells in a table to prevent disclosure of sensitive information.
+
+```{r}
+## Create sdcMicro object
+objSDC <- createSdcObj(dat = subData,
+                       keyVars = KeyVars, 
+                       weightVar = Weights)
+```
+
+```{r}
+objSDC <- localSuppression(objSDC, 
+                           k = 3, 
+                           importance = NULL)
+calcRisks(objSDC)
+```
+
+## Exercise
+
+Now try this on different but same data
+
+```{r}
+# Load the data
+library(simPop) 
+data("eusilc13puf")
+```
+
+
+
 
