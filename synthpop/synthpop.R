@@ -9,13 +9,14 @@ library(synthpop)
 # Data ------------------------------------------------------------------------
 
 vars <- c("sex", "age", "edu", "marital", "income", "ls", "wkabint")
-ods <- SD2011[, vars]
+ods <- SD2011[, vars] # Social Diagnosis 2011 - Objective and Subjective Quality
+# of Life in Poland
 head(ods)
 
 # Synthesis -------------------------------------------------------------------
 
 # cart
-my.seed <- 17914709
+my.seed <- 1
 sds.default <- syn(ods, 
                    method = "cart",
                    seed = my.seed)
@@ -59,16 +60,21 @@ summary(sds, msel = 1:5)
 summary(sds, msel = 2)
 
 # Compare the synthesised variables with the original ones
+# continuous
 compare(sds, ods, 
         vars = "income")
-
+# categorical
 compare(sds, ods, 
         vars = "ls",
         msel = 1:3)
 
-
+# Comparison based on propensity scores
 utility.tables(sds, ods)
 
+# log reg on group adherence with two variables. 
+# predict prop score for all observation
+# MSE based on group adherence 
+# devide by number of observation to standardize
 
 
 # -----------------------------------------------------------------------------

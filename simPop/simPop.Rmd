@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Packages
-```{r laod packages, warning=FALSE}
+```{r laod packages, warning=FALSE, message=FALSE}
 library(simPop)
 library(randomForest)
 library(tidyverse)
@@ -41,6 +41,9 @@ df$pgrossIncome[is.na(df$pgrossIncome)] <- 0
 
 # We are using reduced weights to obtain a reduced population by factor 100 for computation time
 df$weight <- df$weight/100
+
+# see data
+head(df, 10)
 ```
 
 # Synthesis
@@ -77,14 +80,14 @@ Other methods may be selected, such as "direct," which employs the Horvitz-Thomp
 simPop <-
   simStructure(
     data = inp,
-    method = "distribution",
+    method = "distribution", # direct
     basicHHvars = c("age", "sex", "region") 
   )
 ```
 
 ## Define categorical variables
 Categorical variables are simulated using the defined household structure and the weights as an input. The package offers two methodological approaches to add/simulate the categorical variables: one is a model-based simulation, the other a synthetic reconstruction. 
-In this example, we utilize the model-based simulation. A multinomial model is fit to sample data, so that the categorical variable to be simulated is the response variable and the other defined household variables serve as predictors. Subsequently, the model employs the conditional probabilities to "predict" the manifestation of the selected variable.  In our example, we generate categorical variable economic status and citizenship.
+In this example, we utilize the model-based simulation. A multinomial model is fit to sample data, so that the categorical variable to be simulated is the response variable and the other defined household variables serve as predictors. Subsequently, the model employs the conditional probabilities to "predict" the manifestation of the selected variable. In our example, we generate categorical variable economic status and citizenship.
  
 In addition to the "multinom" argument method, which entails the estimation of conditional probabilities using multinomial log-linear models and random draws from the resulting distributions, the following methods are also accepted: "ctree," "cforest," "xgboost," and "distribution." The latter method involves random draws from the observed conditional distributions of their multivariate realizations (synthetic reconstruction approach).
 
@@ -200,7 +203,7 @@ spBwplot(simPop, x = "pgrossIncome", #cond = "pgrossIncome", layout = c(1, 2)
 ```
 ## Data utility with model fitting
 
-### Propensity Score
+### Propensity Scores
 
 ```{r}
 data_sample$group <- 0
@@ -214,13 +217,11 @@ res_logreg <- glm(
   family = binomial()
 )
 
-# control_params <- rpart.control(minsplit = 5, cp = 0.001, maxdepth = 30)
-
 # res_cart <- rpart(
 #   group ~ region + hsize + eco_stat + sex + citizenship + pgrossIncome + hgrossIncome,
 #   data = combined_data,
 #   method = "class",
-#   control = control_params
+#   control = rpart.control(minsplit = 5, cp = 0.001, maxdepth = 30)
 # )
 
 
