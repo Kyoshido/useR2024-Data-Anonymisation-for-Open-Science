@@ -1,0 +1,2 @@
+https://cran.r-project.org/web/packages/cellKey/vignettes/introduction.html
+https://cran.r-project.org/web/packages/ptable/vignettes/introduction.html
