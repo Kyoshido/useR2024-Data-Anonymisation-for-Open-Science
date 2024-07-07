@@ -1,1 +1,0 @@
-tinytex::tlmgr_install("beamer")
