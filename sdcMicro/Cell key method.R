@@ -13,63 +13,81 @@ library(cellKey)
 library(ptable)
 
 # Load the data
-dat <- fread("data/test_data_10k.csv.gz")
+data(test_data_10k)
+# dat <- fread("data/test_data_10k.csv.gz")
+dat <- as.data.table(test_data_10k)
+class(dat)
+
+dat <- data.table(
+   id = 1:100,
+   region = sample(c("North", "South", "East", "West"), 100, replace = TRUE),
+   gender = sample(c("1", "2"), 100, replace = TRUE),
+   income = rnorm(100, mean = 50000, sd = 15000)
+)
+
+# Generate Record Keys
+# Generate record keys for the data to ensure each record is uniquely identified.
+dat$rkey <- ck_generate_rkeys(dat = dat, 
+                              seed = 123)
+
+# Create Hierarchies
+# Create hierarchies for categorical variables in the dataset. For simplicity, 
+# let's use gender and region variables.
+
+# Create a hierarchy for gender
+d_sex <- hier_create(nodes = c("1", "2"), 
+                     root = "Total")
+
+# Create a hierarchy for region (assuming 'region' is a column in the data)
+regions <- unique(as.character(dat$region))
+d_region <- hier_compute(inp = regions, 
+                         dim_spec = c(1, 1, 1), 
+                         root = "Total", 
+                         method = "len")
+
+# Set Up the Perturbation Table
+# Define the perturbation table using the hierarchies created.
+
+# Define the table
+tab <- ck_setup(
+   x = dat,
+   rkey = "rkey",
+   dims = list(Gender = d_sex, 
+               Region = d_region)
+)
+
+# Create a simple ptable
+ptab <- create_cnt_ptable(D = 2, V = 1.08, pstay = 0.6, optim = 4)
+
+# Prepare and perturb the table
+ptab_input <- ck_params_cnts(ptab = ptab)
+tab$params_cnts_set(val = ptab_input, v = "total")
+tab$perturb(v = "total")
 
 
-## Exercises 1 to 3: ptable-Package ##
-## ================================ ##
 
 
-## (1) Use the ptable object 'ptab1' we produced in the demonstration lesson and answer some questions.
 
+
+
+
+
+## ptable-Package 
 ptab1 <- create_cnt_ptable(D = 2, 
                            V = 1.08, 
                            js = 1, 
                            mono = c(T,T,F,T))
 
-# To answer the following questions (a) to (e) try to remember which part of `ptab1` could be useful. You could also use
-# a graphic to answer the question.
-
-
-## Question: What will be the noise and the frequency count after perturbation if you assume ...
-# (1a) ... a frequency count of 1 and a cell-key of 0.2513548301578? 
-# (1b) ... a frequency count of 1 and a cell-key of 0.97333333? 
-# (1c) ... a frequency count of 970 and a cell-key of 0.70548315646?
-# (1d) ... a frequency count of 3 and a cell-key of 1.0000000000?
-# (1e) ... a frequency count of 0 and a cell-key of 0.5012415871?
-
-# Hint: Either use the graphical view 'plot(object, type='p')' or the ptable 
-# itself 'object@pTable' to answer the questions.
-
-
-# Solution
+# table
 ptab1@pTable
-
-# Answers:
-
-# (1a) 1-1=0 
-# (1b) 1+2=3 
-# (1c) 970+1=971 
-# (1d) CK is 0.0000: 3-1=2 
-# (1e) zeros won't be changed, positive CK for zero not logical
+# plot
+plot(ptab1, type='p')
 
 
-
-## (2) Please design a ptable object 'ptab2' with the following specifications: a maximum noise of D=8, 
-## a high variance of V=3 and a probability of 60%, that frequencies won't be changed.
-
-# Hint 1: Have a look at the help page '?pt_create_pTable'. There you can find the argument you must apply to
-# set the probability that frequency counts won't be changed.
-
-# Hint2: If you get warnings or the conditions aren't met, you may use the argument 'optim = ...'.
-# (Default is 'optim = 1'. An alternative is '4'.)
-
-ptab2 <- ...
-
-
-# Useful code:  - plot(ptab2, type = "t")
-#               - ptab2@empResults
-
+## (2) Please design a ptable object 'ptab2' with the following specifications: 
+## a maximum noise of D=8, 
+## a high variance of V=3 and a probability of 60%, 
+# that frequencies won't be changed.
 
 # Solution:
 ptab2 <- create_cnt_ptable(D = 8, 
@@ -77,51 +95,22 @@ ptab2 <- create_cnt_ptable(D = 8,
                            pstay = 0.6, 
                            optim=4)
 
+plot(ptab2, type = "t")
+ptab2@empResults
 
-
-
-
-
-## (3) [Advanced] Design a further ptable object 'ptab3' with D=8, V=3 but different probabilities for original
-## frequency counts: 50% for small frequency counts and 30% for the last frequency count (the
-## symmetry case).
-
-# Remember: The arguments 'D', 'V' and 'js' are scalar input arguments. 'pstay', 'optim' and 'mono' are
-# either scalar or vector input arguments.
-
-# Remember: The amount of different frequency counts 'i' in a ptable depends on 'D' (and 'js' which is not used
-# in this exercise). The ptable entries of the last frequency count 'i_max' (symmetry case) will be applied
-# for all frequencies equal or larger than 'i_max' (In the demonstration this morning, 'i_max' was 4. 
-# Thus, all frequencies in a table with values larger than 4 will be perturbed the same "way" like a 4).
-
-# Hint: Use the result from exercise (2) and extend it.
-
-ptab3 <- ...
-
-# Solution:
-ptab3 <- create_cnt_ptable(D = 8, V = 3, pstay = c(0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.3), optim=4)
-
-
-
-
-
-## Exercises 4 to 6: cellKey ##
-## ========================= ##
-
-
-## (4) Please rerun the perturbation from the demonstration lesson and answer some questions.
+## cellKey ##
 
 # record keys
 dat$rkey <- ck_generate_rkeys(dat = dat,
                               seed = 123)
-
+dat$rkey
 
 # dimensions and hierarchy
 d_sex <- 
   hier_create(
     nodes = c("1","2"), 
     root = "Total"
-  ); 
+  )
 
 coc.m_cat <- unique(as.character(dat$COC.M))
 

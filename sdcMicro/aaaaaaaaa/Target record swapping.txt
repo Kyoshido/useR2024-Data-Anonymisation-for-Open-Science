@@ -1,2 +1,0 @@
-https://sdctools.github.io/sdcMicro/reference/recordSwap.html
-https://cran.r-project.org/web/packages/sdcMicro/vignettes/recordSwapping.html
